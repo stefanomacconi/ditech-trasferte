@@ -3,7 +3,7 @@
     <v-toolbar color='primary' dark scroll-off-screen app clipped-right>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title @click="scrollTop">
-        DiTime - Movimenti
+        DiTech - Movimenti
         <v-divider light vertical></v-divider>
       </v-toolbar-title>
       <v-spacer></v-spacer>
