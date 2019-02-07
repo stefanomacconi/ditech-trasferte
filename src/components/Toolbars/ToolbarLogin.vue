@@ -4,7 +4,7 @@
       <v-icon dark>timelapse</v-icon>
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title>
-        DiTime
+        DiTech Trasferte
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
