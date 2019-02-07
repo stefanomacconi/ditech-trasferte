@@ -1,28 +1,17 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app> <!-- dark -->
+    <!-- Aggiungo :key per rinfrescare il componente quando pusho sulla stessa route -->
+    <router-view :key="$route.fullPath" name="toolbar"></router-view>
+      <v-content> <!-- style="background-color: #E3F2FD;" #f2f2f2 -->
+        <v-container fluid>
+         <router-view :key="$route.fullPath"></router-view>
+        </v-container>
+      </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
+  name: "App",
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
