@@ -17,10 +17,10 @@
           </v-btn>
         </v-toolbar-items>
         <v-toolbar-items v-else>
-          <v-btn icon>
+          <v-btn icon @click="printMov(id)">
             <v-icon>print</v-icon>
           </v-btn>
-          <v-btn icon :disabled="this.definitivo">
+          <v-btn icon @click="attach2Mov(id)" :disabled="this.definitivo">
             <v-icon>attach_file</v-icon>
           </v-btn>
           <v-divider dark vertical></v-divider>
@@ -220,6 +220,62 @@ export default {
           this.$router.push({ name: 'movimenti'})
           this.asyncClear()
         })
+      }).catch(error => {
+        this.attendereDialog = false
+        // eslint-disable-next-line
+        console.log(error)
+        this.$store.dispatch('handleError', error.response.data)
+      })
+    },
+    attach2Mov(numeroMovimento) {
+      //TODO
+      this.dialogConfirm = false
+      this.attendereDialog = true
+    },
+    printMov(numeroMovimento) {
+      //TODO
+      this.dialogConfirm = false
+      this.attendereDialog = true
+      //TODO StampaRapportinoInterventoParamsBean
+      axios(
+        '/stampe-movimenti/rapportoServizioMF',  
+        {
+          method: 'POST',
+          responseType: 'blob',
+          data: {
+            numeriMovimento: [numeroMovimento],
+            tipoStampa: 2,
+            parcheggio: true,
+            conOrari: true,
+            conMateriale: true
+          }
+          }
+      ).then(res => {
+            //console.log(res);
+        this.attendereDialog = false
+          /**/
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          var pdfName = "Rapportino" + numeroMovimento + ".pdf" 
+          link.setAttribute('download', pdfName);
+          document.body.appendChild(link);
+          link.click();
+            /**/
+        /** simile ma non siriesce a impostare il nome del pdf
+        //Create a Blob from the PDF Stream
+        const file = new Blob(
+          [res.data], 
+          {type: 'application/pdf'});
+
+        //Build a URL from the file
+        const fileURL = URL.createObjectURL(file);
+        console.log(fileURL);
+
+        //Open the URL on new Window
+        window.open(fileURL,"_self");
+        /**/
+
       }).catch(error => {
         this.attendereDialog = false
         // eslint-disable-next-line
