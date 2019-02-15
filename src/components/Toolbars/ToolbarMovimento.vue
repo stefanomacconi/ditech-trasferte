@@ -17,7 +17,7 @@
           </v-btn>
         </v-toolbar-items>
         <v-toolbar-items v-else>
-          <v-btn icon @click="printMov(id)">
+          <v-btn icon @click="printMov()">
             <v-icon>print</v-icon>
           </v-btn>
           <v-btn icon @click="attach2Mov(id)" :disabled="this.definitivo">
@@ -63,6 +63,38 @@
         </v-card>
       </v-dialog>
     </div>
+    <!-- PRINT DIALOG  
+    <div v-if="printDialog" >
+      conMateriale tipoStampa="1"
+    </div>
+    -->
+    <print-rapp-dialog 
+      :visibile=printDialog 
+      :movimenti=[id]
+      v-on:chiudi="printDialog=false" 
+      ></print-rapp-dialog>
+
+    <!-- PRINT RAPPORTINO DIALOG 
+    <div class="text-xs-center">
+      <v-layout row justify-center>
+      <v-dialog persistent max-width="600px" v-model="printDialog">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Stampa rapportino</span>
+          </v-card-title>
+          <v-card-text>
+            <v-checkbox>Con Materiale</v-checkbox>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="secondary" flat @click="printDialog=false">Chiudi</v-btn>
+            <v-btn color="primary" flat @click="printMovCall(id)">Stampa</v-btn>
+          </v-card-actions>          
+        </v-card>
+      </v-dialog>
+      </v-layout>
+    </div>
+    -->
   </div>
 </template>
 
@@ -71,6 +103,8 @@
 import moment from 'moment'
 
 import axios from "axios"
+
+import PrintRappDialogVue from '../Movimento/PrintRappDialog.vue';
 
 export default {
   created() {
@@ -98,7 +132,8 @@ export default {
       ],
       isNewMov : false,
       dialogConfirm : false,
-      attendereDialog : false
+      attendereDialog : false,
+      printDialog : false
     }
   },
   props: {
@@ -108,6 +143,9 @@ export default {
     definitivo: {
       default: false
     }
+  },
+  components: {
+    'print-rapp-dialog': PrintRappDialogVue
   },
   methods: {
     goBack() {
@@ -230,13 +268,16 @@ export default {
     attach2Mov(numeroMovimento) {
       //TODO
       this.dialogConfirm = false
-      this.attendereDialog = true
     },
-    printMov(numeroMovimento) {
-      //TODO
+    printMov() {
+      this.dialogConfirm = false
+      this.printDialog = true
+    },
+    /*
+    printMovCall(numeroMovimento) {
       this.dialogConfirm = false
       this.attendereDialog = true
-      //TODO StampaRapportinoInterventoParamsBean
+      //StampaRapportinoInterventoParamsBean
       axios(
         '/stampe-movimenti/rapportoServizioMF',  
         {
@@ -253,7 +294,6 @@ export default {
       ).then(res => {
             //console.log(res);
         this.attendereDialog = false
-          /**/
           const url = window.URL.createObjectURL(new Blob([res.data]));
           const link = document.createElement('a');
           link.href = url;
@@ -261,21 +301,6 @@ export default {
           link.setAttribute('download', pdfName);
           document.body.appendChild(link);
           link.click();
-            /**/
-        /** simile ma non siriesce a impostare il nome del pdf
-        //Create a Blob from the PDF Stream
-        const file = new Blob(
-          [res.data], 
-          {type: 'application/pdf'});
-
-        //Build a URL from the file
-        const fileURL = URL.createObjectURL(file);
-        console.log(fileURL);
-
-        //Open the URL on new Window
-        window.open(fileURL,"_self");
-        /**/
-
       }).catch(error => {
         this.attendereDialog = false
         // eslint-disable-next-line
@@ -283,6 +308,7 @@ export default {
         this.$store.dispatch('handleError', error.response.data)
       })
     }
+    */
   }
 }
 </script>

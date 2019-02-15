@@ -30,6 +30,9 @@
           <div class="hidden-xs-only">
             {{ movimento.nota }}
           </div>
+          <div v-if="movimento.keyRdARapportino">
+            Nr. Rapportino: {{ movimento.keyRdARapportino }}
+          </div>
         </v-flex>
       </v-layout>
     </router-link>

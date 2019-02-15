@@ -17,10 +17,12 @@ const state = {
         },
         nota: "",
         notaSpese: [],
+        materiale: [],
         causale: null,
         cdl: null,
         cdc: null,
-        posizione: null
+        posizione: null,
+        keyRdARapportino: null
     }
 }
 
@@ -49,6 +51,7 @@ const mutations = {
         state.movimento.commessa = "" 
         state.movimento.tempo = null 
         state.movimento.notaSpese = []
+        state.movimento.materiale = []
     },
     setMovimento(state, movimento) {
         if (movimento.orari.oraInizioMattino && movimento.orari.oraInizioMattino != 0)
@@ -80,6 +83,7 @@ const mutations = {
         state.movimento.commessa = movimento.commessa 
         state.movimento.tempo = movimento.tempo
         state.movimento.notaSpese = movimento.notaSpese
+        state.movimento.materiale = movimento.materiale
     },
     setData(state, value) {
         state.movimento.data = value
@@ -271,6 +275,9 @@ const getters = {
             return obj.codice === codice
         })
         return nota 
+    },
+    getMateriale(state) {
+        return state.movimento.materiale
     },
 }
 

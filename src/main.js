@@ -6,7 +6,7 @@ import App from './App.vue'
 import store from './store/store'
 import router from './router'
 import axios from 'axios' /* chiamate rest */
-import moment from 'moment' /* date */
+import moment from 'moment' /* date/calendar */
 
 
 axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' // TODO capire se è questo il problema di axios esterno
