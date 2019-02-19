@@ -8,40 +8,73 @@
             <span class="headline">Stampa rapportino</span>
           </v-card-title>
           <v-card-text>
-            <v-checkbox >Con Materiale</v-checkbox><!-- v-model="conMateriale" -->
+            <v-checkbox :label="'Con Materiale'"></v-checkbox><!-- v-model="conMateriale" -->
+            <!--
+            <v-btn-toggle v-model="tipoStampa">
+              <v-btn value="1">(1) Senza nota spese</v-btn>
+              <v-btn value="2">(2) Con nota spese</v-btn>
+              <v-btn value="3">(3) Con nota spese ad uso interno</v-btn>
+            </v-btn-toggle>
+            -->
+            <v-radio-group v-model="tipoStampa">
+              <v-radio :key="1" :label="'Senza nota spese'" :value="1"></v-radio>
+              <v-radio :key="2" :label="'Con nota spese'" :value="2"></v-radio>
+              <v-radio :key="3" :label="'Con nota spese ad uso interno'" :value="3"></v-radio>
+            </v-radio-group>            
+            <!-- -->
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="secondary" flat @click="$emit('chiudi')">Chiudi</v-btn>
-            <v-btn color="primary" flat @click="printMov(movimenti)">Stampa</v-btn>
+            <v-btn color="primary" flat @click="printMov()">Stampa</v-btn>
+            <!--
+            <v-btn color="primary" flat @click="printMov(movimenti)">Senza nota spese</v-btn>
+            <v-btn color="primary" flat @click="printMov(movimenti)">Con nota spese</v-btn>
+            <v-btn color="primary" flat @click="printMov(movimenti)">Con nota spese a uso interno</v-btn>
+            -->
           </v-card-actions>          
         </v-card>
       </v-dialog>
       </v-layout>
+      <!-- wait -->
+      <wait-dialog :visibile=this.printing></wait-dialog>
     </div>
 </template>
 <script>
 
+import WaitDialogVue from '../WaitDialog.vue';
+
 import axios from "axios"
 
 export default {
+  data() {
+    return {
+      printing : false,
+      conMateriale: {
+          type: Boolean
+      },
+      tipoStampa: 1
+    }
+  },    
   props: {
     visibile: {
         type: Boolean
     },
-    conMateriale: {
-        type: Boolean
-    },
-    tipoStampa: {
-        type: String
-    },
     movimenti: {
         type: Array
+    },
+    definitivo: {
+        type: Boolean
     }
   },
+  components: {
+    'wait-dialog': WaitDialogVue
+  },  
   methods: {
-    printMov(movimenti) {
+    printMov() {
       //TODO this.attendereDialog = true
+      this.$emit('chiudi');
+      this.printing = true
       //StampaRapportinoInterventoParamsBean
       axios(
         '/stampe-movimenti/rapportoServizioMF',  
@@ -49,11 +82,11 @@ export default {
           method: 'POST',
           responseType: 'blob',
           data: {
-            numeriMovimento: movimenti,
-            tipoStampa: 2,
-            parcheggio: true,
-            conOrari: true,
-            conMateriale: true
+            numeriMovimento: this.movimenti,
+            tipoStampa: this.tipoStampa,
+            parcheggio: !this.definitivo,
+            conOrari: true, //TODO opzione??? ma dovrebbe saperlo da solo ilserver leggendo le variabili
+            conMateriale: this.conMateriale
           }
           }
       ).then(res => {
@@ -68,6 +101,9 @@ export default {
           link.setAttribute('download', pdfName);
           document.body.appendChild(link);
           link.click();
+
+          this.printing = false
+
             /**/
         /** simile ma non siriesce a impostare il nome del pdf
         //Create a Blob from the PDF Stream
@@ -84,7 +120,7 @@ export default {
         /**/
 
       }).catch(error => {
-        //this.attendereDialog = false
+          this.printing = false
         // eslint-disable-next-line
         console.log(error)
         this.$store.dispatch('handleError', error.response.data)

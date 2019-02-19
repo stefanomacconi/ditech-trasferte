@@ -71,6 +71,7 @@
     <print-rapp-dialog 
       :visibile=printDialog 
       :movimenti=[id]
+      :definitivo=definitivo
       v-on:chiudi="printDialog=false" 
       ></print-rapp-dialog>
 
