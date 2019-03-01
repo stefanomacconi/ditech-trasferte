@@ -132,19 +132,19 @@
           <v-flex xs12>
             <v-subheader class="subtitle">Dettaglio</v-subheader>
           </v-flex>  
-          <v-flex xs6 md4 lg3>
+          <v-flex xs4 md6 lg3>
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
           </v-flex>
-          <v-flex xs6 md4 lg3>
+          <v-flex xs8 md6 lg3>
             <v-select :items="causali" v-model="causale" label="Causale" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
-          <v-flex xs6 md4 lg3>
+          <v-flex xs12 sm6  md6 lg3>
             <v-select :items="elencoCdl" v-model="cdl" label="CdL" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
-          <v-flex xs6 md4 lg3>
+          <v-flex xs12 sm6  md6 lg3>
             <v-select :items="elencoCdc" v-model="cdc" label="CdC"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
