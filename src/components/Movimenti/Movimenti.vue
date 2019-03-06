@@ -49,7 +49,10 @@ export default {
         if (msPicked >= values[index].data) {
           // var data = new Date(values[index].data).toISOString().substr(0, 10)
           var data = new Date(values[index].data - tzoffset).toISOString().substr(0, 10)
-          result[data] = this.$store.getters.getDate[data]
+          if (this.$store.getters.getDate[data])
+            result[data] = this.$store.getters.getDate[data]
+          else
+            continue
         }
       }
       return result

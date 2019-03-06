@@ -96,6 +96,7 @@
     <v-menu ref="dateMenu" :close-on-content-click="false" reactive v-model="dateMenu" :nudge-right="40"
       :return-value.sync="date" lazy transition="scale-transition" offset-y full-width
       max-width="290px" min-width="290px">
+      <!--  -->
       <v-date-picker :event-color="functionEventsColor" :events="functionEvents" v-model="date" 
         :allowed-dates="allowedDates" no-title show-current locale="it-IT">
         <v-spacer></v-spacer>
@@ -244,7 +245,8 @@ export default {
     commessaPerMov: "",
     posizionePerMov: "",
     notaPerMov: "",
-    listaMovs: []
+    listaMovs: [],
+    tzoffset: (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
   }),
   computed: {
     utente () {
@@ -255,8 +257,7 @@ export default {
     },
     date: {
       get () {
-        var tzoffset = (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
-        return new Date(this.$store.getters.getPickedData - tzoffset).toISOString().substr(0, 10)
+        return new Date(this.$store.getters.getPickedData - this.tzoffset).toISOString().substr(0, 10)
       },
       set (value) {
         this.$store.dispatch('setPickedData', moment(value).valueOf())
@@ -272,7 +273,9 @@ export default {
       const errorDate = this.$store.getters.getGiorniError
       const ms = moment(date).valueOf()
       if (warningDate.includes(ms) || errorDate.includes(ms))
-        return ms
+        return true
+      else
+        return false
     },
     functionEventsColor(date) {
       const warningDate = this.$store.getters.getGiorniWarning
