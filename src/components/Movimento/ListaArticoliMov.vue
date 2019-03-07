@@ -24,7 +24,7 @@
         </v-list>
     </v-flex>
     <v-layout column class="fab-container">
-      <v-btn dark fab class="primary" @click="addMmateriale()">
+      <v-btn dark fab class="primary" @click="addMateriale()">
         <v-icon>add</v-icon>
       </v-btn>
     </v-layout>  
@@ -40,8 +40,12 @@ export default {
   computed: {
     materiali() {
       return this.$store.getters.getMateriale
-    },
-    addMmateriale() {
+    }
+  },
+  methods: {
+    addMateriale() {
+      //this.$store.getters.getNumeroMovCorrente()
+      this.$router.push({ name:"cercaMateriale" });
       //TODO this.$store.dispatch("addToMovimentiSelezionati", movimento.numeroMovimento)
     }
   }  

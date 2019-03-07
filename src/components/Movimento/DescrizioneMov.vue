@@ -287,6 +287,9 @@ export default {
   props: {
     definitivo: {
       default: false
+    },
+    opzioni: {
+      
     }
   },
   data: () => ({

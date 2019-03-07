@@ -7,7 +7,8 @@ const state = {
     utente: null,
     siglaDitta: null,
     ditta: null,
-    dipendente: null
+    dipendente: null,
+    esterno: null
 }
 
 const mutations = {
@@ -16,6 +17,7 @@ const mutations = {
         state.utente = userData.utente
         state.siglaDitta = userData.siglaDitta
         state.ditta = userData.ditta
+        state.esterno = userData.esterno
     },
     clearAuthData(state) {
         state.token = null
@@ -23,6 +25,7 @@ const mutations = {
         state.siglaDitta = null
         state.ditta = null
         state.dipendente = null
+        state.esterno = null
     },
     setDipendente(state, dipendente) {
         state.dipendente = dipendente
@@ -51,7 +54,8 @@ const actions = {
                 token: data.diTechToken.token,
                 utente: data.name,
                 ditta: data.ditta,
-                siglaDitta: data.siglaDitta
+                siglaDitta: data.siglaDitta,
+                esterno: data.esterno
             })
             // init environment
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token
