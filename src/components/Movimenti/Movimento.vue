@@ -22,16 +22,23 @@
             {{ movimento.descrizioneCommessa | truncate }}
           </div>
           <div class="hidden-sm-and-up">
+            <template v-if="movimento.keyRdARapportino">
+              Nr. Rapportino: {{ movimento.keyRdARapportino }}
+            </template>
+            <div>
             {{ movimento.nota | truncate }}
+            </div>
           </div>
           <div class="caption hidden-xs-only">
             {{ movimento.descrizioneCommessa }}
           </div>
           <div class="hidden-xs-only">
-            {{ movimento.nota }}
-          </div>
-          <div v-if="movimento.keyRdARapportino">
-            Nr. Rapportino: {{ movimento.keyRdARapportino }}
+            <template v-if="movimento.keyRdARapportino">
+              Nr. Rapportino: {{ movimento.keyRdARapportino }}
+            </template>
+            <div>
+              {{ movimento.nota }}
+            </div>
           </div>
         </v-flex>
       </v-layout>
@@ -84,7 +91,7 @@ export default {
       }
     },
     toMovimento(movimento) {
-        return { name: 'movimento', params: { id: movimento.numeroMovimento, definitivo: movimento.definitivo }}
+      return { name: 'movimento', params: { id: movimento.numeroMovimento, definitivo: movimento.definitivo }}
     },
     getMovColor(movimento) {
       var movimenti = this.$store.getters.getMovimentiSelezionati

@@ -267,6 +267,7 @@ export default {
       })
     },
     attach2Mov(numeroMovimento) {
+      console.log(numeroMovimento)
       //TODO
       this.dialogConfirm = false
     },
