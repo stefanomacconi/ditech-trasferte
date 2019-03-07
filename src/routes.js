@@ -2,9 +2,13 @@ import Login from './components/Login'
 import Error from './components/Error'
 import Movimenti from './components/Movimenti/Movimenti'
 import DettaglioMov from './components/Movimento/DettaglioMov'
+import CercaMateriale from './components/Materiale/CercaMateriale'
+import InsertQtaMateriale from './components/Materiale/InsertQtaMateriale'
+
 import ToolbarLogin from './components/Toolbars/ToolbarLogin'
 import ToolbarMovimenti from './components/Toolbars/ToolbarMovimenti'
 import ToolbarMovimento from './components/Toolbars/ToolbarMovimento'
+import ToolbarMateriale from './components/Toolbars/ToolbarMateriale'
 
 import store from './store/store'
 
@@ -48,5 +52,37 @@ export const routes = [
             }
         }
     },
+    { name: "cercaMateriale", path: '/cercaMateriale',  
+        components: {
+            default: CercaMateriale,
+            toolbar: ToolbarMateriale
+        }, 
+        props: {
+            default: false
+        }, 
+        beforeEnter(to, from, next) {
+            if (store.getters.getToken) {
+                next()
+            } else {
+                next('/login')
+            }
+        }
+    },
+    { name: "insertQtaMateriale", path: '/insertQtaMateriale',  
+        components: {
+            default: InsertQtaMateriale,
+            toolbar: ToolbarMateriale
+        }, 
+        props: {
+            default: true
+        }, 
+        beforeEnter(to, from, next) {
+            if (store.getters.getToken) {
+                next()
+            } else {
+                next('/login')
+            }
+        }
+    },    
     {path: "/error", name:"error",  component: Error,  props: true}  
 ]

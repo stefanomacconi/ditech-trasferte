@@ -6,7 +6,8 @@ const state = {
     utente: null,
     siglaDitta: null,
     ditta: null,
-    dipendente: null
+    dipendente: null,
+    esterno: null
 }
 
 const mutations = {
@@ -15,6 +16,7 @@ const mutations = {
         state.utente = userData.utente
         state.siglaDitta = userData.siglaDitta
         state.ditta = userData.ditta
+        state.esterno = userData.esterno
     },
     clearAuthData(state) {
         state.token = null
@@ -22,6 +24,7 @@ const mutations = {
         state.siglaDitta = null
         state.ditta = null
         state.dipendente = null
+        state.esterno = null
     },
     setDipendente(state, dipendente) {
         state.dipendente = dipendente
@@ -30,14 +33,25 @@ const mutations = {
 
 const actions = {
     login({ commit, dispatch, state, rootState}, authData) {
-        axios.post('/autenticazione', {
-            }, { auth: {
+        /*
+        const formData = new FormData();
+        formData.append('ditta', '');
+        formData.append('esterni', 'true');
+        */
+        axios({
+            method: 'post',
+            url: '/autenticazione',
+            auth: {
                 username: authData.utente,
                 password: authData.password
             },
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'   
+               //'Content-Type': 'application/x-www-form-urlencoded'   
             },
+            data: {
+                ditta : "",
+                esterni : true
+            }            
         }).then(res => {
             // eslint-disable-next-line
             console.log(res)
@@ -46,7 +60,8 @@ const actions = {
                 token: data.diTechToken.token,
                 utente: data.name,
                 ditta: data.ditta,
-                siglaDitta: data.siglaDitta
+                siglaDitta: data.siglaDitta,
+                esterno: data.esterno
             })
             // init environment
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.token

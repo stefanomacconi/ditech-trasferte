@@ -2,6 +2,7 @@ const state = {
     tab: 0,
     isNewMov: false,
     movimento: {
+        numero : null,
         data: new Date().toISOString().substr(0, 10),
         commessa: "",
         tempo: null,
@@ -34,6 +35,7 @@ const mutations = {
         state.isNewMov = value
     },
     clearMov(state) {
+        state.movimento.numero = null 
         state.movimento.tempi.timeG1 = null 
         state.movimento.tempi.timeG2 = null 
         state.movimento.tempi.timeG3 = null 
@@ -54,6 +56,7 @@ const mutations = {
         state.movimento.materiale = []
     },
     setMovimento(state, movimento) {
+        state.movimento.numero = movimento.numeroMovimento
         if (movimento.orari.oraInizioMattino && movimento.orari.oraInizioMattino != 0)
             state.movimento.tempi.timeG1 = getTimeFromInteger(movimento.orari.oraInizioMattino)
         if (movimento.orari.oraFineMattino && movimento.orari.oraFineMattino != 0)
@@ -279,6 +282,9 @@ const getters = {
     getMateriale(state) {
         return state.movimento.materiale
     },
+    getNumeroMovCorrente(state) {
+        return state.movimento.numero;
+    },    
 }
 
 import moment from 'moment'
