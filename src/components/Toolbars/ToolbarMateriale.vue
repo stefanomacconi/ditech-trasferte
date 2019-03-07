@@ -3,7 +3,7 @@
         <v-toolbar color='primary' dark scroll-off-screen app clipped-right>
         <v-icon dark @click="goBack">close</v-icon>
         &nbsp;&nbsp;&nbsp;
-        <v-toolbar-title>Materiale</v-toolbar-title>            
+        <v-toolbar-title>Ricerca materiale</v-toolbar-title>            
         </v-toolbar>
     </div>
 </template>

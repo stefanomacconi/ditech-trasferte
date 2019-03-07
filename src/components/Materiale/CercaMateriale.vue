@@ -1,7 +1,6 @@
 <template>
     <div>
   <v-form v-model="valid">
-    <h1>RICERCA MATERIALE</h1>
     <v-container grid-list-md>
       <v-layout row wrap>
         <v-text-field v-model="codice" label="Articolo / Barcode"></v-text-field>          
@@ -32,6 +31,7 @@
 <script>
 
 import axios from "axios"
+const qs = require('querystring');
 
 export default {
   data() {
@@ -44,16 +44,11 @@ export default {
   },
   methods: {
     refreshMateriali() {
-      axios(
-        '/articoli',  
-        {
-          method: 'POST',
-          data: {
+        axios.post('/articoli', qs.stringify({
             codice: this.codice,
             descrizione: this.descrizione
-          }
-        }
-      ).then(res => {
+          })
+        ).then(res => {
           console.log(res);
           if (res.data && res.data.length > 0) {
           this.materiali = res.data;

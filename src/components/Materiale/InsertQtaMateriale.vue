@@ -1,7 +1,6 @@
 <template>
     <div>
   <v-form v-model="valid">
-    <h1>QUANTITÀ MATERIALE</h1>
     <v-container grid-list-md>
       <v-layout row wrap>
         <v-flex xs12 sm4>
@@ -27,6 +26,7 @@
 <script>
 
 import axios from "axios"
+const qs = require('querystring');
 
 export default {
   data() {
@@ -46,28 +46,17 @@ export default {
   },
   methods: {
     addMateriale() {
-      axios(
-        '/movimento/addMateriale',  
-        {
-          method: 'POST',
-          data: {
+      axios.post('/movimento/addMateriale', qs.stringify({
             parcheggio : true,
             mov : this.$store.getters.getNumeroMovCorrente,
             codiceArticolo : this.codice,
             descrizione : this.descrizione,
             note : this.note,
             qta : this.qta,
-            utente : this.$store.getters.getUtente
             /*
-            Boolean parcheggio,
-            Integer mov,
-            String codiceArticolo,
-            String descrizione,
-            String note,
-            Double qta
+            //utente : this.$store.getters.getUtente
             */
-          }
-        }
+        })
       ).then(res => {
           console.log(res);
           //
