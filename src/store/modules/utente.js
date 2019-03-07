@@ -1,5 +1,6 @@
 import router from '../../router'
 import axios from 'axios'
+const qs = require('querystring');
 
 const state = {
     token: null,
@@ -30,15 +31,19 @@ const mutations = {
 
 const actions = {
     login({ commit, dispatch, state, rootState}, authData) {
-        axios.post('/autenticazione', {
-            }, { auth: {
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
                 username: authData.utente,
                 password: authData.password
-            },
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'   
-            },
-        }).then(res => {
+            }
+        }
+        axios.post('/autenticazione', qs.stringify({
+            esterni: true
+          }), config)
+        .then(res => {
             // eslint-disable-next-line
             console.log(res)
             const data = res.data
@@ -56,7 +61,7 @@ const actions = {
                     // altro fetch in background
                     dispatch('incrementOffset')
                     dispatch('fetchMovimenti', rootState.movimenti.offset).then(() => {
-                      this.attendereDialog = false
+                    this.attendereDialog = false
                     })
                 })
                 // fill def nota spese, elenco causali, cdl and cdc (no need to be synchronous)
