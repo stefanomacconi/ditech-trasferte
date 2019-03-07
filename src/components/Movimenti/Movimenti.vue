@@ -10,7 +10,7 @@
         <v-icon>add</v-icon>
       </v-btn>
     </v-layout>
-    <v-btn v-if="moreMovs" flat icon small color="white" class="light-blue" style="left:-3px"> <!-- @click="more" class="red" -->
+    <v-btn v-if="moreMovs" flat icon small color="white" class="primary" style="left:-3px"> <!-- @click="more" class="red" -->
       <v-icon>arrow_drop_down</v-icon>
     </v-btn>
     <v-btn v-else dark flat icon small class="green" style="left:-3px">

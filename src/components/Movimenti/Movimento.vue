@@ -106,7 +106,7 @@ export default {
         // TODO
         return movimento.colore
       // default
-      return "light-blue"
+      return "primary"
     },
   },
   mixins: [utilities]
