@@ -150,7 +150,9 @@ export default {
   },
   methods: {
     goBack() {
-      window.history.back()
+      this.$router.push({
+        name: "movimenti"
+      });
       this.asyncClear()
     },
     async asyncClear() {
