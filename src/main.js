@@ -5,10 +5,9 @@ import App from './App.vue'
 
 import store from './store/store'
 import router from './router'
-import axios from 'axios' /* RESR */
+import axios from 'axios' /* REST */
 import moment from 'moment' /* Date/Calendar */
 
-//axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' // TODO capire se è questo il problema di axios esterno
 
 Vue.prototype.moment = moment
