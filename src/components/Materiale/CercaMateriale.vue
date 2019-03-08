@@ -7,10 +7,10 @@
         <v-text-field v-model="descrizione" label="Descrizione"></v-text-field>          
       </v-layout>
     </v-container>
-    <v-btn @click="refreshMateriali()">Cerca</v-btn>
+    <v-btn block @click="refreshMateriali()">Cerca</v-btn>
   </v-form>   
   <!-- -->
-    <v-flex xs12 sm6 offset-sm3>
+    <v-flex v-if="materiali.length > 0" xs12 sm6 offset-sm3>
         <v-list>
           <template v-for="(item, index) in materiali">
             <v-list-tile :key="item.codice + index">
@@ -26,10 +26,13 @@
           </template>
         </v-list>
     </v-flex>  
+    <!-- wait -->
+    <wait-dialog :visibile=this.wait></wait-dialog>
     </div>
 </template>
 <script>
 
+import WaitDialogVue from '../WaitDialog.vue';
 import axios from "axios"
 const qs = require('querystring');
 
@@ -39,26 +42,37 @@ export default {
       valid : false,
       codice : "",
       descrizione : "",
-      materiali : []
+      materiali : [],
+      wait : false
     }
   },
+  components: {
+    'wait-dialog': WaitDialogVue
+  },   
   methods: {
     refreshMateriali() {
+        this.wait = true
         axios.post('/articoli', qs.stringify({
             codice: this.codice,
             descrizione: this.descrizione
           })
         ).then(res => {
           console.log(res);
+          this.wait = false
           if (res.data && res.data.length > 0) {
-          this.materiali = res.data;
+            if (res.data.length > 1) {
+              this.materiali = res.data;
+            } else {    
+              this.sceltoArticolo(res.data[0].codice, res.data[0].descrizione);
+            }
           } else {
-          this.materiali = [{"codice":"", "descrizione":"Nessun articolo trovato"}];
+            this.materiali = [{"codice":"", "descrizione":"Nessun articolo trovato"}];
           }
 
       }).catch(error => {
         // eslint-disable-next-line
         console.log(error)
+        this.wait = false
         this.$store.dispatch('handleError', error.response.data)
       })
     },

@@ -116,21 +116,28 @@ export default {
       // edit
       this.$store.dispatch('setIsNewMov', false)
       this.isNewMov = false
+      //
+      this.tabItems = [
+        {index: 0, icon: "work", desr: "Descrizione"},
+        {index: 1, icon: "receipt", descr: "Nota Spese"},
+        {index: 2, icon: "shopping_cart", descr: "Lista Articoli"}
+      ]
     }
     else {
       // new
       this.$store.dispatch('setIsNewMov', true) 
       this.isNewMov = true
+      //
+      this.tabItems = [
+        {index: 0, icon: "work", desr: "Descrizione"},
+        {index: 1, icon: "receipt", descr: "Nota Spese"},
+      ]
     }
   },
   data() {
     return {
       tab : 0,
-      tabItems : [
-        {index: 0, icon: "work", desr: "Descrizione"},
-        {index: 1, icon: "receipt", descr: "Nota Spese"},
-        {index: 2, icon: "shopping_cart", descr: "Lista Articoli"}
-      ],
+      tabItems : null,
       isNewMov : false,
       dialogConfirm : false,
       attendereDialog : false,

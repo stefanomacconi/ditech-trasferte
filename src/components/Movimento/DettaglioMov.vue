@@ -7,7 +7,7 @@
       <v-tab-item :value="1">
           <nota-spese-mov></nota-spese-mov>
       </v-tab-item>
-      <v-tab-item :value="2">
+      <v-tab-item v-if="!isNewMov" :value="2">
           <lista-articoli-mov></lista-articoli-mov>
       </v-tab-item>
     </v-tabs-items>

@@ -17,14 +17,17 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-btn @click="addMateriale()">Conferma</v-btn>
+    <v-btn block @click="addMateriale()">Conferma</v-btn>
   </v-form>   
+    <!-- wait -->
+    <wait-dialog :visibile=this.wait></wait-dialog>
   </div>
   <!-- -->
 </template>
 
 <script>
 
+import WaitDialogVue from '../WaitDialog.vue';
 import axios from "axios"
 const qs = require('querystring');
 
@@ -33,7 +36,8 @@ export default {
     return {
       valid : false,
       qta : "",
-      note : ""
+      note : "",
+      wait : false
     }
   },
   props : {
@@ -44,8 +48,12 @@ export default {
             type: String
         }
   },
+  components: {
+    'wait-dialog': WaitDialogVue
+  },   
   methods: {
     addMateriale() {
+      this.wait = true
       axios.post('/movimento/addMateriale', qs.stringify({
             parcheggio : true,
             mov : this.$store.getters.getNumeroMovCorrente,
@@ -60,6 +68,7 @@ export default {
       ).then(res => {
           console.log(res);
           //
+          this.wait = false
           this.$router.push({ name: 'movimento', 
                           params: { id: this.$store.getters.getNumeroMovCorrente } 
                         });
@@ -73,6 +82,7 @@ export default {
       }).catch(error => {
         // eslint-disable-next-line
         console.log(error)
+        this.wait = false
         this.$store.dispatch('handleError', error.response.data)
       })
     }
