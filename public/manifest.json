@@ -1,7 +1,17 @@
 {
-  "name": "ditech-trasferte",
-  "short_name": "ditech-trasferte",
+  "name": "DiTech TRAFERTE",
+  "short_name": "TRASFERTE",
   "icons": [
+    {
+			"src": "./img/icons/android-chrome-48x48.png",
+			"type": "image/png",
+			"sizes": "48x48"
+		},
+		{
+			"src": "./img/icons/android-chrome-96x96.png",
+			"type": "image/png",
+			"sizes": "96x96"
+		},
     {
       "src": "./img/icons/android-chrome-192x192.png",
       "sizes": "192x192",
@@ -15,6 +25,6 @@
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "theme_color": "#009873",
+	"background_color": "#009873"
 }
