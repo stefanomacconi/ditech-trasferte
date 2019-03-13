@@ -4,7 +4,7 @@ import Movimenti from './components/Movimenti/Movimenti'
 import DettaglioMov from './components/Movimento/DettaglioMov'
 import CercaMateriale from './components/Materiale/CercaMateriale'
 import InsertQtaMateriale from './components/Materiale/InsertQtaMateriale'
-
+import AllegatiMov from './components/Allegati/AllegatiMov'
 import ToolbarLogin from './components/Toolbars/ToolbarLogin'
 import ToolbarMovimenti from './components/Toolbars/ToolbarMovimenti'
 import ToolbarMovimento from './components/Toolbars/ToolbarMovimento'
@@ -83,6 +83,22 @@ export const routes = [
                 next('/login')
             }
         }
-    },    
+    },
+    { name: "allegati", path: '/allegati',  
+        components: {
+            default: AllegatiMov,
+            toolbar: ToolbarMateriale
+        }, 
+        props: {
+            default: true
+        }, 
+        beforeEnter(to, from, next) {
+            if (store.getters.getToken) {
+                next()
+            } else {
+                next('/login')
+            }
+        }
+    },         
     {path: "/error", name:"error",  component: Error,  props: true}  
 ]
