@@ -8,7 +8,8 @@ import router from './router'
 import axios from 'axios' /* REST */
 import moment from 'moment' /* Date/Calendar */
 
-axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' // TODO capire se è questo il problema di axios esterno
+axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' 
+// axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
 
 Vue.prototype.moment = moment
 
