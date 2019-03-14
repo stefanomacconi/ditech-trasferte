@@ -3,7 +3,7 @@
         <v-toolbar color='primary' dark scroll-off-screen app clipped-right>
         <v-icon dark @click="goBack">close</v-icon>
         &nbsp;&nbsp;&nbsp;
-        <v-toolbar-title>Ricerca materiale</v-toolbar-title>            
+        <v-toolbar-title>{{ this.title }}</v-toolbar-title>            
         </v-toolbar>
     </div>
 </template>
@@ -17,6 +17,9 @@ export default {
                           params: { id: this.$store.getters.getNumeroMovCorrente } 
                         });
         }
-    }  
+    },
+    props: {
+        title : String
+    }
 }
 </script>

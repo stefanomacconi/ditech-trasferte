@@ -8,7 +8,7 @@ import AllegatiMov from './components/Allegati/AllegatiMov'
 import ToolbarLogin from './components/Toolbars/ToolbarLogin'
 import ToolbarMovimenti from './components/Toolbars/ToolbarMovimenti'
 import ToolbarMovimento from './components/Toolbars/ToolbarMovimento'
-import ToolbarMateriale from './components/Toolbars/ToolbarMateriale'
+import ToolbarPopUp from './components/Toolbars/ToolbarPopUp'
 
 import store from './store/store'
 
@@ -55,10 +55,11 @@ export const routes = [
     { name: "cercaMateriale", path: '/cercaMateriale',  
         components: {
             default: CercaMateriale,
-            toolbar: ToolbarMateriale
+            toolbar: ToolbarPopUp
         }, 
         props: {
-            default: false
+            default: false,
+            toolbar: true
         }, 
         beforeEnter(to, from, next) {
             if (store.getters.getToken) {
@@ -71,10 +72,11 @@ export const routes = [
     { name: "insertQtaMateriale", path: '/insertQtaMateriale',  
         components: {
             default: InsertQtaMateriale,
-            toolbar: ToolbarMateriale
+            toolbar: ToolbarPopUp
         }, 
         props: {
-            default: true
+            default: true,
+            toolbar: true
         }, 
         beforeEnter(to, from, next) {
             if (store.getters.getToken) {
@@ -87,10 +89,11 @@ export const routes = [
     { name: "allegati", path: '/allegati',  
         components: {
             default: AllegatiMov,
-            toolbar: ToolbarMateriale
+            toolbar: ToolbarPopUp
         }, 
         props: {
-            default: true
+            default: true,
+            toolbar: true
         }, 
         beforeEnter(to, from, next) {
             if (store.getters.getToken) {

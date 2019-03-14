@@ -279,7 +279,7 @@ export default {
       console.log(numeroMovimento)
       //TODO
       this.dialogConfirm = false
-      this.$router.push({ name: 'allegati', params: { } });      
+      this.$router.push({ name: 'allegati', params: { title: "Carica allegati" } });      
     },
     printMov() {
       this.dialogConfirm = false

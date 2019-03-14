@@ -78,7 +78,7 @@ export default {
     },
     sceltoArticolo(codiceArticolo, descrizioneArticolo) {
       this.$router.push({ name: 'insertQtaMateriale', 
-                          params: { codice: codiceArticolo, descrizione : descrizioneArticolo } 
+                          params: { codice: codiceArticolo, descrizione : descrizioneArticolo, title:"Conferma materiale" } 
                         });
     }
   }    

@@ -45,7 +45,7 @@ export default {
   methods: {
     addMateriale() {
       //this.$store.getters.getNumeroMovCorrente()
-      this.$router.push({ name:"cercaMateriale" });
+      this.$router.push({ name:"cercaMateriale", params: { title: "Cerca materiale" } });
       //TODO this.$store.dispatch("addToMovimentiSelezionati", movimento.numeroMovimento)
     }
   }  
