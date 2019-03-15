@@ -133,6 +133,7 @@ export default {
         {index: 1, icon: "receipt", descr: "Nota Spese"},
       ]
     }
+    this.$store.dispatch('setDefinitivo', this.definitivo)
   },
   data() {
     return {
@@ -284,43 +285,7 @@ export default {
     printMov() {
       this.dialogConfirm = false
       this.printDialog = true
-    },
-    /*
-    printMovCall(numeroMovimento) {
-      this.dialogConfirm = false
-      this.attendereDialog = true
-      //StampaRapportinoInterventoParamsBean
-      axios(
-        '/stampe-movimenti/rapportoServizioMF',  
-        {
-          method: 'POST',
-          responseType: 'blob',
-          data: {
-            numeriMovimento: [numeroMovimento],
-            tipoStampa: 2,
-            parcheggio: true,
-            conOrari: true,
-            conMateriale: true
-          }
-          }
-      ).then(res => {
-            //console.log(res);
-        this.attendereDialog = false
-          const url = window.URL.createObjectURL(new Blob([res.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          var pdfName = "Rapportino" + numeroMovimento + ".pdf" 
-          link.setAttribute('download', pdfName);
-          document.body.appendChild(link);
-          link.click();
-      }).catch(error => {
-        this.attendereDialog = false
-        // eslint-disable-next-line
-        console.log(error)
-        this.$store.dispatch('handleError', error.response.data)
-      })
     }
-    */
   }
 }
 </script>

@@ -1,13 +1,6 @@
 <template>
 <!-- 
 <vaadin-upload capture="camera" accept="image/*" id="myUpload" ></vaadin-upload>  
-  i18n='{"dropFiles":{"one":"Trascina qui","many":"Trascina qui"},
-         "addFiles":{"one":"Sfoglia...","many":"Sfoglia..."},
-         "cancel":"Annulla",
-         "uploading":{"status":{"stalled":"Bloccato.","processing":"Processing File...","held":"In coda"}},
-         "error":{"serverUnavailable":"Server irranggiungibile","unexpectedServerError":"Errore caricamento","forbidden":"Permesso negato"}
-         }'
-
 -->
 <div>
   <div>
@@ -42,7 +35,6 @@ export default {
     methods: {
         getCustomHeaders() {
           return '{"Authorization": "Bearer ' + this.$store.getters.getToken + '"}'
-                //+ ', "mov":"' + this.$store.getters.getNumeroMovCorrente + '"}'
         },
         getBaseURL() {
           //http://localhost:8080/spweb/rest/movimento/allegato
@@ -51,14 +43,18 @@ export default {
         save() {
             this.$refs.manualUpload.uploadFiles()
         },
+        /*
         handleUploadBefore(event) {    
         },
+        */
         handleUploadRequest(event) {
           event.detail.formData.append('mov', this.$store.getters.getNumeroMovCorrente);          
           event.detail.formData.append('parcheggio', true);          
         },
+        /*
         handleUploadStart(event) {
         },
+        */
     }
 }
 </script>

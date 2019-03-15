@@ -8,7 +8,7 @@
             <span class="headline">Stampa rapportino</span>
           </v-card-title>
           <v-card-text>
-            <v-checkbox :label="'Con Materiale'"></v-checkbox><!-- v-model="conMateriale" -->
+            <v-checkbox :label="'Con Materiale'" v-model="conMateriale"></v-checkbox>
             <!--
             <v-btn-toggle v-model="tipoStampa">
               <v-btn value="1">(1) Senza nota spese</v-btn>
@@ -50,9 +50,7 @@ export default {
   data() {
     return {
       printing : false,
-      conMateriale: {
-          type: Boolean
-      },
+      conMateriale: false,
       tipoStampa: 1
     }
   },    
@@ -82,15 +80,15 @@ export default {
           method: 'POST',
           responseType: 'blob',
           data: {
-            numeriMovimento: this.movimenti,
-            tipoStampa: this.tipoStampa,
-            parcheggio: !this.definitivo,
-            conOrari: true, //TODO opzione??? ma dovrebbe saperlo da solo ilserver leggendo le variabili
-            conMateriale: this.conMateriale
+            numeriMovimento: this.movimenti, //Integer[]
+            tipoStampa: this.tipoStampa, //Integer
+            parcheggio: !this.definitivo, //Boolean
+            conOrari: true, //Boolean //TODO opzione??? ma dovrebbe saperlo da solo ilserver leggendo le variabili
+            conMateriale: this.conMateriale //Boolean
           }
-          }
+        }
       ).then(res => {
-          //console.log(res);
+          console.log(res);
           //this.attendereDialog = false
           /**/
           const url = window.URL.createObjectURL(new Blob([res.data]));

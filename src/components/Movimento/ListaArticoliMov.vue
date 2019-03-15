@@ -23,7 +23,7 @@
           </template>
         </v-list>
     </v-flex>
-    <v-layout column class="fab-container">
+    <v-layout column class="fab-container" v-if="!this.$store.getters.isDefinitivo">
       <v-btn dark fab class="primary" @click="addMateriale()">
         <v-icon>add</v-icon>
       </v-btn>

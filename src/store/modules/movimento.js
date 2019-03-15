@@ -23,7 +23,8 @@ const state = {
         cdl: null,
         cdc: null,
         posizione: null,
-        keyRdARapportino: null
+        keyRdARapportino: null,
+        definitivo: false
     }
 }
 
@@ -33,6 +34,9 @@ const mutations = {
     },
     setIsNewMov(state, value) {
         state.isNewMov = value
+    },
+    setDefinitivo(state, definitvo) {
+        state.movimento.definitivo = definitvo
     },
     clearMov(state) {
         state.movimento.numero = null 
@@ -54,6 +58,7 @@ const mutations = {
         state.movimento.tempo = null 
         state.movimento.notaSpese = []
         state.movimento.materiale = []
+        state.movimento.definitivo = false
     },
     setMovimento(state, movimento) {
         state.movimento.numero = movimento.numeroMovimento
@@ -211,6 +216,9 @@ const actions = {
     },
     setMovimento({ commit }, movimento) {
         commit('setMovimento', movimento)
+    },
+    setDefinitivo({ commit }, definitivo) {
+        commit('setDefinitivo', definitivo)
     }
 }
 
@@ -220,6 +228,9 @@ const getters = {
     },
     isNewMov(state) {
         return state.isNewMov
+    },
+    isDefinitivo(state) {
+        return state.movimento.definitivo
     },
     getTimeG1(state) {
         return state.movimento.tempi.timeG1
