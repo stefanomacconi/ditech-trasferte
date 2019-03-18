@@ -72,7 +72,7 @@ const mutations = {
                 descrizione: cdl.descrizione
             } 
             state.elencoCdl.push(data)
-         })
+        })
     },
     setElencoCdc(state, elencoCdc) {
         elencoCdc.forEach(cdc => {

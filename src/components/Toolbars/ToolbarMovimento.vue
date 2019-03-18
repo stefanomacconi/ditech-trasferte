@@ -20,7 +20,7 @@
           <v-btn icon @click="printMov()">
             <v-icon>print</v-icon>
           </v-btn>
-          <v-btn icon @click="attach2Mov(id)" :disabled="this.definitivo">
+          <v-btn icon @click="attach2Mov()" :disabled="this.definitivo">
             <v-icon>attach_file</v-icon>
           </v-btn>
           <v-divider dark vertical></v-divider>
@@ -116,29 +116,17 @@ export default {
       // edit
       this.$store.dispatch('setIsNewMov', false)
       this.isNewMov = false
-      //
-      this.tabItems = [
-        {index: 0, icon: "work", desr: "Descrizione"},
-        {index: 1, icon: "receipt", descr: "Nota Spese"},
-        {index: 2, icon: "shopping_cart", descr: "Lista Articoli"}
-      ]
     }
     else {
       // new
       this.$store.dispatch('setIsNewMov', true) 
       this.isNewMov = true
-      //
-      this.tabItems = [
-        {index: 0, icon: "work", desr: "Descrizione"},
-        {index: 1, icon: "receipt", descr: "Nota Spese"},
-      ]
     }
     this.$store.dispatch('setDefinitivo', this.definitivo)
   },
   data() {
     return {
       tab : 0,
-      tabItems : null,
       isNewMov : false,
       dialogConfirm : false,
       attendereDialog : false,
@@ -155,6 +143,18 @@ export default {
   },
   components: {
     'print-rapp-dialog': PrintRappDialogVue
+  },
+  computed: {
+    tabItems() {
+      var items = [];
+      const opzioni = this.$store.getters.getOpzioni
+      items.push({index: 0, icon: "work", desr: "Descrizione"})
+      if (opzioni.gestioneNoteSpese)
+        items.push({index: 1, icon: "receipt", descr: "Nota Spese"})
+      if (opzioni.gestioneMateriali && !this.$store.getters.isNewMov)
+        items.push({index: 2, icon: "shopping_cart", descr: "Lista Articoli"})
+      return items
+    } 
   },
   methods: {
     goBack() {
@@ -276,9 +276,7 @@ export default {
         this.$store.dispatch('handleError', error.response.data)
       })
     },
-    attach2Mov(numeroMovimento) {
-      console.log(numeroMovimento)
-      //TODO
+    attach2Mov() {
       this.dialogConfirm = false
       this.$router.push({ name: 'allegati', params: { title: "Carica allegati" } });      
     },

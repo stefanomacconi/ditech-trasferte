@@ -8,7 +8,8 @@ const state = {
     siglaDitta: null,
     ditta: null,
     dipendente: null,
-    esterno: null
+    esterno: null,
+    opzioni: {}
 }
 
 const mutations = {
@@ -26,9 +27,13 @@ const mutations = {
         state.ditta = null
         state.dipendente = null
         state.esterno = null
+        state.opzioni = {}
     },
     setDipendente(state, dipendente) {
         state.dipendente = dipendente
+    },
+    setOpzioni(state, opzioni) {
+        state.opzioni = opzioni
     }
 }
 
@@ -68,7 +73,8 @@ const actions = {
                     this.attendereDialog = false
                     })
                 })
-                // fill def nota spese, elenco causali, cdl and cdc (no need to be synchronous)
+                // fill options, def nota spese, elenco causali, cdl and cdc (no need to be synchronous)
+                dispatch('fetchOpzioni')
                 dispatch('fetchDefinizioneNotaSpese')
                 dispatch('fetchCausali')
                 dispatch('fetchElencoCdl')
@@ -122,6 +128,24 @@ const actions = {
             })
         })
     },
+    fetchOpzioni({ commit, dispatch }) {
+        return new Promise((resolve, reject) => {
+            axios.get('/variabili/web/3')
+            .then(res => {
+                // eslint-disable-next-line
+                console.log(res)
+                commit('setOpzioni', res.data)
+                resolve()
+            }).catch(error => {
+                // eslint-disable-next-line
+                console.log(error)
+                dispatch('handleError', {
+                    developerMessage : "Impossibile recuperare le opzioni "
+                })
+                reject()
+            })
+        })
+    },
 }
 
 const getters = {
@@ -142,6 +166,9 @@ const getters = {
     },
     isAuthenticated(state) {
         return state.token !== null
+    },
+    getOpzioni(state) {
+        return state.opzioni
     }
 }
 

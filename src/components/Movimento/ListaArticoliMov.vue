@@ -1,11 +1,9 @@
 <template>
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
-        <v-list two-line>
+        <v-list two-line v-if="materiali.length > 0">
           <template v-for="(item, index) in materiali">
-            <v-list-tile
-              :key="item.articolo + index"
-            >
+            <v-list-tile :key="item.articolo + index">
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.articolo }}</v-list-tile-title>
                 <v-list-tile-sub-title class="text--primary">{{ item.descrizione }}</v-list-tile-sub-title>
@@ -16,10 +14,7 @@
                 <v-icon>delete</v-icon>
               </v-list-tile-action>
             </v-list-tile>
-            <v-divider
-              v-if="index + 1 < materiali.length"
-              :key="index"
-            ></v-divider>
+            <v-divider v-if="index + 1 < materiali.length" :key="index"/>
           </template>
         </v-list>
     </v-flex>

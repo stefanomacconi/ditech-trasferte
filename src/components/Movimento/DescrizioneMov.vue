@@ -78,10 +78,10 @@
             </v-text-field>
           </v-flex>
           <!-- *** GIORNATA *** -->
-          <v-flex xs12>
+          <v-flex xs12 v-if="this.gestioneOrariGiornata">
             <v-subheader class="subtitle">Giornata</v-subheader>
           </v-flex>  
-          <v-flex xs3 md3 lg3>
+          <v-flex xs3 md3 lg3 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG1" :close-on-content-click="false" v-model="menuTimeG1" :nudge-right="40"
               :return-value.sync="timeG1" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -92,7 +92,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2>
+          <v-flex xs2 md2 lg2 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG2" :close-on-content-click="false" v-model="menuTimeG2" :nudge-right="40"
               :return-value.sync="timeG2" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -103,7 +103,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs3 md3 lg3>
+          <v-flex xs3 md3 lg3 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG3" :close-on-content-click="false" v-model="menuTimeG3" :nudge-right="40"
               :return-value.sync="timeG3" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -114,7 +114,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2>
+          <v-flex xs2 md2 lg2 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG4" :close-on-content-click="false" v-model="menuTimeG4" :nudge-right="40"
               :return-value.sync="timeG4" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -125,7 +125,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2>
+          <v-flex xs2 md2 lg2 v-if="this.gestioneOrariGiornata">
             <v-text-field :value="totTimeG" label="Tot" single-line readonly></v-text-field>
           </v-flex>
           <!-- *** DETTAGLIO *** -->
@@ -136,15 +136,15 @@
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
           </v-flex>
-          <v-flex xs8 md6 lg3>
+          <v-flex xs8 md6 lg3 v-if="this.mostrareCausali">
             <v-select :items="causali" v-model="causale" label="Causale" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
-          <v-flex xs12 sm6  md6 lg3>
+          <v-flex xs12 sm6  md6 lg3 v-if="this.mostrareCdL">
             <v-select :items="elencoCdl" v-model="cdl" label="CdL" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
-          <v-flex xs12 sm6  md6 lg3>
+          <v-flex xs12 sm6  md6 lg3 v-if="this.mostrareCdL">
             <v-select :items="elencoCdc" v-model="cdc" label="CdC"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
@@ -287,9 +287,6 @@ export default {
   props: {
     definitivo: {
       default: false
-    },
-    opzioni: {
-      
     }
   },
   data: () => ({
@@ -483,6 +480,18 @@ export default {
         this.$store.commit('setPosizione', value)
       }
     },
+    opzioni() {
+      return this.$store.getters.getOpzioni
+    },
+    gestioneOrariGiornata() {
+      return this.opzioni.gestioneOrariGiornata ? this.opzioni.gestioneOrariGiornata : false           
+    },
+    mostrareCausali() {
+      return this.opzioni.causali ? this.opzioni.causali : false           
+    },
+    mostrareCdL() {
+      return this.opzioni.cdL ? this.opzioni.cdL : false           
+    }
   },
   mixins: [utilities],
   methods: {
