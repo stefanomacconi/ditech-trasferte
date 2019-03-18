@@ -15,7 +15,7 @@
                   <div v-if="dataMov.oraInizioMattino"> <!-- color="white" -->
                   <!-- <font color="white"> -->
                     {{ getOrariGiornata(dataMov) }}
-                  {{ "(" + moment(getTotalHourDay(dataMov)).format("HH[h] mm[min]") + ")" }}
+                    {{ "(" + moment(getTotalHourDay(dataMov)).format("HH[h] mm[min]") + ")" }}
                   <!-- </font> -->
                   </div>
                   <div>
@@ -115,13 +115,15 @@ export default {
         return require('../../assets/img/12-December.jpg')
     },
     getOrariGiornata(data) {
-      var orariInizioMattino = this.getTimeFromInteger(data.oraInizioMattino)
-      if (orariInizioMattino) {
-        return orariInizioMattino + " - " +
-          this.getTimeFromInteger(data.oraFineMattino) + " | " +
-          this.getTimeFromInteger(data.oraInizioPomeriggio) + " - " +
-          this.getTimeFromInteger(data.oraFinePomeriggio)
+      var orarioInizioMattino = this.getTimeFromInteger(data.oraInizioMattino)
+      var orarioInizioPomeriggio = this.getTimeFromInteger(data.oraInizioPomeriggio)
+      var final = ""
+      if (orarioInizioMattino) {
+      final = final + orarioInizioMattino + " - " + this.getTimeFromInteger(data.oraFineMattino)
+        if (orarioInizioPomeriggio)
+          final = final + " | " + " - " + this.getTimeFromInteger(data.oraFinePomeriggio)
       }
+      return final
     },
     getDayColor(dataMov) {
       const totaleOreGiorno = moment.duration(this.getTotalHourDay(dataMov)).asMilliseconds()
