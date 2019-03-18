@@ -66,7 +66,7 @@ export default {
         }
       })
     },
-     getTotalHourDay(data) {
+    getTotalHourDay(data) {
       var t1 = moment(this.getTimeFromInteger(data.oraInizioMattino), "HH:mm")
       var t2 = moment(this.getTimeFromInteger(data.oraFineMattino), "HH:mm")
       var mattino = t2.diff(t1)
