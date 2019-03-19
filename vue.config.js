@@ -10,9 +10,9 @@ module.exports = {
     // configure the workbox plugin
     workboxPluginMode: 'GenerateSW',
     workboxOptions: {
-        // swSrc is required in InjectManifest mode.
-        // swSrc: 'public/service-worker.js',
-        // ...other Workbox options...
+      // swSrc is required in InjectManifest mode.
+      // swSrc: 'public/service-worker.js',
+      // ...other Workbox options...
     }
   },
   configureWebpack: () => {
@@ -20,14 +20,14 @@ module.exports = {
       // mutate for production...
       return {
         plugins: [
-            new WebpackWarPlugin({
-                archiveName: 'dt-trasferte',
-            })
+          new WebpackWarPlugin({
+            archiveName: 'dt-trasferte',
+          })
         ],
         devServer: {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-            }
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          }
         },
         resolve: {
           alias: require('./aliases.config').webpack
@@ -38,7 +38,7 @@ module.exports = {
       return {
         devServer: {
           headers: {
-              'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': '*',
           }
         },
         resolve: {
