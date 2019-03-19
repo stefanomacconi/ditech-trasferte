@@ -5,9 +5,9 @@ import {routes} from './routes'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-    // mode: 'history',
-    base: '/dt-trasferte/',
-    routes
+  base: '/dt-trasferte/',
+  //mode: 'history',
+  routes
   })
 
 // export the router instance

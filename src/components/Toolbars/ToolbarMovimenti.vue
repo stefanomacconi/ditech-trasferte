@@ -8,9 +8,11 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
+        <!-- TODO da fare
         <v-btn icon v-if="this.$store.getters.getMovimentiSelezionati.length > 1">
           <v-icon>link</v-icon>
         </v-btn>
+        -->
         <!--<v-divider dark vertical></v-divider>-->
         <v-btn icon @click="dateMenu = true">
           <v-icon>event</v-icon>
@@ -56,7 +58,7 @@
       <v-divider></v-divider>
       <!-- Menu Link -->
       <v-list dense class="pt-0">
-        <v-list-tile  v-for="menu in menusLink" :key="menu.title" :to="menu.to">
+        <v-list-tile v-for="menu in menusLink" :key="menu.title" :to="menu.to">
           <v-list-tile-action>
             <v-icon>{{ menu.icon }}</v-icon>
           </v-list-tile-action>
@@ -65,7 +67,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <!-- Menu Fun -->
-        <v-list-tile  @click="showSearchMov">
+        <v-list-tile @click="showSearchMov">
           <v-list-tile-action>
             <v-icon>search</v-icon>
           </v-list-tile-action>
@@ -73,7 +75,7 @@
             <v-list-tile-title>Cerca Movimento</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile  @click="more">
+        <v-list-tile @click="more">
           <v-list-tile-action>
             <v-icon>get_app</v-icon>
           </v-list-tile-action>

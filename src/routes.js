@@ -13,22 +13,32 @@ import ToolbarPopUp from './components/Toolbars/ToolbarPopUp'
 import store from './store/store'
 
 export const routes = [
-    { name: "login", path: '/login', components: {
-        default: Login,
-        toolbar: ToolbarLogin
-      } },
-    { path: '/', beforeEnter(to, from, next) {
+    { name: "login", path: '/login', 
+        components: {
+            default: Login,
+            toolbar: ToolbarLogin
+        } 
+    },
+    { path: '/', 
+        components: {
+            default: Login,
+            toolbar: ToolbarLogin
+        }  
+    },
+    /*{ path: '/', beforeEnter(to, from, next) {
             if (store.getters.getToken) {
                 next('/movimenti')
             } else {
                 next('/login')
             }
         }
-    },
-    { name: "movimenti", path: '/movimenti',  components: {
-        default: Movimenti,
-        toolbar: ToolbarMovimenti
-      }, beforeEnter(to, from, next) {
+    },*/
+    { name: "movimenti", path: '/movimenti',  
+        components: {
+            default: Movimenti,
+            toolbar: ToolbarMovimenti
+        }, 
+        beforeEnter(to, from, next) {
             if (store.getters.getToken) {
                 next()
             } else {
@@ -103,5 +113,5 @@ export const routes = [
             }
         }
     },         
-    {path: "/error", name:"error",  component: Error,  props: true}  
+    { path: "/error", name:"error",  component: Error,  props: true}
 ]
