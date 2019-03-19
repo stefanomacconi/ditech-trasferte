@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar color='primary' dark app clipped-right>
-      <v-icon dark>timelapse</v-icon>
+      <v-icon dark>work_outline</v-icon>
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title>
         DiTech Trasferte
