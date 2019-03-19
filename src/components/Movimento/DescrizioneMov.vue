@@ -144,10 +144,12 @@
             <v-select :items="elencoCdl" v-model="cdl" label="CdL" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
-          <v-flex xs12 sm6  md6 lg3 v-if="this.mostrareCdL">
+          <!--
+          <v-flex xs12 sm6  md6 lg3>
             <v-select :items="elencoCdc" v-model="cdc" label="CdC"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
+          -->
         </v-layout>  
       </v-container>
     </v-form>

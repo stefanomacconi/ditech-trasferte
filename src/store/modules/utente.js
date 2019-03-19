@@ -78,7 +78,7 @@ const actions = {
                 dispatch('fetchDefinizioneNotaSpese')
                 dispatch('fetchCausali')
                 dispatch('fetchElencoCdl')
-                dispatch('fetchElencoCdc')
+                // dispatch('fetchElencoCdc')
             })
         }).catch(error => {
             // eslint-disable-next-line
