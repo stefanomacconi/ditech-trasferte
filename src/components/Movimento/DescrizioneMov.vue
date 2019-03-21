@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form v-model="valid">
+    <v-form ref="form">
       <v-container grid-list-md>
         <v-layout row wrap>
           <v-flex xs6 md6 lg6>
@@ -254,17 +254,17 @@
 </template>
 
 <script>
-
 import moment from 'moment'
-
 import axios from 'axios'
-
 import utilities from "../../utilitiesMixin.js"
 
 const campoObbligatorio = "Campo obbligatorio"
 
 export default {
   mounted() {
+    this.$root.$on('saveMovimento', data => {
+      this.saveMovimento(data)
+    })
     if (this.$store.getters.isNewMov)
       return
     this.attendereDialog = true
@@ -299,7 +299,6 @@ export default {
     }
   },
   data: () => ({
-    valid: false,
     commessaRules: [
       v => !!v || campoObbligatorio,
       v => v.length <= 8 || "commessa dev'essere < 8 caratteri"
@@ -580,6 +579,88 @@ export default {
       this.descrizionePerCommessa = ""
       this.RagioneSocialePerCommessa = ""
       this.statoPerCommessa = "Aperte"
+    },
+    saveMovimento(numeroMovimento) {
+      if (!this.$refs.form)
+        return
+      if (this.$refs.form.validate()) {
+        this.attendereDialog = true
+        // save movement
+        const data = moment(this.$store.getters.getData, "YYYY-MM-DD").valueOf()
+        const oraInizioMattino = this.$store.getters.getTimeG1 ? this.$store.getters.getTimeG1.replace(":", "") : this.$store.getters.getTimeG1
+        const oraFineMattino = this.$store.getters.getTimeG2 ? this.$store.getters.getTimeG2.replace(":", "") : this.$store.getters.getTimeG2
+        const oraInizioPomeriggio = this.$store.getters.getTimeG3 ? this.$store.getters.getTimeG3.replace(":", "") : this.$store.getters.getTimeG3
+        const oraFinePomeriggio = this.$store.getters.getTimeG4 ? this.$store.getters.getTimeG4.replace(":", "") : this.$store.getters.getTimeG4
+        const oraInizioAttMattino = this.$store.getters.getTimeA1 ? this.$store.getters.getTimeA1.replace(":", "") : this.$store.getters.getTimeA1
+        const oraFineAttMattino = this.$store.getters.getTimeA2 ? this.$store.getters.getTimeA2.replace(":", "") : this.$store.getters.getTimeA2
+        const oraInizioAttPomeriggio = this.$store.getters.getTimeA3 ? this.$store.getters.getTimeA3.replace(":", "") : this.$store.getters.getTimeA3
+        const oraFineAttPomeriggio = this.$store.getters.getTimeA4 ? this.$store.getters.getTimeA4.replace(":", "") : this.$store.getters.getTimeA4
+        const cau = this.$store.getters.getCausale
+        const causale = cau ? (cau.substr(0, cau.indexOf('-'))).trim() : cau
+        const cl = this.$store.getters.getCdl
+        const cdl = cl ? (cl.substr(0, cl.indexOf('-'))).trim() : cl
+        const cc = this.$store.getters.getCdc
+        const cdc = cc ? (cc.substr(0, cc.indexOf('-'))).trim() : cc
+        const orari = {
+          oraInizioMattino,
+          oraFineMattino,
+          oraInizioPomeriggio,
+          oraFinePomeriggio,
+          oraInizioAttMattino,
+          oraFineAttMattino,
+          oraInizioAttPomeriggio,
+          oraFineAttPomeriggio
+        }
+        axios.post('/movimento/lavorazione/'  + this.$store.getters.getDipendente, {
+          numeroMovimento,
+          commessa: this.$store.getters.getCommessa,
+          nota: this.$store.getters.getNota,
+          causale,
+          cdl,
+          cdc,
+          data,
+          posizione: this.$store.getters.getPosizione,
+          tempo: this.$store.getters.getTempo,
+          orari,
+          notaSpese: this.$store.getters.getNotaSpese
+        }).then(res => {
+          // eslint-disable-next-line
+          console.log(res)
+          // Update lista mov
+          // TODO: ELIMINARE QUESTO
+          // APPENA SI CAPISCE PERCHE' NON FUNZIONANO LE COMPUTED DEI MOVIMENTI
+          // LO STORE CAMBIA MA NON VIENE VISTO IL CAMBIAMENTO
+          // PROBABILMENTE C'E' QUALCOSA CHE NON VA NEL METODO dateMovFiltered() in Movimenti.vue
+          /*
+          this.$store.dispatch('fetchMovimenti').then(() => {
+            // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
+            history.replaceState({}, "movimenti", "movimenti")
+            const numMov = res.data.numeroMovimento
+            this.attendereDialog = false
+            this.$router.push({ name: 'movimento', params: { id: numMov }})
+          })
+          */
+          const newDatabean = res.data
+          this.$store.dispatch("addNewDataBean", newDatabean)
+          // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
+          history.replaceState({}, "movimenti", "movimenti")
+          if (!numeroMovimento)
+            // se è un'aggiunta prendo l'ultimo numero movimento
+            numeroMovimento = newDatabean.movimenti[newDatabean.movimenti.length - 1].numeroMovimento
+          this.attendereDialog = false
+          this.$router.push({
+            name: 'movimento',
+            params: {
+              id: numeroMovimento 
+            }
+          })
+        }).catch(error => {
+          this.attendereDialog = false
+          // eslint-disable-next-line
+          console.log(error)
+          this.$store.dispatch('handleError', error.response.data)
+        })
+      }
     }
   }
 }

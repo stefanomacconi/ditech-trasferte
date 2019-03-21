@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid">
+  <v-form>
     <v-container grid-list-md>
       <v-layout row wrap>
         <!-- <v-flex xs12>
@@ -19,7 +19,6 @@
 export default {
   data() {
     return {
-      valid: false,
       notaSpeseRules: [
         v => {
           if (v && isNaN(v))
