@@ -7,7 +7,7 @@
         Nuovo Movimento
       </v-toolbar-title>
       <v-toolbar-title v-else>
-        Movimento {{ id }}
+        {{ id }} - Movimento
       </v-toolbar-title>
       <v-spacer></v-spacer>
         <!-- TODO passarli con props -->
@@ -148,11 +148,23 @@ export default {
     tabItems() {
       var items = [];
       const opzioni = this.$store.getters.getOpzioni
-      items.push({index: 0, icon: "work", desr: "Descrizione"})
+      items.push({
+        index: 0,
+        icon: "work",
+        desr: "Descrizione"
+      })
       if (opzioni.gestioneNoteSpese)
-        items.push({index: 1, icon: "receipt", descr: "Nota Spese"})
+        items.push({
+          index: 1,
+          icon: "receipt",
+          descr: "Nota Spese"
+        })
       if (opzioni.gestioneMateriali && !this.$store.getters.isNewMov)
-        items.push({index: 2, icon: "shopping_cart", descr: "Lista Articoli"})
+        items.push({
+          index: 2,
+          icon: "shopping_cart",
+          descr: "Lista Articoli"
+        })
       return items
     } 
   },
@@ -245,7 +257,12 @@ export default {
             // se è un'aggiunta prendo l'ultimo numero movimento
             numeroMovimento = newDatabean.movimenti[newDatabean.movimenti.length - 1].numeroMovimento
           this.attendereDialog = false
-          this.$router.push({ name: 'movimento', params: { id: numeroMovimento }})
+          this.$router.push({
+            name: 'movimento',
+            params: {
+              id: numeroMovimento 
+            }
+          })
           // TODO Magari mettere qui un messaggio di success
         }).catch(error => {
           this.attendereDialog = false
@@ -266,7 +283,9 @@ export default {
         // TODO non conviene ritornare tutto ma usare la GET sul metodo che ritorna solo la data
         this.$store.dispatch('fetchMovimenti').then(() => {
           this.attendereDialog = false
-          this.$router.push({ name: 'movimenti'})
+          this.$router.push({
+            name: 'movimenti'
+          })
           this.asyncClear()
         })
       }).catch(error => {
@@ -278,7 +297,12 @@ export default {
     },
     attach2Mov() {
       this.dialogConfirm = false
-      this.$router.push({ name: 'allegati', params: { title: "Carica allegati" } });      
+      this.$router.push({
+        name: 'allegati',
+        params: {
+          title: "Carica allegati" 
+        } 
+      });      
     },
     printMov() {
       this.dialogConfirm = false

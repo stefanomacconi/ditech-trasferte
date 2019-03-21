@@ -2,22 +2,22 @@
 <div @click="selected(movimento)">
   <v-timeline-item small :color="getMovColor(movimento)">
     <router-link :to="toMovimento(movimento)" tag="div">
-      <v-layout pt-3>
-        <v-flex xs4 md2>
-          <div v-if="movimento.orari.oraInizioAttMattino">
+      <v-layout pt-2>
+        <v-flex xs3 md2 :class="{'v-timeline-left-part': $vuetify.breakpoint.xs}">
+          <div v-if="movimento.orari.oraInizioAttMattino" :class="{'caption-small': $vuetify.breakpoint.xs}">
             <strong>{{ getOrariMovimentoMattina(movimento) }}</strong>
             <br>
           </div>
-          <div v-if="movimento.orari.oraInizioAttPomeriggio">
+          <div v-if="movimento.orari.oraInizioAttPomeriggio" :class="{'caption-small': $vuetify.breakpoint.xs}">
             <strong>{{ getOrariMovimentoPomeriggio(movimento) }}</strong>
             <br>
           </div>
-          <div>
+          <div :class="{'caption caption-normal': $vuetify.breakpoint.xs}">
             {{ moment.utc(moment.duration(movimento.tempo,"h").asMilliseconds()).format("HH[h] mm[min]") }}
           </div>
         </v-flex>
-        <v-flex xs8 md10> <!--offset-xs1 -->
-          <strong>&nbsp;{{ movimento.commessa }}</strong>
+        <v-flex xs9 md10 :class="{'v-timeline-right-part': $vuetify.breakpoint.xs}"> <!--offset-xs1 -->
+          <strong>{{ movimento.commessa }}</strong>
           <div class="caption hidden-sm-and-up">
             {{ movimento.descrizioneCommessa | truncate }}
           </div>
@@ -112,3 +112,29 @@ export default {
   mixins: [utilities]
 }
 </script>
+
+<style>
+.caption-small {
+  font-size: 11px !important;
+  padding-top: 3px;
+}
+.caption-normal {
+  padding-top: 1.5px;
+}
+.v-timeline-item {
+  display: block;
+  padding-left: 44px;
+}
+.v-timeline--dense .v-timeline-item__body {
+  max-width: calc(100% - 0px) !important;
+}
+.v-timeline-left-part {
+  padding-right: 5px;
+}
+.v-timeline-right-part {
+  padding-left: 5px;
+}
+.container {
+  padding: 10px !important;
+}
+</style>

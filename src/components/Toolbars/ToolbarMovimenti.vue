@@ -119,11 +119,14 @@
     </div>
     <!-- MOV FILTER DIALOG --> 
       <v-layout row justify-center>
-      <v-dialog v-model="movFilterDialog" persistent max-width="600px">
+      <v-dialog v-model="movFilterDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
-          <v-card-title>
-            <span class="headline">Ricerca Movimento</span>
-          </v-card-title>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="movFilterDialog = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Ricerca Movimento</v-toolbar-title>
+          </v-toolbar>
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
@@ -164,7 +167,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="secondary" flat @click="movFilterDialog = false">Chiudi</v-btn>
+            <v-btn color="secondary" flat @click="clearFilterSearchMov">Pulisci</v-btn>
             <v-btn color="primary" flat @click="searchMov">Cerca</v-btn>
           </v-card-actions>
         </v-card>
@@ -233,9 +236,11 @@ export default {
     menuDataDaPerMov: false,
     dataDaPerMov: new Date().toISOString().substr(0, 10),
     dataDaPerMovFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    dataDaPerMovFormattedDefault: vm.formatDate(new Date().toISOString().substr(0, 10)),
     menuDataAPerMov: false,
     dataAPerMov: new Date().toISOString().substr(0, 10),
     dataAPerMovFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    dataAPerMovFormattedDefault: vm.formatDate(new Date().toISOString().substr(0, 10)),
     drawer: false,
     menusLink: [
       {title: "Nuovo Movimento", to: "/movimento", icon: "add"},
@@ -354,6 +359,17 @@ export default {
     },
     chooseMov(numeroMov, definitivo) {
       this.$router.push({ name: 'movimento', params: { id: numeroMov, definitivo }})
+    },
+    clearFilterSearchMov() {
+      this.menuDataDaPerMov = false
+      this.dataDaPerMov = new Date().toISOString().substr(0, 10)
+      this.dataDaPerMovFormatted = this.dataDaPerMovFormattedDefault
+      this.menuDataAPerMov = false
+      this.dataAPerMov = new Date().toISOString().substr(0, 10)
+      this.dataAPerMovFormatted = this.dataAPerMovFormattedDefault
+      this.commessaPerMov = ""
+      this.posizionePerMov = ""
+      this.notaPerMov = ""
     }
   },
   watch: {

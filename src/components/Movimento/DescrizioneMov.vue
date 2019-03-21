@@ -29,7 +29,7 @@
           <v-flex xs12>
             <v-subheader class="subtitle">Attività</v-subheader>
           </v-flex>  
-          <v-flex xs3 md3 lg3>
+          <v-flex xs6 sm3 lg3>
             <v-menu ref="menuTimeA1" :close-on-content-click="false" v-model="menuTimeA1" :nudge-right="40"
               :return-value.sync="timeA1" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -40,7 +40,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2>
+          <v-flex xs6 sm2 lg2>
             <v-menu ref="menuTimeA2" :close-on-content-click="false" v-model="menuTimeA2" :nudge-right="40"
               :return-value.sync="timeA2" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -51,18 +51,18 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs3 md3 lg3>
+          <v-flex xs6 sm3 lg3>
             <v-menu ref="menuTimeA3" :close-on-content-click="false" v-model="menuTimeA3" :nudge-right="40"
               :return-value.sync="timeA3" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeA3" label="Inizio" prepend-icon="work_outline" readonly>
+              <v-text-field slot="activator" v-model="timeA3" label="Inizio" prepend-icon="local_dining" readonly>
               </v-text-field>
               <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeA3" v-model="timeA3" 
                 full-width @change="$refs.menuTimeA3.save(timeA3)">
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2>
+          <v-flex xs6 sm2 lg2>
             <v-menu ref="menuTimeA4" :close-on-content-click="false" v-model="menuTimeA4" :nudge-right="40"
               :return-value.sync="timeA4" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -73,15 +73,16 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2>
-            <v-text-field :value="totTimeA" :rules="tempoRules" label="Tot" hint="Tempo" persistent-hint single-line readonly required>
+          <v-flex xs12 sm2 lg2>
+            <v-text-field :value="totTimeA" :rules="tempoRules" label="Totale" hint="Tempo" 
+              persistent-hint single-line readonly required prepend-icon="work_outline">
             </v-text-field>
           </v-flex>
           <!-- *** GIORNATA *** -->
           <v-flex xs12 v-if="this.gestioneOrariGiornata">
             <v-subheader class="subtitle">Giornata</v-subheader>
           </v-flex>  
-          <v-flex xs3 md3 lg3 v-if="this.gestioneOrariGiornata">
+          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG1" :close-on-content-click="false" v-model="menuTimeG1" :nudge-right="40"
               :return-value.sync="timeG1" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -92,7 +93,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2 v-if="this.gestioneOrariGiornata">
+          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG2" :close-on-content-click="false" v-model="menuTimeG2" :nudge-right="40"
               :return-value.sync="timeG2" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -103,7 +104,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs3 md3 lg3 v-if="this.gestioneOrariGiornata">
+          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG3" :close-on-content-click="false" v-model="menuTimeG3" :nudge-right="40"
               :return-value.sync="timeG3" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -114,7 +115,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2 v-if="this.gestioneOrariGiornata">
+          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG4" :close-on-content-click="false" v-model="menuTimeG4" :nudge-right="40"
               :return-value.sync="timeG4" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -125,18 +126,18 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs2 md2 lg2 v-if="this.gestioneOrariGiornata">
-            <v-text-field :value="totTimeG" label="Tot" single-line readonly></v-text-field>
+          <v-flex xs12 sm2 lg2 v-if="this.gestioneOrariGiornata">
+            <v-text-field :value="totTimeG" label="Totale" hint="Tempo" single-line readonly prepend-icon="trip_origin"/>
           </v-flex>
           <!-- *** DETTAGLIO *** -->
           <v-flex xs12>
             <v-subheader class="subtitle">Dettaglio</v-subheader>
           </v-flex>  
-          <v-flex xs4 md6 lg3>
+          <v-flex xs12 md6 lg3>
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
           </v-flex>
-          <v-flex xs8 md6 lg3 v-if="this.mostrareCausali">
+          <v-flex xs12 md6 lg3 v-if="this.mostrareCausali">
             <v-select :items="causali" v-model="causale" label="Causale" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
@@ -155,11 +156,14 @@
     </v-form>
     <!-- COMMESSA FILTER DIALOG --> 
       <v-layout row justify-center>
-      <v-dialog v-model="commessaFilterDialog" persistent max-width="600px">
+      <v-dialog v-model="commessaFilterDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
-          <v-card-title>
-            <span class="headline">Ricerca Commessa</span>
-          </v-card-title>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="commessaFilterDialog = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Ricerca Commessa</v-toolbar-title>
+          </v-toolbar>
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
@@ -184,7 +188,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="secondary" flat @click="commessaFilterDialog = false">Chiudi</v-btn>
+            <v-btn color="secondary" flat @click="clearFilterSearchCommessa">Pulisci</v-btn>
             <v-btn color="primary" flat @click="searchCommessa">Cerca</v-btn>
           </v-card-actions>
         </v-card>
@@ -192,17 +196,20 @@
     </v-layout>
     <!-- LISTA RICERCA COMMESSE DIALOG -->
     <v-layout row justify-center>
-    <v-dialog v-model="listaCommesseDialog" scrollable max-width="600px">
+    <v-dialog v-model="listaCommesseDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card>
-        <v-card-title>
-          <span class="headline">Seleziona la Commessa</span>
-        </v-card-title>
-          <div v-if="listaCommesseCercate.length > 29">
-            <font color="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Risultato incompleto</font>
-          </div>
-          <div v-if="listaCommesseCercate.length == 0">
-            <font color="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nessuna commessa trovata</font>
-          </div>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="listaCommesseDialog = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Scelta Commessa</v-toolbar-title>
+          <v-toolbar-title v-if="listaCommesseCercate.length > 29" slot="extension" class="red--text text--lighten-3">
+            <small>* Risultato incompleto</small>
+          </v-toolbar-title>
+          <v-toolbar-title v-if="listaCommesseCercate.length == 0" slot="extension" class="red--text text--lighten-3">
+            <small>* Nessuna commessa trovata</small>
+          </v-toolbar-title>
+        </v-toolbar>
         <v-divider></v-divider>
         <v-card-text style="height: 600px;">
           <v-list two-line>
@@ -568,6 +575,12 @@ export default {
       if (!isNaN(totale))
         return moment(totale).format("HH.mm")
     },
+    clearFilterSearchCommessa() {
+      this.codicePerCommessa = ""
+      this.descrizionePerCommessa = ""
+      this.RagioneSocialePerCommessa = ""
+      this.statoPerCommessa = "Aperte"
+    }
   }
 }
 </script>

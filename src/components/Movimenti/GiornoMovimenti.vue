@@ -9,7 +9,7 @@
                 <div>
                   <strong style="font-size: 15px;"> <!-- color="white" -->
                     <!-- <font color="white"> -->
-                      {{ moment(dataMov.data).locale('it').format('dddd, DD MMMM YYYY').toUpperCase() }}
+                    {{ moment(dataMov.data).locale('it').format('dddd, DD MMMM YYYY').toUpperCase() }}
                     <!-- </font> -->
                   </strong>
                   <div v-if="dataMov.oraInizioMattino"> <!-- color="white" -->
@@ -36,17 +36,14 @@
 </template>
 
 <script>
-
 import Movimento from './Movimento.vue'
-
 import moment from 'moment'
-
 import utilities from "../../utilitiesMixin.js"
 
 export default {
   props: {
     dataMov: {
-        type: Object
+      type: Object
     }
   },
   components: {

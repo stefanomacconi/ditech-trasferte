@@ -1,12 +1,15 @@
 <template>
-    <!-- PRINT RAPPORTINO DIALOG --> 
-    <div class="text-xs-center">
-      <v-layout row justify-center>
-      <v-dialog persistent max-width="600px" v-model="visibile">
+  <!-- PRINT RAPPORTINO DIALOG --> 
+  <div class="text-xs-center">
+    <v-layout row justify-center>
+      <v-dialog persistent fullscreen hide-overlay transition="dialog-bottom-transition" v-model="visibile">
         <v-card>
-          <v-card-title>
-            <span class="headline">Stampa rapportino</span>
-          </v-card-title>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="$emit('chiudi')">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Stampa rapportino</v-toolbar-title>
+          </v-toolbar>
           <v-card-text>
             <v-checkbox :label="'Con Materiale'" v-model="conMateriale"></v-checkbox>
             <!--
@@ -25,7 +28,6 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="secondary" flat @click="$emit('chiudi')">Chiudi</v-btn>
             <v-btn color="primary" flat @click="printMov()">Stampa</v-btn>
             <!--
             <v-btn color="primary" flat @click="printMov(movimenti)">Senza nota spese</v-btn>
@@ -35,15 +37,14 @@
           </v-card-actions>          
         </v-card>
       </v-dialog>
-      </v-layout>
-      <!-- wait -->
-      <wait-dialog :visibile=this.printing></wait-dialog>
-    </div>
+    </v-layout>
+    <!-- wait -->
+    <wait-dialog :visibile=this.printing></wait-dialog>
+  </div>
 </template>
+
 <script>
-
 import WaitDialogVue from '../WaitDialog.vue';
-
 import axios from "axios"
 
 export default {
@@ -56,13 +57,13 @@ export default {
   },    
   props: {
     visibile: {
-        type: Boolean
+      type: Boolean
     },
     movimenti: {
-        type: Array
+      type: Array
     },
     definitivo: {
-        type: Boolean
+      type: Boolean
     }
   },
   components: {
@@ -74,51 +75,46 @@ export default {
       this.$emit('chiudi');
       this.printing = true
       //StampaRapportinoInterventoParamsBean
-      axios(
-        '/stampe-movimenti/rapportoServizioMF',  
-        {
-          method: 'POST',
-          responseType: 'blob',
-          data: {
-            numeriMovimento: this.movimenti, //Integer[]
-            tipoStampa: this.tipoStampa, //Integer
-            parcheggio: !this.definitivo, //Boolean
-            conOrari: true, //Boolean //TODO opzione??? ma dovrebbe saperlo da solo ilserver leggendo le variabili
-            conMateriale: this.conMateriale //Boolean
-          }
+      axios('/stampe-movimenti/rapportoServizioMF', {
+        method: 'POST',
+        responseType: 'blob',
+        data: {
+          numeriMovimento: this.movimenti, //Integer[]
+          tipoStampa: this.tipoStampa, //Integer
+          parcheggio: !this.definitivo, //Boolean
+          conOrari: true, //Boolean //TODO opzione??? ma dovrebbe saperlo da solo ilserver leggendo le variabili
+          conMateriale: this.conMateriale //Boolean
         }
-      ).then(res => {
-          console.log(res);
-          //this.attendereDialog = false
-          /**/
-          const url = window.URL.createObjectURL(new Blob([res.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          var pdfName = "Rapportino.pdf" 
-          //+ numeriMovimento + ".pdf" 
-          link.setAttribute('download', pdfName);
-          document.body.appendChild(link);
-          link.click();
-
-          this.printing = false
-
-            /**/
-        /** simile ma non siriesce a impostare il nome del pdf
+      }).then(res => {
+        // eslint-disable-next-line
+        console.log(res);
+        // this.attendereDialog = false
+        /**/
+        const url = window.URL.createObjectURL(new Blob([
+          res.data
+        ]));
+        const link = document.createElement('a')
+        link.href = url
+        var pdfName = "Rapportino.pdf" 
+        // + numeriMovimento + ".pdf" 
+        link.setAttribute('download', pdfName)
+        document.body.appendChild(link)
+        link.click()
+        this.printing = false
+        /** simile ma non si riesce a impostare il nome del pdf
         //Create a Blob from the PDF Stream
         const file = new Blob(
           [res.data], 
           {type: 'application/pdf'});
-
         //Build a URL from the file
         const fileURL = URL.createObjectURL(file);
+        // eslint-disable-next-line
         console.log(fileURL);
-
         //Open the URL on new Window
         window.open(fileURL,"_self");
-        /**/
-
+        **/
       }).catch(error => {
-          this.printing = false
+        this.printing = false
         // eslint-disable-next-line
         console.log(error)
         this.$store.dispatch('handleError', error.response.data)
