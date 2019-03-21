@@ -7,7 +7,7 @@
         </v-flex> -->
         <v-flex v-for="nota in notaSpese" :key="nota.codice + Math.random()" xs12 md6 lg6>
           <v-text-field :rules="notaSpeseRules" :value="getNotaValue(nota.codice)" 
-            @input="updateNotaSpese($event, nota)" :label="nota.descrizione">
+            @blur="updateNotaSpese($event, nota)" :label="nota.descrizione">
           </v-text-field>
         </v-flex> 
       </v-layout>  
@@ -47,7 +47,9 @@ export default {
   },
   methods: {
     updateNotaSpese (event, nota) {
-      nota.value = event
+      if (!event.target.value) 
+        return
+      nota.value = event.target.value
       this.$store.dispatch('updateNotaSpese', nota)
     }
   }
