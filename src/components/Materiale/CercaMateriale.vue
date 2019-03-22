@@ -9,9 +9,14 @@
       <v-btn color="secondary" flat @click="clearFilterSearchMov()">Pulisci</v-btn>
       <v-btn color="primary" flat @click="refreshMateriali()">Cerca</v-btn>          
     </v-form>   
-    <v-flex v-if="materiali.length > 0" xs12 sm6 offset-sm3>
-      <v-list light>
-        <v-subheader class="subtitle">Selezionare l'articolo desiderato dalla lista</v-subheader>
+    <v-flex xs12 sm6 offset-sm3>
+      <v-subheader v-if="this.noErr && materiali.length > 0" class="subtitle">
+        Selezionare l'articolo desiderato dalla lista
+      </v-subheader>
+      <v-subheader v-if="!this.noErr" class="subtitle">
+        Nessun articolo trovato
+      </v-subheader>
+      <v-list v-if="materiali.length > 0" light>
         <template v-for="(item, index) in materiali">
           <v-list-tile :key="item.codice + index">
             <v-list-tile-content @click="sceltoArticolo(item.codice, item.descrizione)">
@@ -43,6 +48,7 @@ export default {
       descrizione: "",
       materiali: [],
       wait: false,
+      noErr: true,
       formRules: [
         () => {
           if (!this.codice && !this.descrizione)
@@ -67,16 +73,15 @@ export default {
           console.log(res)
           this.wait = false
           if (res.data && res.data.length > 0) {
+            this.noErr = true
             if (res.data.length > 1) {
               this.materiali = res.data
             } else {    
               this.sceltoArticolo(res.data[0].codice, res.data[0].descrizione)
             }
           } else {
-            this.materiali = [{
-              "codice": "",
-              "descrizione": "Nessun articolo trovato"
-            }]
+            this.noErr = false
+            this.materiali = []
           }
         }).catch(error => {
           // eslint-disable-next-line
@@ -98,6 +103,7 @@ export default {
     },
     clearFilterSearchMov() {
       this.$refs.form.reset()
+      this.noErr = true
       this.materiali = []
     }
   }    

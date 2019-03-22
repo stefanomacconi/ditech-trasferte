@@ -10,8 +10,7 @@
             <v-textarea rows="3" v-model="descrizione" label="Descrizione" readonly/>          
           </v-flex>
           <v-flex xs12>
-            <v-text-field v-model="qta" label="Quantità" required 
-              :rules="[v => !!v || 'Campo Quantità obbligatorio']">
+            <v-text-field v-model="qta" label="Quantità" required :rules="this.qtaRules">
             </v-text-field>          
           </v-flex>
           <v-flex xs12>
@@ -38,7 +37,14 @@ export default {
     return {
       qta: "",
       note: "",
-      wait: false
+      wait: false,
+      qtaRules: [
+        v => {
+          if (!v || isNaN(v))
+            return "Inserire la quantità"
+          return true
+        }    
+      ]
     }
   },
   props: {
