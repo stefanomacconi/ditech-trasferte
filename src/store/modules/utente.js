@@ -1,6 +1,6 @@
 import router from '../../router'
 import axios from 'axios'
-const qs = require('querystring');
+const qs = require('querystring')
 
 const state = {
     token: null,

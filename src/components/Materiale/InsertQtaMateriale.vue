@@ -32,13 +32,13 @@ const qs = require('querystring')
 export default {
   data() {
     return {
-      valid : false,
-      qta : "",
-      note : "",
-      wait : false
+      valid: false,
+      qta: "",
+      note: "",
+      wait: false
     }
   },
-  props : {
+  props: {
     codice: {
       type: String
     },
@@ -54,26 +54,26 @@ export default {
       this.wait = true
       axios.post('/movimento/addMateriale', 
         qs.stringify({
-          parcheggio : true,
-          mov : this.$store.getters.getNumeroMovCorrente,
-          codiceArticolo : this.codice,
-          descrizione : this.descrizione,
-          note : this.note,
-          qta : this.qta,
+          parcheggio: true,
+          mov: this.$store.getters.getNumeroMovCorrente,
+          codiceArticolo: this.codice,
+          descrizione: this.descrizione,
+          note: this.note,
+          qta: this.qta,
           /*
           //utente : this.$store.getters.getUtente
           */
         })
       ).then(res => {
         // eslint-disable-next-line
-        console.log(res);
+        console.log(res)
         this.wait = false
         this.$router.push({
           name: 'movimento', 
           params: {
             id: this.$store.getters.getNumeroMovCorrente 
           } 
-        });
+        })
       }).catch(error => {
         // eslint-disable-next-line
         console.log(error)

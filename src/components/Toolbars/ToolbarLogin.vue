@@ -20,7 +20,11 @@
 <script>
 export default {
   data: () => ({
-    menuLogin : {title: "Sign In", to: "/login", icon: "person"},
+    menuLogin: {
+      title: "Sign In",
+      to: "/login",
+      icon: "person"
+    }
   })
 }
 </script>

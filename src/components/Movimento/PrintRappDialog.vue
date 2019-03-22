@@ -44,13 +44,13 @@
 </template>
 
 <script>
-import WaitDialogVue from '../WaitDialog.vue';
+import WaitDialogVue from '../WaitDialog.vue'
 import axios from "axios"
 
 export default {
   data() {
     return {
-      printing : false,
+      printing: false,
       conMateriale: false,
       tipoStampa: 1
     }
@@ -72,7 +72,7 @@ export default {
   methods: {
     printMov() {
       //TODO this.attendereDialog = true
-      this.$emit('chiudi');
+      this.$emit('chiudi')
       this.printing = true
       //StampaRapportinoInterventoParamsBean
       axios('/stampe-movimenti/rapportoServizioMF', {
@@ -87,12 +87,10 @@ export default {
         }
       }).then(res => {
         // eslint-disable-next-line
-        console.log(res);
-        // this.attendereDialog = false
-        /**/
+        console.log(res)
         const url = window.URL.createObjectURL(new Blob([
           res.data
-        ]));
+        ]))
         const link = document.createElement('a')
         link.href = url
         var pdfName = "Rapportino.pdf" 

@@ -27,7 +27,7 @@
   https://vaadin.com/tutorials/lit-element/starting-a-lit-element-project
   https://gitlab.existsolutions.com/eXistdbElements/existdb-dashboard/blob/6d0a287b37f97f66c3a1b55673f995cf79bfa39e/bower_components/vaadin-upload/vaadin-upload.html
 */
-import '@vaadin/vaadin-upload/vaadin-upload.js';
+import '@vaadin/vaadin-upload/vaadin-upload.js'
 import axios from "axios"
 
 export default {
@@ -46,9 +46,9 @@ export default {
     },
     */
     handleUploadRequest(event) {
-      event.detail.formData.append('mov', this.$store.getters.getNumeroMovCorrente);          
-      event.detail.formData.append('parcheggio', true);          
-    },
+      event.detail.formData.append('mov', this.$store.getters.getNumeroMovCorrente)         
+      event.detail.formData.append('parcheggio', true)          
+    }
     /*
     handleUploadStart(event) {
     },

@@ -294,8 +294,8 @@ const getters = {
         return state.movimento.materiale
     },
     getNumeroMovCorrente(state) {
-        return state.movimento.numero;
-    },    
+        return state.movimento.numero
+    }    
 }
 
 import moment from 'moment'

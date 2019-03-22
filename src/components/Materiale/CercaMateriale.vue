@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import WaitDialogVue from '../WaitDialog.vue';
+import WaitDialogVue from '../WaitDialog.vue'
 import axios from "axios"
-const qs = require('querystring');
+const qs = require('querystring')
 
 export default {
   data() {
@@ -52,21 +52,19 @@ export default {
           descrizione: this.descrizione
         })
       ).then(res => {
-        console.log(res);
+        console.log(res)
         this.wait = false
         if (res.data && res.data.length > 0) {
           if (res.data.length > 1) {
-            this.materiali = res.data;
+            this.materiali = res.data
           } else {    
-            this.sceltoArticolo(res.data[0].codice, res.data[0].descrizione);
+            this.sceltoArticolo(res.data[0].codice, res.data[0].descrizione)
           }
         } else {
-          this.materiali = [
-            {
+          this.materiali = [{
               "codice": "",
               "descrizione": "Nessun articolo trovato"
-            }
-          ]
+          }]
         }
       }).catch(error => {
         // eslint-disable-next-line

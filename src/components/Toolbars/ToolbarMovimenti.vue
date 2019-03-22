@@ -225,9 +225,7 @@
 </template>
 
 <script>
-
 import moment from 'moment'
-
 import axios from 'axios'
 
 export default {
@@ -242,10 +240,15 @@ export default {
     dataAPerMovFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     dataAPerMovFormattedDefault: vm.formatDate(new Date().toISOString().substr(0, 10)),
     drawer: false,
-    menusLink: [
-      {title: "Nuovo Movimento", to: "/movimento", icon: "add"},
-    ],
-    menuLogout : {title: "Logout", icon: "lock"},
+    menusLink: [{
+      title: "Nuovo Movimento",
+      to: "/movimento",
+      icon: "add"
+    }],
+    menuLogout: {
+      title: "Logout",
+      icon: "lock"
+    },
     attendereDialog : false,
     movFilterDialog : false,
     listaMovsDialog : false,
@@ -256,17 +259,17 @@ export default {
     tzoffset: (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
   }),
   computed: {
-    utente () {
+    utente() {
       return this.$store.getters.getUtente
     },
-    siglaDitta () {
+    siglaDitta() {
       return this.$store.getters.getSiglaDitta
     },
     date: {
-      get () {
+      get() {
         return new Date(this.$store.getters.getPickedData - this.tzoffset).toISOString().substr(0, 10)
       },
-      set (value) {
+      set(value) {
         this.$store.dispatch('setPickedData', moment(value).valueOf())
       }
     },
@@ -309,13 +312,15 @@ export default {
       var posizione = null
       if (this.posizionePerMov)
         posizione = this.posizionePerMov
-      axios.get('/movimento/lavorazione/ricerca/' + this.$store.getters.getDipendente, {params: {
+      axios.get('/movimento/lavorazione/ricerca/' + this.$store.getters.getDipendente, {
+        params: {
           commessa: this.commessaPerMov,
           posizione,
           da,
           a,
           nota: this.notaPerMov
-      }}).then(res => {
+        }
+      }).then(res => {
         // eslint-disable-next-line
         console.log(res)
         this.attendereDialog = false
@@ -373,12 +378,12 @@ export default {
     }
   },
   watch: {
-      dataDaPerMov () {
-        this.dataDaPerMovFormatted = this.formatDate(this.dataDaPerMov)
-      },
-      dataAPerMov () {
-        this.dataAPerMovFormatted = this.formatDate(this.dataAPerMov)
-      }
+    dataDaPerMov () {
+      this.dataDaPerMovFormatted = this.formatDate(this.dataDaPerMov)
     },
+    dataAPerMov () {
+      this.dataAPerMovFormatted = this.formatDate(this.dataAPerMov)
+    }
+  }
 }
 </script>

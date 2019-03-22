@@ -11,7 +11,7 @@
 <script>
 export default {
   props: {
-    title : String
+    title: String
   },
   methods: {
     goBack() {
@@ -20,7 +20,7 @@ export default {
         params: {
           id: this.$store.getters.getNumeroMovCorrente 
         } 
-      });
+      })
     }
   }
 }

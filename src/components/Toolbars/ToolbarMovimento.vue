@@ -101,7 +101,7 @@
 
 <script>
 import axios from "axios"
-import PrintRappDialogVue from '../Movimento/PrintRappDialog.vue';
+import PrintRappDialogVue from '../Movimento/PrintRappDialog.vue'
 
 export default {
   created() {
@@ -142,7 +142,7 @@ export default {
   },
   computed: {
     tabItems() {
-      var items = [];
+      var items = []
       const opzioni = this.$store.getters.getOpzioni
       items.push({
         index: 0,
@@ -168,7 +168,7 @@ export default {
     goBack() {
       this.$router.push({
         name: "movimenti"
-      });
+      })
       this.asyncClear()
     },
     async asyncClear() {
@@ -215,7 +215,7 @@ export default {
         params: {
           title: "Carica allegati" 
         } 
-      });      
+      })      
     },
     printMov() {
       this.dialogConfirm = false
