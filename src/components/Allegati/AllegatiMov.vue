@@ -15,7 +15,7 @@
       </vaadin-upload>
     </div>
     <div>
-      <v-btn block id="uploadButton" ref="uploadButton" @click="save()">SALVA ALLEGATI</v-btn>
+      <v-btn flat color="primary" id="uploadButton" ref="uploadButton" @click="save()">SALVA ALLEGATI</v-btn>
     </div>
   </div>
 </template>

@@ -1,12 +1,17 @@
 <template>
   <div>
-    <v-form v-model="valid">
-      <v-text-field v-model="codice" label="Articolo / Barcode"></v-text-field>          
-      <v-text-field v-model="descrizione" label="Descrizione"></v-text-field>          
-      <v-btn block @click="refreshMateriali()">Cerca</v-btn>
+    <v-form ref="form">
+      <v-text-field v-model="codice" label="Articolo / Barcode" :rules="this.formRules">
+      </v-text-field>          
+      <v-text-field v-model="descrizione" label="Descrizione" :rules="this.formRules">
+      </v-text-field>
+      <v-spacer></v-spacer>
+      <v-btn color="secondary" flat @click="clearFilterSearchMov()">Pulisci</v-btn>
+      <v-btn color="primary" flat @click="refreshMateriali()">Cerca</v-btn>          
     </v-form>   
     <v-flex v-if="materiali.length > 0" xs12 sm6 offset-sm3>
-      <v-list>
+      <v-list light>
+        <v-subheader class="subtitle">Selezionare l'articolo desiderato dalla lista</v-subheader>
         <template v-for="(item, index) in materiali">
           <v-list-tile :key="item.codice + index">
             <v-list-tile-content @click="sceltoArticolo(item.codice, item.descrizione)">
@@ -34,11 +39,17 @@ const qs = require('querystring')
 export default {
   data() {
     return {
-      valid: false,
       codice: "",
       descrizione: "",
       materiali: [],
-      wait: false
+      wait: false,
+      formRules: [
+        () => {
+          if (!this.codice && !this.descrizione)
+            return "Compilare almeno un campo"
+          return true
+        }    
+      ]
     }
   },
   components: {
@@ -46,32 +57,34 @@ export default {
   },   
   methods: {
     refreshMateriali() {
-      this.wait = true
-      axios.post('/articoli', qs.stringify({
-          codice: this.codice,
-          descrizione: this.descrizione
-        })
-      ).then(res => {
-        console.log(res)
-        this.wait = false
-        if (res.data && res.data.length > 0) {
-          if (res.data.length > 1) {
-            this.materiali = res.data
-          } else {    
-            this.sceltoArticolo(res.data[0].codice, res.data[0].descrizione)
-          }
-        } else {
-          this.materiali = [{
+      if (this.$refs.form.validate()) {
+        this.wait = true
+        axios.post('/articoli', qs.stringify({
+            codice: this.codice,
+            descrizione: this.descrizione
+          })
+        ).then(res => {
+          console.log(res)
+          this.wait = false
+          if (res.data && res.data.length > 0) {
+            if (res.data.length > 1) {
+              this.materiali = res.data
+            } else {    
+              this.sceltoArticolo(res.data[0].codice, res.data[0].descrizione)
+            }
+          } else {
+            this.materiali = [{
               "codice": "",
               "descrizione": "Nessun articolo trovato"
-          }]
-        }
-      }).catch(error => {
-        // eslint-disable-next-line
-        console.log(error)
-        this.wait = false
-        this.$store.dispatch('handleError', error.response.data)
-      })
+            }]
+          }
+        }).catch(error => {
+          // eslint-disable-next-line
+          console.log(error)
+          this.wait = false
+          this.$store.dispatch('handleError', error.response.data)
+        })
+      }
     },
     sceltoArticolo(codiceArticolo, descrizioneArticolo) {
       this.$router.push({
@@ -82,7 +95,17 @@ export default {
           title:"Conferma materiale" 
         } 
       })
+    },
+    clearFilterSearchMov() {
+      this.$refs.form.reset()
+      this.materiali = []
     }
   }    
 }
 </script>
+
+<style>
+.theme--light.v-list {
+  background-color: transparent;
+}
+</style>

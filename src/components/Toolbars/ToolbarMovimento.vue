@@ -188,7 +188,7 @@ export default {
       this.dialogConfirm = false
       this.attendereDialog = true
       axios.delete(
-        '/movimento/lavorazione/'  + numeroMovimento
+        '/movimento/lavorazione/' + numeroMovimento
       ).then(res => {
         // eslint-disable-next-line
         console.log(res)

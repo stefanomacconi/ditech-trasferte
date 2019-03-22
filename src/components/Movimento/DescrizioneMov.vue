@@ -331,7 +331,7 @@ export default {
     menuTimeA4: false,
   }),
   computed: {
-    computedDateFormatted () {
+    computedDateFormatted() {
       return this.formatDate(this.date)
     },
     totTimeG() {
@@ -345,114 +345,114 @@ export default {
       return value 
     },
     timeA1: {
-      get () {
+      get() {
         return this.$store.getters.getTimeA1
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeA1', value)
       }
     },
     timeA2: {
-      get () {
+      get() {
         return this.$store.getters.getTimeA2
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeA2', value)
       }
     },
     timeA3: {
-      get () {
+      get() {
         return this.$store.getters.getTimeA3
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeA3', value)
       }
     },
     timeA4: {
-      get () {
+      get() {
         return this.$store.getters.getTimeA4
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeA4', value)
       }
     },
     timeG1: {
-      get () {
+      get() {
         return this.$store.getters.getTimeG1
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeG1', value)
       }
     },
     timeG2: {
-      get () {
+      get() {
         return this.$store.getters.getTimeG2
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeG2', value)
       }
     },
     timeG3: {
-      get () {
+      get() {
         return this.$store.getters.getTimeG3
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeG3', value)
       }
     },
     timeG4: {
-      get () {
+      get() {
         return this.$store.getters.getTimeG4
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setTimeG4', value)
       }
     },
     commessa: {
-      get () {
+      get() {
         return this.$store.getters.getCommessa
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setCommessa', value)
       }
     },
     date: {
-      get () {
+      get() {
         return this.$store.getters.getData
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setData', value)
       }
     },
     nota: {
-      get () {
+      get() {
         return this.$store.getters.getNota
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setNota', value)
       }
     },
     causale: {
-      get () {
+      get() {
         return this.$store.getters.getCausale
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setCausale', value)
       }
     },
     cdl: {
-      get () {
+      get() {
         return this.$store.getters.getCdl
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setCdl', value)
       }
     },
     cdc: {
-      get () {
+      get() {
         return this.$store.getters.getCdc
       },
-      set (value) {
+      set(value) {
         this.$store.commit('setCdc', value)
       }
     },

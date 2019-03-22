@@ -1,23 +1,27 @@
 <template>
   <div>
-    <v-form v-model="valid">
+    <v-form ref="form">
       <v-container grid-list-md>
         <v-layout row wrap>
           <v-flex xs12 sm4>
-            <v-text-field v-model="codice" label="Articolo" disabled></v-text-field>          
+            <v-text-field v-model="codice" label="Articolo" readonly></v-text-field>          
           </v-flex>
           <v-flex xs12 sm8>
-            <v-text-field v-model="descrizione" label="Descrizione" disabled></v-text-field>          
+            <v-textarea rows="3" v-model="descrizione" label="Descrizione" readonly/>          
           </v-flex>
           <v-flex xs12>
-            <v-text-field v-model="qta" label="Quantità"></v-text-field>          
+            <v-text-field v-model="qta" label="Quantità" required 
+              :rules="[v => !!v || 'Campo Quantità obbligatorio']">
+            </v-text-field>          
           </v-flex>
           <v-flex xs12>
-            <v-textarea v-model="note" label="Note"></v-textarea>          
+            <v-textarea rows="3" v-model="note" label="Note"></v-textarea>          
           </v-flex>
         </v-layout>
       </v-container>
-      <v-btn block @click="addMateriale()">Conferma</v-btn>
+      <v-spacer></v-spacer>
+      <v-btn color="secondary" flat @click="clearFilterSearchMov()">Pulisci</v-btn>
+      <v-btn color="primary" flat @click="addMateriale()">Conferma</v-btn> 
     </v-form>   
     <!-- wait -->
     <wait-dialog :visibile=this.wait></wait-dialog>
@@ -32,7 +36,6 @@ const qs = require('querystring')
 export default {
   data() {
     return {
-      valid: false,
       qta: "",
       note: "",
       wait: false
@@ -51,35 +54,41 @@ export default {
   },   
   methods: {
     addMateriale() {
-      this.wait = true
-      axios.post('/movimento/addMateriale', 
-        qs.stringify({
-          parcheggio: true,
-          mov: this.$store.getters.getNumeroMovCorrente,
-          codiceArticolo: this.codice,
-          descrizione: this.descrizione,
-          note: this.note,
-          qta: this.qta,
-          /*
-          //utente : this.$store.getters.getUtente
-          */
+      if (this.$refs.form.validate()) {
+        this.wait = true
+        axios.post('/movimento/addMateriale', 
+          qs.stringify({
+            parcheggio: true,
+            mov: this.$store.getters.getNumeroMovCorrente,
+            codiceArticolo: this.codice,
+            descrizione: this.descrizione,
+            note: this.note,
+            qta: this.qta,
+            /*
+            //utente : this.$store.getters.getUtente
+            */
+          })
+        ).then(res => {
+          // eslint-disable-next-line
+          console.log(res)
+          this.wait = false
+          this.$router.push({
+            name: 'movimento', 
+            params: {
+              id: this.$store.getters.getNumeroMovCorrente 
+            } 
+          })
+        }).catch(error => {
+          // eslint-disable-next-line
+          console.log(error)
+          this.wait = false
+          this.$store.dispatch('handleError', error.response.data)
         })
-      ).then(res => {
-        // eslint-disable-next-line
-        console.log(res)
-        this.wait = false
-        this.$router.push({
-          name: 'movimento', 
-          params: {
-            id: this.$store.getters.getNumeroMovCorrente 
-          } 
-        })
-      }).catch(error => {
-        // eslint-disable-next-line
-        console.log(error)
-        this.wait = false
-        this.$store.dispatch('handleError', error.response.data)
-      })
+      }
+    },
+    clearFilterSearchMov() {
+      this.qta = ""
+      this.note = ""
     }
   }
 }
