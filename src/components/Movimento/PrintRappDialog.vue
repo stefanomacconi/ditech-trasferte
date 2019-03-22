@@ -71,7 +71,6 @@ export default {
   },  
   methods: {
     printMov() {
-      //TODO this.attendereDialog = true
       this.$emit('chiudi')
       this.printing = true
       //StampaRapportinoInterventoParamsBean
@@ -88,29 +87,33 @@ export default {
       }).then(res => {
         // eslint-disable-next-line
         console.log(res)
+        /*
+        // Method 1
+        // Works on Chrome only once
+
         const url = window.URL.createObjectURL(new Blob([
           res.data
         ]))
         const link = document.createElement('a')
         link.href = url
-        var pdfName = "Rapportino.pdf" 
-        // + numeriMovimento + ".pdf" 
+        var pdfName = "Rapportino" + this.$store.getters.getNumeroMovCorrente + ".pdf" 
         link.setAttribute('download', pdfName)
         document.body.appendChild(link)
         link.click()
-        this.printing = false
-        /** simile ma non si riesce a impostare il nome del pdf
-        //Create a Blob from the PDF Stream
+        this.printing = false */
+
+        // Method 2
+        // Works but can't set the pdf name
+        // Create a Blob from the PDF Stream
         const file = new Blob(
           [res.data], 
           {type: 'application/pdf'});
-        //Build a URL from the file
+        // Build a URL from the file
         const fileURL = URL.createObjectURL(file);
         // eslint-disable-next-line
         console.log(fileURL);
-        //Open the URL on new Window
+        // Open the URL on new Window
         window.open(fileURL,"_self");
-        **/
       }).catch(error => {
         this.printing = false
         // eslint-disable-next-line
