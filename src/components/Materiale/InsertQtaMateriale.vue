@@ -77,20 +77,25 @@ export default {
         ).then(res => {
           // eslint-disable-next-line
           console.log(res)
-          this.wait = false
-          this.$router.push({
-            name: 'movimento', 
-            params: {
-              id: this.$store.getters.getNumeroMovCorrente 
-            } 
-          })
+          this.goToMov()
         }).catch(error => {
           // eslint-disable-next-line
           console.log(error)
-          this.wait = false
+          // TODO Check if the double push comport any kind of issue 
+          // Otherwise manipolate the history to go back
+          this.goToMov()
           this.$store.dispatch('handleError', error.response.data)
         })
       }
+    },
+    goToMov() {
+      this.wait = false
+      this.$router.push({
+        name: 'movimento', 
+        params: {
+          id: this.$store.getters.getNumeroMovCorrente 
+        } 
+      })
     },
     clearFilterSearchMov() {
       this.qta = ""
