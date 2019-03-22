@@ -29,7 +29,7 @@
           </v-btn>
           <v-divider dark vertical></v-divider>
           <v-btn icon @click="dialogConfirm = true" :disabled="this.definitivo">
-            <v-icon color="red lighten-2">delete_forever</v-icon>
+            <v-icon color="red lighten-3">delete_forever</v-icon>
           </v-btn>
         </v-toolbar-items>
         <v-tabs slot="extension" v-model="tab" fixed-tabs color="transparent">

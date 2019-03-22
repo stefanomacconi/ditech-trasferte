@@ -24,10 +24,7 @@
               <v-list-tile-sub-title class="text--primary">{{ item.descrizione }}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider
-            v-if="index + 1 < materiali.length"
-            :key="index"
-          ></v-divider>
+          <v-divider v-if="index + 1 < materiali.length" :key="index"/>
         </template>
       </v-list>
     </v-flex>  

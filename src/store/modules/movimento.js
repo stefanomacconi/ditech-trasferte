@@ -146,6 +146,11 @@ const mutations = {
     },
     removeInNotaSpese(state, value) {
         state.movimento.notaSpese.splice(value, 1)
+    },
+    removeMateriale(state, index) {
+        console.log(index)
+        console.log(state.movimento.materiale)
+        state.movimento.materiale.splice(index, 1)
     }
 }
 
@@ -219,6 +224,9 @@ const actions = {
     },
     setDefinitivo({ commit }, definitivo) {
         commit('setDefinitivo', definitivo)
+    },
+    removeMateriale({ commit }, index) {
+        commit('removeMateriale', index)
     }
 }
 

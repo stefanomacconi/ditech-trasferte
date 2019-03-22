@@ -47,6 +47,6 @@ export default {
     'descrizione-mov': descrizioneMov,
     'nota-spese-mov': notaSpeseMov,
     'lista-articoli-mov': listaArticoliMov
-  },
+  }
 }
 </script>

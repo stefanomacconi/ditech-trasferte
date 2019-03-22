@@ -2,16 +2,16 @@
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
       <v-list two-line v-if="materiali.length > 0">
-        <template v-for="(item, index) in materiali">
-          <v-list-tile :key="item.articolo + index">
+        <template v-for="(materiale, index) in materiali">
+          <v-list-tile :key="materiale.articolo + index">
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.articolo }}</v-list-tile-title>
-              <v-list-tile-sub-title class="text--primary">{{ item.descrizione }}</v-list-tile-sub-title>
-              <v-list-tile-sub-title>{{ item.nota }}</v-list-tile-sub-title>
+              <v-list-tile-title>{{ materiale.articolo }}</v-list-tile-title>
+              <v-list-tile-sub-title class="text--primary">{{ materiale.descrizione }}</v-list-tile-sub-title>
+              <v-list-tile-sub-title>{{ materiale.nota }}</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-list-tile-action-text>{{ item.qta }}</v-list-tile-action-text>
-              <v-icon>delete</v-icon>
+              {{ materiale.qta }}
+              <v-icon @click="deleteMateriale(materiale, index)">delete_outline</v-icon>
             </v-list-tile-action>
           </v-list-tile>
           <v-divider v-if="index + 1 < materiali.length" :key="index"/>
@@ -22,17 +22,25 @@
       <v-btn dark fab class="primary" @click="addMateriale()">
         <v-icon>add</v-icon>
       </v-btn>
-    </v-layout>  
+    </v-layout>
+    <!-- wait -->
+    <wait-dialog :visibile=this.waitDialog></wait-dialog>  
   </v-layout>
 </template>
 
 <script>
+import axios from "axios"
+import WaitDialog from '../WaitDialog.vue'
+
 export default {
   data() {
     return {
-      valid: false
+      waitDialog: false
     }
   },
+  components: {
+    WaitDialog
+  }, 
   computed: {
     materiali() {
       return this.$store.getters.getMateriale
@@ -40,15 +48,36 @@ export default {
   },
   methods: {
     addMateriale() {
-      //this.$store.getters.getNumeroMovCorrente()
       this.$router.push({
         name:"cercaMateriale",
         params: {
           title: "Cerca materiale" 
         } 
       })
-      //TODO this.$store.dispatch("addToMovimentiSelezionati", movimento.numeroMovimento)
+    },
+    deleteMateriale(materiale, index) {
+      this.waitDialog = true
+      axios.delete('/materiale', {
+        data: materiale 
+      }).then(res => {
+        // eslint-disable-next-line
+        console.log(res)
+        this.waitDialog = false
+        this.$store.dispatch('removeMateriale', index)
+      }).catch(error => {
+        // eslint-disable-next-line
+        console.log(error)
+        this.waitDialog = false
+        this.$store.dispatch('handleError', error.response.data)
+      })
     }
   }  
 }
 </script>
+
+<style>
+.v-list__tile__action--stack {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+</style>
