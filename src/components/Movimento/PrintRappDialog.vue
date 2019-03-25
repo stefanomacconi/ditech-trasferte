@@ -106,14 +106,20 @@ export default {
         // Works but can't set the pdf name
         // Create a Blob from the PDF Stream
         const file = new Blob(
-          [res.data], 
-          {type: 'application/pdf'});
+          [
+            res.data
+          ], 
+          {
+            type: 'application/pdf'
+          }
+        )
         // Build a URL from the file
         const fileURL = URL.createObjectURL(file);
         // eslint-disable-next-line
         console.log(fileURL);
         // Open the URL on new Window
         window.open(fileURL,"_self");
+        this.printing = false
       }).catch(error => {
         this.printing = false
         // eslint-disable-next-line

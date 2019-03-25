@@ -7,7 +7,7 @@
         Nuovo Movimento
       </v-toolbar-title>
       <v-toolbar-title v-else>
-        {{ id }} - Movimento
+        Movimento {{ id }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
         <!-- TODO passarli con props -->
@@ -17,21 +17,41 @@
           </v-btn>
         </v-toolbar-items>
         <v-toolbar-items v-else>
-          <v-btn icon @click="printMov()">
-            <v-icon>print</v-icon>
-          </v-btn>
-          <v-btn icon @click="attach2Mov()" :disabled="this.definitivo">
-            <v-icon>attach_file</v-icon>
-          </v-btn>
-          <v-divider dark vertical></v-divider>
-          <v-btn icon @click="saveMov(id)" :disabled="this.definitivo">
+          <template v-if="!this.definitivo">
+            <template v-for="menu in menus">
+              <v-btn icon :key="menu.title" @click="menu.click" class="hidden-xs-only">
+                <v-icon>{{ menu.icon }}</v-icon>
+              </v-btn>
+            </template>
+          </template>
+          <template v-else>
+            <v-btn icon @click="this.printMov">
+              <v-icon>print</v-icon>
+            </v-btn>
+          </template>
+          <v-btn icon @click="saveMov(id)" v-if="!this.definitivo">
             <v-icon color="green lighten-2">check_circle</v-icon>
           </v-btn>
-          <v-divider dark vertical></v-divider>
-          <v-btn icon @click="dialogConfirm = true" :disabled="this.definitivo">
+          <v-divider dark vertical v-if="!this.definitivo"></v-divider>
+          <v-btn icon @click="dialogConfirm = true" v-if="!this.definitivo">
             <v-icon color="red lighten-3">delete_forever</v-icon>
           </v-btn>
         </v-toolbar-items>
+        <v-menu bottom left v-if="!this.definitivo">
+          <v-btn slot="activator" dark icon>
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list dense class="pt-0">
+            <v-list-tile v-for="menu in menus" :key="menu.title" @click="menu.click">
+              <v-list-tile-action>
+                <v-icon>{{ menu.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>{{ menu.title }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
         <v-tabs slot="extension" v-model="tab" fixed-tabs color="transparent">
           <v-tabs-slider></v-tabs-slider>
           <v-tab v-for="item in tabItems" :key="item.index" @click="selectTab(item.index)" class="primary--text">
@@ -72,8 +92,8 @@
       :visibile=printDialog 
       :movimenti=[id]
       :definitivo=definitivo
-      v-on:chiudi="printDialog=false" 
-      ></print-rapp-dialog>
+      v-on:chiudi="printDialog=false">
+    </print-rapp-dialog>
 
     <!-- PRINT RAPPORTINO DIALOG 
     <div class="text-xs-center">
@@ -105,6 +125,7 @@ import PrintRappDialogVue from '../Movimento/PrintRappDialog.vue'
 
 export default {
   created() {
+    // TODO mettere non il primo tab ma l'ultimo scelto
     // set current tab to the first one
     this.$store.dispatch('setTab', 0)
     // set in store if is a new mov or not
@@ -122,6 +143,23 @@ export default {
   },
   data() {
     return {
+      menus: [
+        {
+          title: "Stampa Rapportino",
+          click: this.printMov,
+          icon: "print"
+        },
+        {
+          title: "Allega Files",
+          click: this.attach2Mov,
+          icon: "attach_file"
+        },
+        {
+          title: "Collega a Nr. Rapportino",
+          click: this.setNrRapportino,
+          icon: "keyboard_tab"
+        }
+      ],
       tab : 0,
       isNewMov : false,
       dialogConfirm : false,
@@ -220,7 +258,16 @@ export default {
     printMov() {
       this.dialogConfirm = false
       this.printDialog = true
+    },
+    setNrRapportino() {
+      console.log("TODO setNrRapportino()")
     }
   }
 }
 </script>
+
+<style>
+.theme--light.v-list {
+  background-color: white
+}
+</style>

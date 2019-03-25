@@ -8,11 +8,11 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <!-- TODO da fare
-        <v-btn icon v-if="this.$store.getters.getMovimentiSelezionati.length > 1">
+        <v-btn icon 
+          v-if="this.$store.getters.getMovimentiSelezionati.length > 1"
+          @click="linkMovs()">
           <v-icon>link</v-icon>
         </v-btn>
-        -->
         <!--<v-divider dark vertical></v-divider>-->
         <v-btn icon @click="dateMenu = true">
           <v-icon>event</v-icon>
@@ -375,6 +375,12 @@ export default {
       this.commessaPerMov = ""
       this.posizionePerMov = ""
       this.notaPerMov = ""
+    },
+    linkMovs() {
+      console.log("TODO linkMovs()")
+      // const selectedMovs = this.$store.getters.getMovimentiSelezionati
+      // TODO chiamata rest
+      // this.$store.dispatch("clearMovimentiSelezionati")
     }
   },
   watch: {

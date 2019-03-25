@@ -97,7 +97,7 @@ export default {
       var movimenti = this.$store.getters.getMovimentiSelezionati
       if (movimenti.indexOf(movimento.numeroMovimento) != -1)
         // selected
-        return "white"
+        return "yellow"
       if (movimento.definitivo)
         // definitive
         return "secondary"
