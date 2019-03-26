@@ -56,6 +56,8 @@ export default {
       })
     },
     deleteMateriale(materiale, index) {
+      if (this.$store.getters.isDefinitivo) 
+        return
       this.waitDialog = true
       axios.delete('/materiale', {
         data: materiale 
