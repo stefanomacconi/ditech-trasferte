@@ -1,5 +1,5 @@
 <template>
-<div @click="selected(movimento)">
+<div> <!-- @click="selected(movimento)" TODO Manca la funzione di unione dei movimenti per rapportino -->
   <v-timeline-item small :color="getMovColor(movimento)">
     <router-link :to="toMovimento(movimento)" tag="div">
       <v-layout pt-2>
