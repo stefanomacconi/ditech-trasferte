@@ -37,11 +37,11 @@
             <v-icon color="red lighten-3">delete_forever</v-icon>
           </v-btn>
         </v-toolbar-items>
-        <v-menu bottom left v-if="!this.definitivo">
+        <v-menu bottom left v-if="!this.definitivo && !this.isNewMov">
           <v-btn slot="activator" dark icon>
             <v-icon>more_vert</v-icon>
           </v-btn>
-          <v-list dense class="pt-0">
+          <v-list dense class="pt-0 bg-white">
             <v-list-tile v-for="menu in menus" :key="menu.title" @click="menu.click">
               <v-list-tile-action>
                 <v-icon>{{ menu.icon }}</v-icon>
@@ -55,7 +55,7 @@
         <v-tabs slot="extension" v-model="tab" fixed-tabs color="transparent">
           <v-tabs-slider></v-tabs-slider>
           <v-tab v-for="item in tabItems" :key="item.index" @click="selectTab(item.index)" class="primary--text">
-            <v-icon>{{item.icon}}</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-tab>
         </v-tabs>
     </v-toolbar>
@@ -116,16 +116,53 @@
       </v-layout>
     </div>
     -->
+    <!-- Link Nr. Rapportino Dialog -->
+    <v-layout row justify-center>
+      <v-dialog v-model="linkNrRapportinoDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="linkNrRapportinoDialog = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Aggiunta Nr. Rapportino</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-alert value="true" color="warning" icon="priority_high" outline v-if="this.nrRapportino">
+              Questa operazione sovrascriverà il precedente numero rapportino {{ this.nrRapportino }}
+            </v-alert>
+            <br>
+            Inserire il numero rapportino a cui associare il movimento {{ id }} e confermare
+            <v-form ref="formLinkNrRapportinoDialog">
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-flex xs12 md12 lg6>
+                    <v-text-field v-model="nuovoNrRapportino" label="Nr. Rapportino" 
+                      hint="Numero Rapportino" :rules="nrRapportinoRules">
+                    </v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" flat @click="linkNrRapportino">Conferma</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </div>
 </template>
 
 <script>
 import axios from "axios"
+const qs = require('querystring')
 import PrintRappDialogVue from '../Movimento/PrintRappDialog.vue'
 
 export default {
   created() {
     // TODO mettere non il primo tab ma l'ultimo scelto
+
     // set current tab to the first one
     this.$store.dispatch('setTab', 0)
     // set in store if is a new mov or not
@@ -155,16 +192,28 @@ export default {
           icon: "attach_file"
         },
         {
-          title: "Collega a Nr. Rapportino",
-          click: this.setNrRapportino,
-          icon: "keyboard_tab"
+          title: "Aggiungi a Nr. Rapportino",
+          click: this.showNrRapportinoDialog,
+          icon: "library_add"
         }
       ],
       tab : 0,
       isNewMov : false,
       dialogConfirm : false,
       attendereDialog : false,
-      printDialog : false
+      printDialog : false,
+      linkNrRapportinoDialog: false,
+      nuovoNrRapportino: null,
+      nrRapportinoRules: [
+        v => {
+          if (!v)
+            return "campo obbligatorio"
+          if (v && (v.length != 7 || isNaN(v)))
+            return "Il Nr. Rapportino deve essere lungo 7 numeri"
+          else 
+            return true 
+        }
+      ]
     }
   },
   props: {
@@ -200,6 +249,9 @@ export default {
           descr: "Lista Articoli"
         })
       return items
+    },
+    nrRapportino() {
+      return this.$store.getters.getNrRapportino
     } 
   },
   methods: {
@@ -259,15 +311,40 @@ export default {
       this.dialogConfirm = false
       this.printDialog = true
     },
-    setNrRapportino() {
-      console.log("TODO setNrRapportino()")
+    showNrRapportinoDialog() {
+      this.linkNrRapportinoDialog = true
+    },
+    linkNrRapportino() {
+      if (this.$refs.formLinkNrRapportinoDialog.validate()) {
+        this.linkNrRapportinoDialog = false
+        this.attendereDialog = true
+        axios.post('/movimento/agganciarapportino', qs.stringify({
+            parcheggio: true,
+            mov: this.id,
+            rapportino: this.nuovoNrRapportino
+          })
+        ).then(res => {
+          // eslint-disable-next-line
+          console.log(res)
+          this.$root.$emit('setNrRapportino', {
+            numeroMovimento: this.id,
+            numeroRapportino: this.nuovoNrRapportino
+          })
+          this.attendereDialog = false
+        }).catch(error => {
+          // eslint-disable-next-line
+          console.log(error)
+          this.attendereDialog = false
+          this.$store.dispatch('handleError', error.response.data)
+        })
+      }
     }
   }
 }
 </script>
 
 <style>
-.theme--light.v-list {
-  background-color: white
+.bg-white {
+  background-color: white !important
 }
 </style>

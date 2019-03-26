@@ -26,7 +26,7 @@ export default {
           else
             return true 
         }
-    ],
+      ]
     }
   },
   computed: {

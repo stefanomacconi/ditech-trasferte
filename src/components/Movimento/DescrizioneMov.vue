@@ -134,6 +134,11 @@
             <v-subheader class="subtitle">Dettaglio</v-subheader>
           </v-flex>  
           <v-flex xs12 md6 lg3>
+            <v-text-field :value="this.nrRapportino" v-if="this.nrRapportino" 
+              label="Nr. Rapportino" readonly>
+            </v-text-field>
+          </v-flex>
+          <v-flex xs12 md6 lg3>
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
           </v-flex>
@@ -262,36 +267,16 @@ const campoObbligatorio = "Campo obbligatorio"
 
 export default {
   mounted() {
+    // Register siblings events
     this.$root.$on('saveMovimento', data => {
       this.saveMovimento(data)
     })
+    this.$root.$on('setNrRapportino', data => {
+      this.setNrRapportino(data)
+    })
     if (this.$store.getters.isNewMov)
       return
-    this.attendereDialog = true
-    var pre = '/movimento/lavorazione/singolo/'
-    if (!this.definitivo)
-      pre = pre + 'parcheggio/'
-    const path = pre + this.$store.getters.getDipendente + "/"
-      + this.$route.params.id
-    axios.get(path)
-      .then(res => {
-          // eslint-disable-next-line
-          console.log(res)
-          // fix causale description
-          if (res.data && res.data.causale) {
-            const causali = this.$store.getters.getCausali
-            causali.forEach(causale => {
-              if (res.data.causale == causale.codice)
-                res.data.causale = res.data.causale + " - " + causale.descrizione
-            })
-          } 
-          this.$store.commit('setMovimento', res.data)
-          this.attendereDialog = false
-      }).catch(error => {
-          // eslint-disable-next-line
-          console.log(error)
-          this.$store.dispatch('handleError', error.response.data)
-      })
+    this.fetchMovimento()
   },
   props: {
     definitivo: {
@@ -328,7 +313,7 @@ export default {
     menuTimeA1: false,
     menuTimeA2: false,
     menuTimeA3: false,
-    menuTimeA4: false,
+    menuTimeA4: false
   }),
   computed: {
     computedDateFormatted() {
@@ -499,10 +484,40 @@ export default {
     },
     mostrareCdL() {
       return this.opzioni.cdL ? this.opzioni.cdL : false           
+    },
+    nrRapportino() {
+      return this.$store.getters.getNrRapportino
     }
   },
   mixins: [utilities],
   methods: {
+    fetchMovimento() {
+      this.attendereDialog = true
+      var pre = '/movimento/lavorazione/singolo/'
+      if (!this.definitivo)
+        pre = pre + 'parcheggio/'
+      const path = pre + this.$store.getters.getDipendente + "/"
+        + this.$route.params.id
+      axios.get(path)
+      .then(res => {
+          // eslint-disable-next-line
+          console.log(res)
+          // fix causale description
+          if (res.data && res.data.causale) {
+            const causali = this.$store.getters.getCausali
+            causali.forEach(causale => {
+              if (res.data.causale == causale.codice)
+                res.data.causale = res.data.causale + " - " + causale.descrizione
+            })
+          } 
+          this.$store.commit('setMovimento', res.data)
+          this.attendereDialog = false
+      }).catch(error => {
+          // eslint-disable-next-line
+          console.log(error)
+          this.$store.dispatch('handleError', error.response.data)
+      })
+    },
     formatDate(date) {
       if (!date) 
         return null
@@ -661,6 +676,16 @@ export default {
           this.$store.dispatch('handleError', error.response.data)
         })
       }
+    },
+    setNrRapportino(payload) {
+      this.$store.dispatch("setNrRapportino", {
+        dataMovimento: this.$store.getters.getData,
+        numeroMovimento: payload.numeroMovimento,
+        nrRapportino: payload.numeroRapportino
+      })
+      // TODO understand how to avoid this
+      // I'm forced to reload the data otherwise the nrRapportino input field does not update
+      this.fetchMovimento()
     }
   }
 }

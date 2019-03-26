@@ -59,6 +59,7 @@ const mutations = {
         state.movimento.notaSpese = []
         state.movimento.materiale = []
         state.movimento.definitivo = false
+        state.movimento.keyRdARapportino = null
     },
     setMovimento(state, movimento) {
         state.movimento.numero = movimento.numeroMovimento
@@ -92,6 +93,7 @@ const mutations = {
         state.movimento.tempo = movimento.tempo
         state.movimento.notaSpese = movimento.notaSpese
         state.movimento.materiale = movimento.materiale
+        state.movimento.keyRdARapportino = movimento.keyRdARapportino
     },
     setData(state, value) {
         state.movimento.data = value
@@ -151,6 +153,9 @@ const mutations = {
         console.log(index)
         console.log(state.movimento.materiale)
         state.movimento.materiale.splice(index, 1)
+    },
+    setNrRapportino(state, nrRapportino) {
+        state.keyRdARapportino = nrRapportino
     }
 }
 
@@ -227,6 +232,12 @@ const actions = {
     },
     removeMateriale({ commit }, index) {
         commit('removeMateriale', index)
+    },
+    setNrRapportino({ commit }, movInfo) {
+        commit("setNrRapportino", movInfo.nrRapportino)
+        commit('updateNrRapportino', movInfo, {
+            root: true 
+        })
     }
 }
 
@@ -303,6 +314,9 @@ const getters = {
     },
     getNumeroMovCorrente(state) {
         return state.movimento.numero
+    },
+    getNrRapportino(state) {
+        return state.movimento.keyRdARapportino
     }    
 }
 

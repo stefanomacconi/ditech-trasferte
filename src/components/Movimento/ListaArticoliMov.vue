@@ -74,10 +74,3 @@ export default {
   }  
 }
 </script>
-
-<style>
-.v-list__tile__action--stack {
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-</style>

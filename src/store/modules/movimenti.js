@@ -80,7 +80,7 @@ const mutations = {
                 descrizione: cdc.descrizione
             } 
             state.elencoCdc.push(data)
-         })
+        })
     },
     setDefinizioniNotaSpese(state, definizioni) {
         definizioni.forEach(definizione => {
@@ -125,6 +125,21 @@ const mutations = {
     },
     clearMovimentiSelezionati(state) {
         state.movimentiSelezionati = []
+    },
+    updateNrRapportino(state, payload) {
+        const dataMovimento = payload.dataMovimento
+        const numeroMovimento = payload.numeroMovimento
+        const numeroRapportino = payload.nrRapportino
+        var movimenti = state.date[dataMovimento].movimenti
+        if (movimenti) {
+            for (let index = 0; index < movimenti.length; index++) {
+                const movimento = movimenti[index]
+                if (movimento.numeroMovimento === numeroMovimento) {
+                    state.date[dataMovimento].movimenti[index].keyRdARapportino = numeroRapportino
+                    break
+                }
+            }
+        }
     }
 }
 
@@ -242,7 +257,7 @@ const actions = {
     },
     addNewDataBean({commit}, dataBean) {
         commit('addNewDataBean', dataBean)
-    },
+    }
 }
 
 const getters = {
