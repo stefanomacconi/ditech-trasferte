@@ -81,7 +81,7 @@ export default {
           numeriMovimento: this.movimenti, //Integer[]
           tipoStampa: this.tipoStampa, //Integer
           parcheggio: !this.definitivo, //Boolean
-          conOrari: true, //Boolean //TODO opzione??? ma dovrebbe saperlo da solo ilserver leggendo le variabili
+          conOrari: true, //Boolean //TODO opzione??? ma dovrebbe saperlo da solo il server leggendo le variabili
           conMateriale: this.conMateriale //Boolean
         }
       }).then(res => {

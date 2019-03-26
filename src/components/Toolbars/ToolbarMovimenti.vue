@@ -348,7 +348,7 @@ export default {
       })
       // TODO refresh view altrimenti si hanno problemi con i movimenti a metà della prima GET
       // questo non funziona
-      this.$forceUpdate()
+      // this.$forceUpdate()
     },
     parseDate(date) {
       if (!date) 
