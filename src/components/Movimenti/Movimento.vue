@@ -91,7 +91,13 @@ export default {
       }
     },
     toMovimento(movimento) {
-      return { name: 'movimento', params: { id: movimento.numeroMovimento, definitivo: movimento.definitivo }}
+      return {
+        name: 'movimento', 
+        params: {
+          id: movimento.numeroMovimento, 
+          definitivo: movimento.definitivo 
+        }
+      }
     },
     getMovColor(movimento) {
       var movimenti = this.$store.getters.getMovimentiSelezionati
@@ -107,7 +113,7 @@ export default {
         return movimento.colore
       // default
       return "primary"
-    },
+    }
   },
   mixins: [utilities]
 }
