@@ -16,6 +16,7 @@
             </v-menu>
           </v-flex>
           <v-flex xs6 md6 lg6>
+            <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
               label="Commessa" append-icon="search" @click:append="showDialogCommessa()" required 
               :readonly="this.$store.getters.isNewMov ? false : true">
@@ -560,12 +561,14 @@ export default {
     searchCommessa() {
       this.commessaFilterDialog = false
       this.attendereDialog = true
-      axios.get('/commessa/', {params: {
+      axios.get('/commessa/', {
+        params: {
           codice: this.codicePerCommessa,
           descrizione: this.descrizionePerCommessa,
           ragioneSociale: this.RagioneSocialePerCommessa,
           stato: this.statoPerCommessa
-      }}).then(res => {
+        }
+      }).then(res => {
         // eslint-disable-next-line
         console.log(res)
         this.attendereDialog = false
