@@ -22,7 +22,8 @@
             </v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" :rules="this.notaRules" required>
+            <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" 
+              :rules="this.notaRules" required>
             </v-textarea>
           </v-flex>
           <!-- *** ATTIVITA' *** -->
@@ -35,7 +36,8 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeA1" label="Inizio" prepend-icon="alarm_on" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeA1" v-model="timeA1" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeA1" v-model="timeA1" 
                 full-width @change="$refs.menuTimeA1.save(timeA1)">
               </v-time-picker>
             </v-menu>
@@ -46,7 +48,8 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeA2" label="Fine" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeA2" v-model="timeA2" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeA2" v-model="timeA2" 
                 full-width @change="$refs.menuTimeA2.save(timeA2)">
               </v-time-picker>
             </v-menu>
@@ -57,7 +60,8 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeA3" label="Inizio" prepend-icon="local_dining" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeA3" v-model="timeA3" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeA3" v-model="timeA3" 
                 full-width @change="$refs.menuTimeA3.save(timeA3)">
               </v-time-picker>
             </v-menu>
@@ -68,7 +72,8 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeA4" label="Fine" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeA4" v-model="timeA4" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeA4" v-model="timeA4" 
                 full-width @change="$refs.menuTimeA4.save(timeA4)">
               </v-time-picker>
             </v-menu>
@@ -88,7 +93,8 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeG1" label="Inizio" prepend-icon="wb_sunny" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeG1" v-model="timeG1" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeG1" v-model="timeG1" 
                 full-width @change="$refs.menuTimeG1.save(timeG1)">
               </v-time-picker>
             </v-menu>
@@ -99,7 +105,8 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeG2" label="Fine" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeG2" v-model="timeG2" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeG2" v-model="timeG2" 
                 full-width @change="$refs.menuTimeG2.save(timeG2)">
               </v-time-picker>
             </v-menu>
@@ -110,7 +117,8 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeG3" label="Inizio" prepend-icon="wb_cloudy" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeG3" v-model="timeG3" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeG3" v-model="timeG3" 
                 full-width @change="$refs.menuTimeG3.save(timeG3)">
               </v-time-picker>
             </v-menu>
@@ -121,13 +129,15 @@
               max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="timeG4" label="Fine" readonly>
               </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" v-if="menuTimeG4" v-model="timeG4" 
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeG4" v-model="timeG4" 
                 full-width @change="$refs.menuTimeG4.save(timeG4)">
               </v-time-picker>
             </v-menu>
           </v-flex>
           <v-flex xs12 sm2 lg2 v-if="this.gestioneOrariGiornata">
-            <v-text-field :value="totTimeG" label="Totale" hint="Tempo" single-line readonly prepend-icon="trip_origin"/>
+            <v-text-field :value="totTimeG" label="Totale" hint="Tempo" single-line readonly 
+              prepend-icon="trip_origin"/>
           </v-flex>
           <!-- *** DETTAGLIO *** -->
           <v-flex xs12>
@@ -161,7 +171,8 @@
     </v-form>
     <!-- COMMESSA FILTER DIALOG --> 
       <v-layout row justify-center>
-      <v-dialog v-model="commessaFilterDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <v-dialog v-model="commessaFilterDialog" fullscreen hide-overlay 
+        transition="dialog-bottom-transition">
         <v-card>
           <v-toolbar dark color="primary">
             <v-btn icon dark @click="commessaFilterDialog = false">
@@ -177,11 +188,13 @@
                   </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="descrizionePerCommessa" label="Descrizione" hint="Descrizione Commessa">
+                  <v-text-field v-model="descrizionePerCommessa" label="Descrizione" 
+                    hint="Descrizione Commessa">
                   </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="RagioneSocialePerCommessa" label="Ragione Sociale" hint="Ragione Sociale del Cliente">
+                  <v-text-field v-model="RagioneSocialePerCommessa" label="Ragione Sociale" 
+                    hint="Ragione Sociale del Cliente">
                   </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6>
@@ -201,49 +214,56 @@
     </v-layout>
     <!-- LISTA RICERCA COMMESSE DIALOG -->
     <v-layout row justify-center>
-    <v-dialog v-model="listaCommesseDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn icon dark @click="listaCommesseDialog = false">
-            <v-icon>close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Scelta Commessa</v-toolbar-title>
-          <v-toolbar-title v-if="listaCommesseCercate.length > 29" slot="extension" class="red--text text--lighten-3">
-            <small>* Risultato incompleto</small>
-          </v-toolbar-title>
-          <v-toolbar-title v-if="listaCommesseCercate.length == 0" slot="extension" class="red--text text--lighten-3">
-            <small>* Nessuna commessa trovata</small>
-          </v-toolbar-title>
-        </v-toolbar>
-        <v-divider></v-divider>
-        <v-card-text style="height: 600px;">
-          <v-list two-line>
-            <template v-for="(commessa, index) in listaCommesseCercate">
-              <v-list-tile :key="commessa.codice" avatar ripple @click="chooseCommessa(commessa.codice)">
-                <v-list-tile-content>
-                  <v-list-tile-title>
-                    <b>{{ commessa.codice }}</b>
-                  </v-list-tile-title>
-                  <v-list-tile-sub-title class="text--primary">{{ commessa.ragioneSociale }}</v-list-tile-sub-title>
-                  <v-list-tile-sub-title>{{ commessa.descrizione }}</v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-list-tile-action>
-                  <v-list-tile-action-text>
-                    &nbsp;&nbsp;
-                    {{ moment(commessa.data).locale('it').format('DD/MM/YYYY').toUpperCase() }}
-                  </v-list-tile-action-text>
-                  <v-icon>
-                    keyboard_return
-                  </v-icon>
-                </v-list-tile-action>
-              </v-list-tile>
-              <v-divider v-if="index + 1 < listaCommesseCercate.length" :key="index"></v-divider>
-            </template>
-          </v-list>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </v-layout>
+      <v-dialog v-model="listaCommesseDialog" fullscreen hide-overlay 
+        transition="dialog-bottom-transition">
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="listaCommesseDialog = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Scelta Commessa</v-toolbar-title>
+            <v-toolbar-title v-if="listaCommesseCercate.length > 29" slot="extension" 
+                class="red--text text--lighten-3">
+              <small>* Risultato incompleto</small>
+            </v-toolbar-title>
+            <v-toolbar-title v-if="listaCommesseCercate.length == 0" slot="extension" 
+              class="red--text text--lighten-3">
+              <small>* Nessuna commessa trovata</small>
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-card-text style="height: 600px;">
+            <v-list two-line>
+              <template v-for="(commessa, index) in listaCommesseCercate">
+                <v-list-tile :key="commessa.codice" avatar ripple @click="chooseCommessa(commessa.codice)">
+                  <v-list-tile-content>
+                    <v-list-tile-title>
+                      <b>{{ commessa.codice }}</b>
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title class="text--primary">
+                      {{ commessa.ragioneSociale }}
+                    </v-list-tile-sub-title>
+                    <v-list-tile-sub-title>
+                      {{ commessa.descrizione }}
+                    </v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <v-list-tile-action-text>
+                      &nbsp;&nbsp;
+                      {{ moment(commessa.data).locale('it').format('DD/MM/YYYY').toUpperCase() }}
+                    </v-list-tile-action-text>
+                    <v-icon>
+                      keyboard_return
+                    </v-icon>
+                  </v-list-tile-action>
+                </v-list-tile>
+                <v-divider v-if="index + 1 < listaCommesseCercate.length" :key="index"></v-divider>
+              </template>
+            </v-list>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </v-layout>
     <!-- ATTENDERE DIALOG -->
     <div class="text-xs-center">
       <v-dialog v-model="attendereDialog" persistent width="300" >
@@ -684,7 +704,7 @@ export default {
         nrRapportino: payload.numeroRapportino
       })
       // TODO understand how to avoid this
-      // I'm forced to reload the data otherwise the nrRapportino input field does not update
+      // I was forced to reload the data otherwise the nrRapportino input field does not update
       this.fetchMovimento()
     }
   }
