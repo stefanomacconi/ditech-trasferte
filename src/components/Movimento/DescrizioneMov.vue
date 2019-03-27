@@ -416,9 +416,14 @@ export default {
     },
     commessa: {
       get() {
-        return this.$store.getters.getCommessa
+        var commessa = this.$store.getters.getCommessa
+        if (commessa)
+          commessa = commessa.toUpperCase()
+        return commessa
       },
       set(value) {
+        if (value)
+          value = value.toUpperCase()
         this.$store.commit('setCommessa', value)
       }
     },
