@@ -19,7 +19,7 @@
             <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
               label="Commessa" append-icon="search" @click:append="showDialogCommessa()" required 
-              :readonly="this.$store.getters.isNewMov ? false : true">
+              @click="showDialogCommessa()" readonly> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
           </v-flex>
           <v-flex xs12>
