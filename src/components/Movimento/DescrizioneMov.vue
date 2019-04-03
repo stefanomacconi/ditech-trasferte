@@ -665,7 +665,9 @@ export default {
           posizione: this.$store.getters.getPosizione,
           tempo: this.$store.getters.getTempo,
           orari,
-          notaSpese: this.$store.getters.getNotaSpese
+          notaSpese: this.$store.getters.getNotaSpese,
+          notaLista: this.$store.getters.getNotaLista,
+          keyRdARapportino: this.$store.getters.getNrRapportino
         }).then(res => {
           // eslint-disable-next-line
           console.log(res)

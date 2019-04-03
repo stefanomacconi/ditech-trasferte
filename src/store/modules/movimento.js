@@ -19,6 +19,7 @@ const state = {
         nota: "",
         notaSpese: [],
         materiale: [],
+        notaLista: null,
         causale: null,
         cdl: null,
         cdc: null,
@@ -58,6 +59,7 @@ const mutations = {
         state.movimento.tempo = null 
         state.movimento.notaSpese = []
         state.movimento.materiale = []
+        state.movimento.notaLista = null
         state.movimento.definitivo = false
         state.movimento.keyRdARapportino = null
     },
@@ -93,6 +95,7 @@ const mutations = {
         state.movimento.tempo = movimento.tempo
         state.movimento.notaSpese = movimento.notaSpese
         state.movimento.materiale = movimento.materiale
+        state.movimento.notaLista = movimento.notaLista
         state.movimento.keyRdARapportino = movimento.keyRdARapportino
     },
     setData(state, value) {
@@ -156,6 +159,9 @@ const mutations = {
     },
     setNrRapportino(state, nrRapportino) {
         state.keyRdARapportino = nrRapportino
+    },
+    setNotaLista(state, nota) {
+        state.movimento.notaLista = nota
     }
 }
 
@@ -238,6 +244,9 @@ const actions = {
         commit('updateNrRapportino', movInfo, {
             root: true 
         })
+    },
+    setNotaLista({ commit }, nota) {
+        commit("setNotaLista", nota)
     }
 }
 
@@ -311,6 +320,9 @@ const getters = {
     },
     getMateriale(state) {
         return state.movimento.materiale
+    },
+    getNotaLista(state) {
+        return state.movimento.notaLista
     },
     getNumeroMovCorrente(state) {
         return state.movimento.numero

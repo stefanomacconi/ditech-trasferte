@@ -1,6 +1,10 @@
 <template>
-  <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
+  <v-layout row wrap>
+    <!-- Show this only if there's a material list, so i'm sure that RdA key exists  -->
+    <v-flex xs12 sm12 v-if="materiali.length > 0"> 
+      <v-textarea rows="2" v-model="notaLista" label="Titolo Lista"/>
+    </v-flex>
+    <v-flex xs12 sm10 md8 lg6>
       <v-list two-line v-if="materiali.length > 0">
         <template v-for="(materiale, index) in materiali">
           <v-list-tile :key="materiale.articolo + index">
@@ -44,6 +48,14 @@ export default {
   computed: {
     materiali() {
       return this.$store.getters.getMateriale
+    },
+    notaLista: {
+      get() {
+        return this.$store.getters.getNotaLista
+      },
+      set(value) {
+        this.$store.commit('setNotaLista', value)
+      }
     }
   },
   methods: {
