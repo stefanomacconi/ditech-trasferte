@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <!-- Show this only if there's a material list, so i'm sure that RdA key exists  -->
     <v-flex xs12 sm12 v-if="materiali.length > 0"> 
-      <v-textarea rows="2" v-model="notaLista" label="Titolo Lista"/>
+      <v-textarea rows="2" v-model="notaLista" label="Titolo Lista" :readonly="this.$store.getters.isDefinitivo"/>
     </v-flex>
     <v-flex xs12 sm10 md8 lg6>
       <v-list two-line v-if="materiali.length > 0">
