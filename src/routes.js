@@ -12,106 +12,124 @@ import ToolbarPopUp from './components/Toolbars/ToolbarPopUp'
 
 import store from './store/store'
 
-export const routes = [
-    { name: "login", path: '/login', 
-        components: {
-            default: Login,
-            toolbar: ToolbarLogin
-        } 
+export const routes = [{
+    name: "login",
+    path: '/login',
+    components: {
+      default: Login,
+      toolbar: ToolbarLogin
+    }
+  },
+  {
+    path: '/',
+    components: {
+      default: Login,
+      toolbar: ToolbarLogin
+    }
+  },
+  /*{ path: '/', beforeEnter(to, from, next) {
+          if (store.getters.getToken) {
+              next('/movimenti')
+          } else {
+              next('/login')
+          }
+      }
+  },*/
+  {
+    name: "movimenti",
+    path: '/movimenti',
+    components: {
+      default: Movimenti,
+      toolbar: ToolbarMovimenti
     },
-    { path: '/', 
-        components: {
-            default: Login,
-            toolbar: ToolbarLogin
-        }  
+    beforeEnter(to, from, next) {
+      if (store.getters.getToken) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+  },
+  {
+    name: "movimento",
+    path: '/movimento/:id?',
+    components: {
+      default: DettaglioMov,
+      toolbar: ToolbarMovimento
     },
-    /*{ path: '/', beforeEnter(to, from, next) {
-            if (store.getters.getToken) {
-                next('/movimenti')
-            } else {
-                next('/login')
-            }
-        }
-    },*/
-    { name: "movimenti", path: '/movimenti',  
-        components: {
-            default: Movimenti,
-            toolbar: ToolbarMovimenti
-        }, 
-        beforeEnter(to, from, next) {
-            if (store.getters.getToken) {
-                next()
-            } else {
-                next('/login')
-            }
-        }
+    props: {
+      default: true,
+      toolbar: true
     },
-    { name: "movimento", path: '/movimento/:id?',  
-        components: {
-            default: DettaglioMov,
-            toolbar: ToolbarMovimento
-        }, 
-        props: {
-            default: true, toolbar: true 
-        }, 
-        beforeEnter(to, from, next) {
-            if (store.getters.getToken) {
-                next()
-            } else {
-                next('/login')
-            }
-        }
+    beforeEnter(to, from, next) {
+      if (store.getters.getToken) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+  },
+  {
+    name: "cercaMateriale",
+    path: '/cercaMateriale',
+    components: {
+      default: CercaMateriale,
+      toolbar: ToolbarPopUp
     },
-    { name: "cercaMateriale", path: '/cercaMateriale',  
-        components: {
-            default: CercaMateriale,
-            toolbar: ToolbarPopUp
-        }, 
-        props: {
-            default: false,
-            toolbar: true
-        }, 
-        beforeEnter(to, from, next) {
-            if (store.getters.getToken) {
-                next()
-            } else {
-                next('/login')
-            }
-        }
+    props: {
+      default: false,
+      toolbar: true
     },
-    { name: "insertQtaMateriale", path: '/insertQtaMateriale',  
-        components: {
-            default: InsertQtaMateriale,
-            toolbar: ToolbarPopUp
-        }, 
-        props: {
-            default: true,
-            toolbar: true
-        }, 
-        beforeEnter(to, from, next) {
-            if (store.getters.getToken) {
-                next()
-            } else {
-                next('/login')
-            }
-        }
+    beforeEnter(to, from, next) {
+      if (store.getters.getToken) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+  },
+  {
+    name: "insertQtaMateriale",
+    path: '/insertQtaMateriale',
+    components: {
+      default: InsertQtaMateriale,
+      toolbar: ToolbarPopUp
     },
-    { name: "allegati", path: '/allegati',  
-        components: {
-            default: AllegatiMov,
-            toolbar: ToolbarPopUp
-        }, 
-        props: {
-            default: true,
-            toolbar: true
-        }, 
-        beforeEnter(to, from, next) {
-            if (store.getters.getToken) {
-                next()
-            } else {
-                next('/login')
-            }
-        }
-    },         
-    { path: "/error", name:"error",  component: Error,  props: true}
+    props: {
+      default: true,
+      toolbar: true
+    },
+    beforeEnter(to, from, next) {
+      if (store.getters.getToken) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+  },
+  {
+    name: "allegati",
+    path: '/allegati',
+    components: {
+      default: AllegatiMov,
+      toolbar: ToolbarPopUp
+    },
+    props: {
+      default: true,
+      toolbar: true
+    },
+    beforeEnter(to, from, next) {
+      if (store.getters.getToken) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+  },
+  {
+    path: "/error",
+    name: "error",
+    component: Error,
+    props: true
+  }
 ]

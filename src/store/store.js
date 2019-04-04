@@ -8,9 +8,9 @@ import movimento from './modules/movimento'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    modules: {
-        utente,
-        movimenti,
-        movimento
-    },
+  modules: {
+    utente,
+    movimenti,
+    movimento
+  }
 })
