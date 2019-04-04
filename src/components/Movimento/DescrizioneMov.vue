@@ -149,6 +149,11 @@
               label="Nr. Rapportino" readonly>
             </v-text-field>
           </v-flex>
+          <v-flex xs12 md6 lg3 v-if="this.mostrareBuono">
+            <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
+              @blur="checkBuono"
+              :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
+          </v-flex>
           <v-flex xs12 md6 lg3>
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
@@ -157,7 +162,7 @@
             <v-select :items="causali" v-model="causale" label="Causale" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
-          <v-flex xs12 sm6  md6 lg3 v-if="this.mostrareCdL">
+          <v-flex xs12 sm6 md6 lg3 v-if="this.mostrareCdL">
             <v-select :items="elencoCdl" v-model="cdl" label="CdL" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
@@ -318,6 +323,9 @@ export default {
     posizioneRules: [
       v => !isNaN(v) || 'posizione deve contenere numeri'
     ],
+    buonoRules: [
+      v => !isNaN(v) || 'buono non valido'
+    ],
     commessaFilterDialog: false,
     codicePerCommessa: "",
     descrizionePerCommessa: "",
@@ -467,6 +475,14 @@ export default {
         this.$store.commit('setCdc', value)
       }
     },
+    buono: {
+      get() {
+        return this.$store.getters.getBuono
+      },
+      set(value) {
+        this.$store.commit('setBuono', value)
+      }
+    },
     causali() {
       const causali = this.$store.getters.getCausali
       var elencoCausali = [""]
@@ -510,6 +526,11 @@ export default {
     },
     mostrareCdL() {
       return this.opzioni.cdL ? this.opzioni.cdL : false           
+    },
+    mostrareBuono() {
+      if (this.$store.getters.getSiglaDitta === 'MF')
+        return true
+      return this.opzioni.callbackPosizione ? this.opzioni.callbackPosizione : false           
     },
     nrRapportino() {
       return this.$store.getters.getNrRapportino
@@ -663,6 +684,7 @@ export default {
           cdc,
           data,
           posizione: this.$store.getters.getPosizione,
+          buono: this.$store.getters.getBuono,
           tempo: this.$store.getters.getTempo,
           orari,
           notaSpese: this.$store.getters.getNotaSpese,
@@ -716,6 +738,23 @@ export default {
       // TODO understand how to avoid this
       // I was forced to reload the data otherwise the nrRapportino input field does not update
       this.fetchMovimento()
+    },
+    checkBuono() {
+      if (!this.$store.getters.isNewMov || !this.buono)
+        return
+      this.attendereDialog = true
+      axios.get('/distinta/tecnica/nodo/buono/' + this.buono).then(res => {
+        // eslint-disable-next-line
+        console.log(res)
+        this.attendereDialog = false
+        this.$store.commit('setCommessa', res.data.codiceCommessa)
+        this.$store.commit('setPosizione', res.data.posizione)
+      }).catch(error => {
+        // eslint-disable-next-line
+        console.log(error)
+        this.attendereDialog = false
+        this.buono = this.buono + " !"
+      })
     }
   }
 }

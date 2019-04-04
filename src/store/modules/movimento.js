@@ -23,6 +23,7 @@ const state = {
         causale: null,
         cdl: null,
         cdc: null,
+        buono: null,
         posizione: null,
         keyRdARapportino: null,
         definitivo: false
@@ -54,6 +55,7 @@ const mutations = {
         state.movimento.posizione = null 
         state.movimento.cdl = null 
         state.movimento.cdc = null 
+        state.movimento.buono = null 
         state.movimento.data = new Date().toISOString().substr(0, 10) 
         state.movimento.commessa = "" 
         state.movimento.tempo = null 
@@ -84,6 +86,7 @@ const mutations = {
         state.movimento.nota = movimento.nota
         state.movimento.causale = movimento.causale
         state.movimento.posizione = movimento.posizione
+        state.movimento.buono = movimento.buono
         if (movimento.cdl && movimento.cdl != 0) 
             state.movimento.cdl = movimento.cdl  + " - " + movimento.descrizioneCdl
         if (movimento.cdc && movimento.cdc != 0)
@@ -142,6 +145,9 @@ const mutations = {
     },
     setCdl(state, value) {
         state.movimento.cdl = value
+    },
+    setBuono(state, value) {
+        state.movimento.buono = value
     },
     setCdc(state, value) {
         state.movimento.cdc = value
@@ -222,6 +228,9 @@ const actions = {
     },
     setCdc({ commit }, value) {
         commit('setCdc', value)
+    },
+    setBuono({ commit }, value) {
+        commit('setBuono', value)
     },
     updateNotaSpese({ commit }, nota) {
         var notaSpese = state.movimento.notaSpese
@@ -307,6 +316,9 @@ const getters = {
     },
     getCdc(state) {
         return state.movimento.cdc
+    },
+    getBuono(state) {
+        return state.movimento.buono
     },
     getNotaSpese(state) {
         return state.movimento.notaSpese

@@ -168,7 +168,7 @@ export default {
 <style>
 .fab-container {
   position: fixed;
-  bottom: 50px;
+  bottom: 30px;
   right: 10px;
 }
 .rounded {
