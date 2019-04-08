@@ -1,5 +1,6 @@
 import Login from './components/Login'
 import Error from './components/Error'
+import About from './components/About'
 import Movimenti from './components/Movimenti/Movimenti'
 import DettaglioMov from './components/Movimento/DettaglioMov'
 import CercaMateriale from './components/Materiale/CercaMateriale'
@@ -9,6 +10,7 @@ import ToolbarLogin from './components/Toolbars/ToolbarLogin'
 import ToolbarMovimenti from './components/Toolbars/ToolbarMovimenti'
 import ToolbarMovimento from './components/Toolbars/ToolbarMovimento'
 import ToolbarPopUp from './components/Toolbars/ToolbarPopUp'
+import ToolbarAbout from './components/Toolbars/ToolbarAbout'
 
 import store from './store/store'
 
@@ -131,5 +133,14 @@ export const routes = [{
     name: "error",
     component: Error,
     props: true
+  },
+  {
+    path: "/about",
+    name: "about",
+    components: {
+      default: About,
+      toolbar: ToolbarAbout
+    },
+    props: false
   }
 ]
