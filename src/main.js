@@ -8,9 +8,9 @@ import router from './router'
 import axios from 'axios' /* REST */
 import moment from 'moment' /* Date/Calendar */
 
-// axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' 
+axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' 
 // axios.defaults.baseURL = 'http://10.250.14.10:8080/spweb/rest'
-axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
+// axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
 
 Vue.prototype.moment = moment
 

@@ -50,7 +50,7 @@
       <v-list>
         <v-list-tile>
           <v-list-tile-title class="title">
-            {{ utente + " - Ditta: " + siglaDitta }}
+            {{ utente + " - " + siglaDitta + " - " +  dipendente }}
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -274,6 +274,9 @@ export default {
     siglaDitta() {
       return this.$store.getters.getSiglaDitta
     },
+    dipendente() {
+      return this.$store.getters.getDipendente
+    },
     date: {
       get() {
         return new Date(this.$store.getters.getPickedData - this.tzoffset).toISOString().substr(0, 10)
@@ -321,7 +324,7 @@ export default {
       var posizione = null
       if (this.posizionePerMov)
         posizione = this.posizionePerMov
-      axios.get('/movimento/lavorazione/ricerca/' + this.$store.getters.getDipendente, {
+      axios.get('/movimento/lavorazione/ricerca/' + this.dipendente, {
         params: {
           commessa: this.commessaPerMov,
           posizione,
