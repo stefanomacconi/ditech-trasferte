@@ -28,10 +28,10 @@
             </v-textarea>
           </v-flex>
           <!-- *** ATTIVITA' *** -->
-          <v-flex xs12>
+          <v-flex xs12 v-if="this.gestioneOrariMovimento">
             <v-subheader class="subtitle">Attività</v-subheader>
           </v-flex>  
-          <v-flex xs6 sm3 lg3>
+          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA1" :close-on-content-click="false" v-model="menuTimeA1" :nudge-right="40"
               :return-value.sync="timeA1" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -43,7 +43,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs6 sm2 lg2>
+          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA2" :close-on-content-click="false" v-model="menuTimeA2" :nudge-right="40"
               :return-value.sync="timeA2" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -55,7 +55,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs6 sm3 lg3>
+          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA3" :close-on-content-click="false" v-model="menuTimeA3" :nudge-right="40"
               :return-value.sync="timeA3" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -67,7 +67,7 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs6 sm2 lg2>
+          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA4" :close-on-content-click="false" v-model="menuTimeA4" :nudge-right="40"
               :return-value.sync="timeA4" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -79,10 +79,23 @@
               </v-time-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs12 sm2 lg2>
+          <v-flex xs12 sm2 lg2 v-if="this.gestioneOrariMovimento">
+            <!-- -->
+            <v-menu ref="menuTimeTot" :close-on-content-click="false" v-model="menuTimeTot" :nudge-right="40"
+              :return-value.sync="tempo" lazy transition="scale-transition" offset-y full-width
+              max-width="290px" min-width="290px">
+              <v-text-field slot="activator" v-model="tempo" label="Totale" readonly>
+              </v-text-field>
+              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                v-if="menuTimeTot" v-model="tempo" 
+                full-width @change="$refs.menuTimeTot.save(tempo)">
+              </v-time-picker>
+            </v-menu>
+            <!--
             <v-text-field :value="totTimeA" :rules="tempoRules" label="Totale" hint="Tempo" 
               persistent-hint single-line readonly required prepend-icon="work_outline">
             </v-text-field>
+            -->
           </v-flex>
           <!-- *** GIORNATA *** -->
           <v-flex xs12 v-if="this.gestioneOrariGiornata">
@@ -288,6 +301,7 @@
 import moment from 'moment'
 import axios from 'axios'
 import utilities from "../../utilitiesMixin.js"
+//import DurataInOre from "../../utils/DurataInOre.js"
 
 const campoObbligatorio = "Campo obbligatorio"
 
@@ -342,7 +356,8 @@ export default {
     menuTimeA1: false,
     menuTimeA2: false,
     menuTimeA3: false,
-    menuTimeA4: false
+    menuTimeA4: false,
+    menuTimeTot: false
   }),
   computed: {
     computedDateFormatted() {
@@ -363,6 +378,11 @@ export default {
         return this.$store.getters.getTimeA1
       },
       set(value) {
+        //console.log(this.calcTotTime(false))
+        const tot = this.calcTotTime(false)
+        if (tot) {
+          this.tempo = tot;
+        }
         this.$store.commit('setTimeA1', value)
       }
     },
@@ -371,6 +391,10 @@ export default {
         return this.$store.getters.getTimeA2
       },
       set(value) {
+        const tot = this.calcTotTime(false)
+        if (tot) {
+          this.tempo = tot;
+        }
         this.$store.commit('setTimeA2', value)
       }
     },
@@ -379,6 +403,10 @@ export default {
         return this.$store.getters.getTimeA3
       },
       set(value) {
+        const tot = this.calcTotTime(false)
+        if (tot) {
+          this.tempo = tot;
+        }        
         this.$store.commit('setTimeA3', value)
       }
     },
@@ -387,9 +415,24 @@ export default {
         return this.$store.getters.getTimeA4
       },
       set(value) {
+        const tot = this.calcTotTime(false)
+        if (tot) {
+          this.tempo = tot;
+        }        
         this.$store.commit('setTimeA4', value)
       }
     },
+    tempo: {
+      get() {
+        var oremin = this.$store.getters.getTempo;
+        var t = moment(oremin, "HH.mm")
+        return t.format("HH:mm")
+      },
+      set(value) {
+        var t = moment(value, "HH:mm").format("HH.mm");
+        this.$store.commit('setTempo', t);
+      }
+    },    
     timeG1: {
       get() {
         return this.$store.getters.getTimeG1
@@ -521,6 +564,9 @@ export default {
     gestioneOrariGiornata() {
       return this.opzioni.gestioneOrariGiornata ? this.opzioni.gestioneOrariGiornata : false           
     },
+    gestioneOrariMovimento() {
+      return this.opzioni.gestioneOrariMovimento ? this.opzioni.gestioneOrariMovimento : false           
+    },
     mostrareCausali() {
       return this.opzioni.causali ? this.opzioni.causali : false           
     },
@@ -557,6 +603,8 @@ export default {
                 res.data.causale = res.data.causale + " - " + causale.descrizione
             })
           } 
+          //__ tempo h.cent -> h.min
+          //state.movimento.tempo = movimento.tempo
           this.$store.commit('setMovimento', res.data)
           this.attendereDialog = false
       }).catch(error => {
@@ -635,8 +683,11 @@ export default {
       var pomeriggio = t4.diff(t3)
       var totale = moment(mattino).add(pomeriggio)
       totale = totale - 3600000 // Non so perché moment calcola un'ora in più. Comunque la tolgo.
+      console.log("calcTotTime => ", totale);
       if (!isNaN(totale))
-        return moment(totale).format("HH.mm")
+        var x = moment(totale).format("HH:mm");
+        console.log("calcTotTime - formatted => ", x);
+        return x;
     },
     clearFilterSearchCommessa() {
       this.codicePerCommessa = ""

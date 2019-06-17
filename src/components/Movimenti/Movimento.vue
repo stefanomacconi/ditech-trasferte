@@ -13,7 +13,10 @@
             <br>
           </div>
           <div :class="{'caption caption-normal': $vuetify.breakpoint.xs}">
-            {{ moment.utc(moment.duration(movimento.tempo,"h").asMilliseconds()).format("HH[h] mm[min]") }}
+            <!-- tecnica interessante, tenere 
+            {{ moment.utc(moment.duration(movimento.tempo,"h").asMilliseconds()).format("HH[h] mm[min]") }} 
+            -->
+            {{ moment(movimento.tempo, "HH.mm").format("HH:mm") }} 
           </div>
         </v-flex>
         <v-flex xs9 md10 :class="{'v-timeline-right-part': $vuetify.breakpoint.xs}"> <!--offset-xs1 -->

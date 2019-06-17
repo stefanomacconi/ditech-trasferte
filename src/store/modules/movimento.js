@@ -23,7 +23,7 @@ const state = {
     causale: null,
     cdl: null,
     cdc: null,
-    buono: null,
+    buono: 0,
     posizione: null,
     keyRdARapportino: null,
     definitivo: false
@@ -55,7 +55,7 @@ const mutations = {
     state.movimento.posizione = null
     state.movimento.cdl = null
     state.movimento.cdc = null
-    state.movimento.buono = null
+    state.movimento.buono = 0
     state.movimento.data = new Date().toISOString().substr(0, 10)
     state.movimento.commessa = ""
     state.movimento.tempo = null
@@ -67,6 +67,7 @@ const mutations = {
   },
   setMovimento(state, movimento) {
     state.movimento.numero = movimento.numeroMovimento
+    //if (movimento.orari) {
     if (movimento.orari.oraInizioMattino && movimento.orari
       .oraInizioMattino != 0)
       state.movimento.tempi.timeG1 = getTimeFromInteger(movimento.orari
@@ -98,6 +99,7 @@ const mutations = {
       .oraFineAttPomeriggio != 0)
       state.movimento.tempi.timeA4 = getTimeFromInteger(movimento.orari
         .oraFineAttPomeriggio)
+    //}    
     state.movimento.nota = movimento.nota
     state.movimento.causale = movimento.causale
     state.movimento.posizione = movimento.posizione
@@ -125,6 +127,7 @@ const mutations = {
     state.movimento.commessa = value
   },
   setTempo(state, value) {
+    console.log("movimento->setTempo: ", value);
     state.movimento.tempo = value
   },
   setTimeG1(state, value) {
@@ -377,6 +380,7 @@ const getters = {
     return state.movimento.data
   },
   getTempo(state) {
+    console.log("movimento->getTempo: ", state.movimento.tempo);
     return state.movimento.tempo
   },
   getPosizione(state) {
