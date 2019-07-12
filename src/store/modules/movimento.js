@@ -127,7 +127,7 @@ const mutations = {
     state.movimento.commessa = value
   },
   setTempo(state, value) {
-    console.log("movimento->setTempo: ", value);
+    // console.log("movimento->setTempo: ", value);
     state.movimento.tempo = value
   },
   setTimeG1(state, value) {
@@ -179,8 +179,8 @@ const mutations = {
     state.movimento.notaSpese.splice(value, 1)
   },
   removeMateriale(state, index) {
-    console.log(index)
-    console.log(state.movimento.materiale)
+    // console.log(index)
+    // console.log(state.movimento.materiale)
     state.movimento.materiale.splice(index, 1)
   },
   setNrRapportino(state, nrRapportino) {
@@ -380,8 +380,8 @@ const getters = {
     return state.movimento.data
   },
   getTempo(state) {
-    console.log("movimento->getTempo: ", state.movimento.tempo);
-    return state.movimento.tempo
+    // console.log("movimento->getTempo: ", state.movimento.tempo);
+    return state.movimento.tempo ? state.movimento.tempo.toFixed(2) : null
   },
   getPosizione(state) {
     return state.movimento.posizione

@@ -370,7 +370,7 @@ export default {
       // if (!this.$store.getters.getTimeA1 && this.$store.getters.getTempo)
       //  return this.$store.getters.getTempo
       const value = this.calcTotTime(false)
-      this.$store.commit('setTempo', value)
+      this.$store.commit('setTempo', Number(value))
       return value 
     },
     timeA1: {
@@ -424,13 +424,17 @@ export default {
     },
     tempo: {
       get() {
-        var oremin = this.$store.getters.getTempo;
-        var t = moment(oremin, "HH.mm")
-        return t.format("HH:mm")
+        var oremin = this.$store.getters.getTempo
+        if (oremin) {
+          var t = moment(oremin, "HH.mm")
+          return t.format("HH:mm")
+        } else {
+          return ""
+        }
       },
       set(value) {
         var t = moment(value, "HH:mm").format("HH.mm");
-        this.$store.commit('setTempo', t);
+        this.$store.commit('setTempo', Number(t));
       }
     },    
     timeG1: {
@@ -683,10 +687,10 @@ export default {
       var pomeriggio = t4.diff(t3)
       var totale = moment(mattino).add(pomeriggio)
       totale = totale - 3600000 // Non so perché moment calcola un'ora in più. Comunque la tolgo.
-      console.log("calcTotTime => ", totale);
+      // console.log("calcTotTime => ", totale);
       if (!isNaN(totale))
         var x = moment(totale).format("HH:mm");
-        console.log("calcTotTime - formatted => ", x);
+        // console.log("calcTotTime - formatted => ", x);
         return x;
     },
     clearFilterSearchCommessa() {
