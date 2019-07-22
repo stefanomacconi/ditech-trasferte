@@ -153,9 +153,9 @@ const actions = {
   }, offset) {
     return new Promise((resolve, reject) => {
       var path = '/movimento/lavorazione/' +
-        rootState.utente.dipendente + "/" +
-        50 +
-        "/" //fixed limit //se viene toccato questo occorre toccare anche l'offset nell'increment
+      rootState.utente.dipendente + "/" +
+      50 +
+      "/" //fixed limit //se viene toccato questo occorre toccare anche l'offset nell'increment
       if (offset) {
         path = path + offset
       }

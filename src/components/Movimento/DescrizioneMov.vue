@@ -251,7 +251,7 @@
             </v-toolbar-title>
           </v-toolbar>
           <v-divider></v-divider>
-          <v-card-text style="height: 600px;">
+          <v-card-text>
             <v-list two-line>
               <template v-for="(commessa, index) in listaCommesseCercate">
                 <v-list-tile :key="commessa.codice" avatar ripple @click="chooseCommessa(commessa.codice)">

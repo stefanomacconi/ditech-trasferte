@@ -11,7 +11,7 @@
             <v-toolbar-title>Stampa rapportino</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-checkbox :label="'Con Materiale'" v-model="conMateriale"></v-checkbox>
+            <v-checkbox :label="'Con Materiale'" v-model="conMateriale" v-if="this.gestioneMateriali"></v-checkbox>
             <!--
             <v-btn-toggle v-model="tipoStampa">
               <v-btn value="1">(1) Senza nota spese</v-btn>
@@ -19,7 +19,7 @@
               <v-btn value="3">(3) Con nota spese ad uso interno</v-btn>
             </v-btn-toggle>
             -->
-            <v-radio-group v-model="tipoStampa">
+            <v-radio-group v-model="tipoStampa" v-if="this.gestioneNoteSpese">
               <v-radio :key="1" :label="'Senza nota spese'" :value="1"></v-radio>
               <v-radio :key="2" :label="'Con nota spese'" :value="2"></v-radio>
               <v-radio :key="3" :label="'Con nota spese ad uso interno'" :value="3"></v-radio>
@@ -68,6 +68,16 @@ export default {
   },
   components: {
     'wait-dialog': WaitDialogVue
+  },
+  computed: {
+    gestioneNoteSpese() {
+      const opzioni = this.$store.getters.getOpzioni
+      return opzioni.gestioneNoteSpese ? opzioni.gestioneNoteSpese : false           
+    },
+    gestioneMateriali() {
+      const opzioni = this.$store.getters.getOpzioni
+      return opzioni.gestioneMateriali ? opzioni.gestioneMateriali : false           
+    }
   },  
   methods: {
     printMov() {
@@ -118,7 +128,18 @@ export default {
         // eslint-disable-next-line
         console.log(fileURL);
         // Open the URL on new Window
-        window.open(fileURL,"_self");
+        // window.open(fileURL,"_self");
+        // Attenzione, con _blank gli adBlocker non permettono la visualizzazione
+        window.open(fileURL,"_blank");
+        /*
+        TODO da valutare
+        let pdfWindow = window.open("")
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' src='data:application/pdf;base64, " + 
+          encodeURI(yourDocumentBase64VarHere)+
+          "'></iframe>"
+          )
+        */
         this.printing = false
       }).catch(error => {
         this.printing = false

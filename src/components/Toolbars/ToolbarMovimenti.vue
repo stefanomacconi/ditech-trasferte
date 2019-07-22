@@ -196,7 +196,7 @@
               <small>* Risultato Incompleto</small>
             </v-toolbar-title>
             <v-toolbar-title v-if="listaMovs.length == 0" slot="extension" class="red--text text--lighten-3">
-              <small>* Nessun movimento trovato</small>
+              <small>* Nessun Movimento Trovato</small>
             </v-toolbar-title>
           </v-toolbar>
           <v-list two-line>
@@ -360,7 +360,6 @@ export default {
       })
       // TODO refresh view altrimenti si hanno problemi con i movimenti a metà della prima GET
       // questo non funziona
-      // this.$forceUpdate()
     },
     about() {
       this.$router.push({
