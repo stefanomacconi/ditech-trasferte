@@ -1,5 +1,6 @@
 <template>
   <div>
+    <br>
     <v-form ref="form" @submit.prevent="login">
       <v-text-field v-model="utente" id="utente" 
         label="Utente" prepend-icon="person" required
@@ -9,6 +10,7 @@
         label="Password" type="password" prepend-icon="vpn_key" required 
         :rules="[v => !!v || 'Campo Password obbligatorio']">
       </v-text-field>
+      <br>
       <v-btn type='submit' color="primary">Login</v-btn>
       <v-btn color="secondary" @click.prevent="clear">Cancella</v-btn>
     </v-form>

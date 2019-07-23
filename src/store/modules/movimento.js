@@ -172,11 +172,19 @@ const mutations = {
   setCdc(state, value) {
     state.movimento.cdc = value
   },
-  addInNotaSpese(state, value) {
-    state.movimento.notaSpese.push(value)
+  addInNotaSpese(state, nota) {
+    state.movimento.notaSpese.push(nota)
   },
-  removeInNotaSpese(state, value) {
-    state.movimento.notaSpese.splice(value, 1)
+  updateInNotaSpese(state, nota) {
+    var oldNota = state.movimento.notaSpese.find(n => n.codice === nota.codice)
+    oldNota.value = nota.value
+  },
+  removeInNotaSpese(state, nota) {
+    var oldNota = state.movimento.notaSpese.find(n => n.codice === nota.codice)
+    if (oldNota) {
+      const index = state.movimento.notaSpese.indexOf(oldNota)
+      state.movimento.notaSpese.splice(index, 1)
+    }
   },
   removeMateriale(state, index) {
     // console.log(index)
@@ -295,13 +303,25 @@ const actions = {
   updateNotaSpese({
     commit
   }, nota) {
-    var notaSpese = state.movimento.notaSpese
-    var index = notaSpese.map(n => {
-      return n.codice
-    }).indexOf(nota.codice)
-    if (index != -1)
-      commit("removeInNotaSpese", index)
-    commit('addInNotaSpese', nota)
+    if (state.movimento.notaSpese.find(n => n.codice === nota.codice)) {
+      if (nota.value) {
+        console.log("Aggiorno ", nota)
+        // update nota    
+        commit('updateInNotaSpese', nota)
+      } else {
+        // remove nota 
+        commit("removeInNotaSpese", nota)
+      }
+    } else {
+      // new nota
+      console.log("Aggiungo ", nota)
+      commit('addInNotaSpese', nota)
+    }
+  },
+  removeInNotaSpese({
+    commit
+  }, nota) {
+    commit('removeInNotaSpese', nota)
   },
   setMovimento({
     commit
@@ -400,10 +420,7 @@ const getters = {
   },
   getNotaInNotaSpese: (state) => (codice) => {
     var notaSpese = state.movimento.notaSpese
-    var nota = notaSpese.filter(obj => {
-      return obj.codice === codice
-    })
-    return nota
+    return notaSpese.find(nota => nota.codice === codice);
   },
   getMateriale(state) {
     return state.movimento.materiale

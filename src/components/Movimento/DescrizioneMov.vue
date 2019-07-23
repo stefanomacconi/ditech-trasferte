@@ -167,9 +167,9 @@
               @blur="checkBuono"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
           </v-flex>
-          <v-flex xs12 md6 lg3>
+          <v-flex xs12 md6 lg3 v-if="this.mostrareBuono"> <!-- TODO farlo staccato dal buono e con ricerca a parte -->
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
-              :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
+              readonly></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
           </v-flex>
           <v-flex xs12 md6 lg3 v-if="this.mostrareCausali">
             <v-select :items="causali" v-model="causale" label="Causale" 

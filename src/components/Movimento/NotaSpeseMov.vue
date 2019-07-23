@@ -5,7 +5,7 @@
         <!-- <v-flex xs12>
           <v-subheader class="subtitle">Nota Spese</v-subheader>
         </v-flex> -->
-        <v-flex v-for="nota in notaSpese" :key="nota.codice + Math.random()" xs12 md6 lg6>
+        <v-flex v-for="nota in notaSpese" :key="nota.codice" xs12 md6 lg6>
           <v-text-field :rules="notaSpeseRules" :value="getNotaValue(nota.codice)" 
             @blur="updateNotaSpese($event, nota)" :label="nota.descrizione">
           </v-text-field>
@@ -36,20 +36,23 @@ export default {
     getNotaValue() {
       return codice => {
         const nota = this.$store.getters.getNotaInNotaSpese(codice)
-        // capire perché torna un array
-        if (nota[0]) {
-          return nota[0].value
-        }
-        return nota.value
+        if (nota)
+          return nota.value
+        return null
       }
     },
   },
   methods: {
-    updateNotaSpese (event, nota) {
-      if (!event.target.value) 
-        return
-      nota.value = event.target.value
-      this.$store.dispatch('updateNotaSpese', nota)
+    updateNotaSpese(event, nota) {
+      let value = event.target.value
+      if (!value || isNaN(value)) {
+        console.log("Rimuovo ", nota)
+        this.$store.dispatch('removeInNotaSpese', nota)
+      }
+      else {
+        nota.value = Number(value)
+        this.$store.dispatch('updateNotaSpese', nota)
+      }
     }
   }
 }
