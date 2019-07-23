@@ -305,7 +305,6 @@ const actions = {
   }, nota) {
     if (state.movimento.notaSpese.find(n => n.codice === nota.codice)) {
       if (nota.value) {
-        console.log("Aggiorno ", nota)
         // update nota    
         commit('updateInNotaSpese', nota)
       } else {
@@ -314,7 +313,6 @@ const actions = {
       }
     } else {
       // new nota
-      console.log("Aggiungo ", nota)
       commit('addInNotaSpese', nota)
     }
   },

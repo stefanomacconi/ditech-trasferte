@@ -8,9 +8,10 @@ import router from './router'
 import axios from 'axios' /* REST */
 import moment from 'moment' /* Date/Calendar */
 
-axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' 
-// axios.defaults.baseURL = 'http://10.250.14.10:8080/spweb/rest'
-// axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
+// FARM
+// axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' 
+axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
+// MELESI
 // axios.defaults.baseURL = 'https://apps.melesi.it:8443/spweb/rest'
 // axios.defaults.baseURL = 'http://192.168.0.105:8080/spweb/rest'
 

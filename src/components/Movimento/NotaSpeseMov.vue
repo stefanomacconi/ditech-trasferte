@@ -46,7 +46,6 @@ export default {
     updateNotaSpese(event, nota) {
       let value = event.target.value
       if (!value || isNaN(value)) {
-        console.log("Rimuovo ", nota)
         this.$store.dispatch('removeInNotaSpese', nota)
       }
       else {
