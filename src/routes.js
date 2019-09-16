@@ -1,6 +1,7 @@
 import Login from './components/Login'
 import Error from './components/Error'
 import About from './components/About'
+import ChangePwd from './components/ChangePwd'
 import Movimenti from './components/Movimenti/Movimenti'
 import DettaglioMov from './components/Movimento/DettaglioMov'
 import CercaMateriale from './components/Materiale/CercaMateriale'
@@ -142,5 +143,13 @@ export const routes = [{
       toolbar: ToolbarAbout
     },
     props: false
-  }
+  },
+  {
+    path: "/changepwd",
+    name: "changepwd",
+    components: {
+      default: ChangePwd,
+      toolbar: ToolbarLogin
+    }
+  },  
 ]

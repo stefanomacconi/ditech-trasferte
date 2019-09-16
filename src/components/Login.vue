@@ -14,6 +14,9 @@
       <v-btn type='submit' color="primary">Login</v-btn>
       <v-btn color="secondary" @click.prevent="clear">Cancella</v-btn>
     </v-form>
+    <br>
+    <!-- @click="changepwd" -->
+    <v-btn to="/ChangePwd">Cambia password</v-btn>
     <div class="text-xs-center">
       <v-dialog v-model="dialog" persistent width="300" >
         <v-card color="primary" dark>
@@ -52,6 +55,9 @@ export default {
           password: formData.password
         })
       }
+    },
+    changepwd() {
+      //this.$store.dispatch('logout')
     }
   }
 }
