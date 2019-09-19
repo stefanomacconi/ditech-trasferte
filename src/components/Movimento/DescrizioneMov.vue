@@ -176,9 +176,12 @@
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
           <v-flex xs12 sm6 md6 lg3 v-if="this.mostrareCdL">
-            <v-select :items="elencoCdl" v-model="cdl" label="CdL"
+            <!-- <v-select :items="filteredElencoCdL" item-value="codice" :item-text="(cdl) => cdl.codice + ' - ' + cdl.descrizione" v-model="cdl" label="CdL"
               append-icon="search" @click:append="showDialogCdL()"
-              :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
+              :readonly="this.$store.getters.isNewMov ? false : true"></v-select> -->
+            <v-text-field v-model="cdl" label="CdL" append-icon="search" @click:append="showDialogCdL()" @click="showDialogCdL()" readonly> 
+              <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+            </v-text-field>
           </v-flex>
           <!--
           <v-flex xs12 sm6  md6 lg3>
@@ -286,50 +289,12 @@
     </v-layout>
     <!-- LISTA CDL DIALOG -->
     <v-layout row justify-center>
-      <v-dialog v-model="listaCdLDialog" fullscreen hide-overlay 
-        transition="dialog-bottom-transition">
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-btn icon dark @click="listaCdLDialog = false">
-              <v-icon>close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Scelta Centro di Lavoro</v-toolbar-title>
-            <v-toolbar-title v-if="this.elencoCdl.length == 0" slot="extension" 
-              class="red--text text--lighten-3">
-              <small>* Nessun CdL Trovato</small>
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-divider></v-divider>
-          <v-card-text>
-          <v-layout row wrap>
-            <v-flex xs12>
-              <v-text-field v-model="filterCdLText" label="Filtro del Centro di Lavoro"></v-text-field>
-            </v-flex>
-          </v-layout>
-            <v-list two-line>
-              <template v-for="(cdl, index) in filteredElencoCdL">
-                <v-list-tile :key="cdl" avatar ripple @click="chooseCdL(cdl)" v-if="cdl">
-                  <v-list-tile-content>
-                    <v-list-tile-title>
-                      <b>{{ cdl }}</b>
-                    </v-list-tile-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-icon>
-                      keyboard_return
-                    </v-icon>
-                  </v-list-tile-action>
-                </v-list-tile>
-                <v-divider v-if="index && index + 1 < filteredElencoCdL.length" :key="index"></v-divider>
-              </template>
-            </v-list>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
+      <filtered-dialog :visible="this.listaCdLDialog" :items="this.elencoCdL" 
+        title="CdL" @onClose="closeDialogCdL" @onItemSelected="chooseCdL"></filtered-dialog>
     </v-layout>
     <!-- ATTENDERE DIALOG -->
     <div class="text-xs-center">
-      <v-dialog v-model="attendereDialog" persistent width="300" >
+      <v-dialog v-model="attendereDialog" persistent width="300">
         <v-card color="primary" dark>
           <v-card-text>
             Attendere...
@@ -346,6 +311,8 @@ import moment from 'moment'
 import axios from 'axios'
 import utilities from "../../utilitiesMixin.js"
 // import DurataInOre from "../../utils/DurataInOre.js"
+
+import FilteredDialog from "../FilteredDialog"
 
 const campoObbligatorio = "Campo obbligatorio"
 
@@ -367,6 +334,9 @@ export default {
       default: false
     }
   },
+  components: {
+    FilteredDialog
+  }, 
   data: () => ({
     commessaRules: [
       v => !!v || campoObbligatorio,
@@ -584,23 +554,8 @@ export default {
       })
       return elencoCausali
     },
-    elencoCdl() {
-      const cdl = this.$store.getters.getElencoCdl
-      var elencoCdl = [""]
-      cdl.forEach(centro => {
-        elencoCdl.push(centro.codice + " - " + centro.descrizione)
-      })
-      return elencoCdl
-    },
-    filteredElencoCdL() {
-      const elenco = this.elencoCdl.filter(cdl => {
-        return (
-          cdl.match(this.filterCdLText) || 
-          cdl.match(this.filterCdLText.toLowerCase()) || 
-          cdl.match(this.filterCdLText.toUpperCase()) 
-        )
-      })
-      return elenco
+    elencoCdL() {
+      return this.$store.getters.getElencoCdl
     },
     elencoCdc() {
       const cdc = this.$store.getters.getElencoCdc
@@ -697,9 +652,12 @@ export default {
         return
       this.listaCdLDialog = true
     },
-    chooseCdL(cdl) {
-      this.cdl = cdl
+    closeDialogCdL() {
       this.listaCdLDialog = false
+    },
+    chooseCdL(cdl) {
+      this.cdl = cdl.codice + " - " + cdl.descrizione
+      this.closeDialogCdL()
     },
     searchCommessa() {
       this.commessaFilterDialog = false
@@ -814,19 +772,6 @@ export default {
           // eslint-disable-next-line
           console.log(res)
           // Update lista mov
-          // TODO: ELIMINARE QUESTO
-          // APPENA SI CAPISCE PERCHE' NON FUNZIONANO LE COMPUTED DEI MOVIMENTI
-          // LO STORE CAMBIA MA NON VIENE VISTO IL CAMBIAMENTO
-          // PROBABILMENTE C'E' QUALCOSA CHE NON VA NEL METODO dateMovFiltered() in Movimenti.vue
-          /*
-          this.$store.dispatch('fetchMovimenti').then(() => {
-            // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
-            history.replaceState({}, "movimenti", "movimenti")
-            const numMov = res.data.numeroMovimento
-            this.attendereDialog = false
-            this.$router.push({ name: 'movimento', params: { id: numMov }})
-          })
-          */
           const newDatabean = res.data
           this.$store.dispatch("addNewDataBean", newDatabean)
           // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
