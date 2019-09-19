@@ -151,5 +151,5 @@ export const routes = [{
       default: ChangePwd,
       toolbar: ToolbarLogin
     }
-  },  
+  }  
 ]
