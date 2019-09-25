@@ -22,9 +22,7 @@
       </v-text-field>
       <v-text-field v-model="newpassword" id="newpassword" 
         label="Nuova Password" type="password" prepend-icon="vpn_key" required 
-        :rules="[
-          v => !!v || 'Campo Nuova Password obbligatorio',
-          v => v.length >= 8 || 'Minimo 8 caratteri',]">
+        :rules="this.pswRules">
       </v-text-field>
       <v-text-field v-model="newpasswordretyped" id="newpasswordretyped" 
         label="Ripeti Nuova Password" type="password" prepend-icon="vpn_key" required 
@@ -64,6 +62,18 @@ export default {
     newpasswordretyped: "",
     dialog: false,
     attendereDialog : false,
+    pswRules: [
+      (v) => {
+        if (!v)
+          return "Campo Nuova Password obbligatorio"
+        else {
+          if (v.length < 8)
+            return "Minimo 8 caratteri"
+          else 
+            return true
+        }
+      }    
+    ]
   }),
   methods: {
     clear() {

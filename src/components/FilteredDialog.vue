@@ -61,7 +61,7 @@ export default {
   },
   computed: {
      filteredItems() {
-      const smallMatch = this.filterText.toLowerCase();
+      const smallMatch = this.filterText.toLowerCase()
       const collections = this.items.filter(item => {
         const lowerItem = item.codice.toString().toLowerCase() + item.descrizione.toLowerCase()
         return (

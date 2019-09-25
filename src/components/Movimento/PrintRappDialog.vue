@@ -126,11 +126,11 @@ export default {
         // Build a URL from the file
         const fileURL = URL.createObjectURL(file);
         // eslint-disable-next-line
-        console.log(fileURL);
+        console.log(fileURL)
         // Open the URL on new Window
         // window.open(fileURL,"_self");
         // Attenzione, con _blank gli adBlocker non permettono la visualizzazione
-        window.open(fileURL,"_blank");
+        window.open(fileURL,"_blank")
         /*
         TODO da valutare
         let pdfWindow = window.open("")

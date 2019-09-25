@@ -397,7 +397,7 @@ export default {
         //console.log(this.calcTotTime(false))
         const tot = this.calcTotTime(false)
         if (tot) {
-          this.tempo = tot;
+          this.tempo = tot
         }
         this.$store.commit('setTimeA1', value)
       }
@@ -409,7 +409,7 @@ export default {
       set(value) {
         const tot = this.calcTotTime(false)
         if (tot) {
-          this.tempo = tot;
+          this.tempo = tot
         }
         this.$store.commit('setTimeA2', value)
       }
@@ -421,7 +421,7 @@ export default {
       set(value) {
         const tot = this.calcTotTime(false)
         if (tot) {
-          this.tempo = tot;
+          this.tempo = tot
         }        
         this.$store.commit('setTimeA3', value)
       }
@@ -433,7 +433,7 @@ export default {
       set(value) {
         const tot = this.calcTotTime(false)
         if (tot) {
-          this.tempo = tot;
+          this.tempo = tot
         }        
         this.$store.commit('setTimeA4', value)
       }
@@ -712,9 +712,9 @@ export default {
       totale = totale - 3600000 // Non so perché moment calcola un'ora in più. Comunque la tolgo.
       // console.log("calcTotTime => ", totale);
       if (!isNaN(totale))
-        var x = moment(totale).format("HH:mm");
+        var x = moment(totale).format("HH:mm")
         // console.log("calcTotTime - formatted => ", x);
-        return x;
+        return x
     },
     clearFilterSearchCommessa() {
       this.codicePerCommessa = ""
