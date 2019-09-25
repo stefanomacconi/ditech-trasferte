@@ -116,16 +116,7 @@
       </v-date-picker>
     </v-menu>
     <!-- ATTENDERE DIALOG -->
-    <div class="text-xs-center">
-      <v-dialog v-model="attendereDialog" persistent width="300" >
-        <v-card color="primary" dark>
-          <v-card-text>
-            Attendere...
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </div>
+    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
     <!-- MOV FILTER DIALOG --> 
     <v-layout row justify-center>
       <v-dialog v-model="movFilterDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -237,6 +228,8 @@
 import moment from 'moment'
 import axios from 'axios'
 
+import WaitDialog from '../WaitDialog.vue'
+
 export default {
   data: (vm) => ({
     dateMenu: false,
@@ -267,6 +260,9 @@ export default {
     listaMovs: [],
     tzoffset: (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
   }),
+  components: {
+    WaitDialog
+  },
   computed: {
     utente() {
       return this.$store.getters.getUtente

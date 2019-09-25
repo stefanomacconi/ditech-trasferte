@@ -76,9 +76,8 @@ const actions = {
             // altro fetch in background
             dispatch('incrementOffset')
             dispatch('fetchMovimenti', rootState.movimenti.offset)
-              .then(() => {
-                this.attendereDialog = false
-              })
+            // .then(() => {
+            // })
           })
           // fill options, def nota spese, elenco causali, cdl and cdc (no need to be synchronous)
           dispatch('fetchOpzioni')

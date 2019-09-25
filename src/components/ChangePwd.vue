@@ -36,22 +36,17 @@
       <v-btn color="secondary" @click.prevent="clear">Cancella</v-btn>
     </v-form>
     <br>
-    <div class="text-xs-center">
-      <v-dialog v-model="attendereDialog" persistent width="300" >
-        <v-card color="primary" dark>
-          <v-card-text>
-            Attendere...
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </div>
+    <!-- ATTENDERE DIALOG -->
+    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
   </div>
 </template>
 
 <script>
 import axios from "axios"
 import router from '../router'
+
+import WaitDialog from './WaitDialog.vue'
+
 const qs = require('querystring')
 
 export default {
@@ -75,6 +70,9 @@ export default {
       }    
     ]
   }),
+  components: {
+    WaitDialog
+  },
   methods: {
     clear() {
       this.$refs.form.reset()

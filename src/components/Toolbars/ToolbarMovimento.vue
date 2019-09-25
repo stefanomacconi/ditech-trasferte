@@ -73,16 +73,7 @@
       </v-dialog>
     </v-layout>
     <!-- ATTENDERE DIALOG -->
-    <div class="text-xs-center">
-      <v-dialog v-model="attendereDialog" persistent width="300" >
-        <v-card color="primary" dark>
-          <v-card-text>
-            Attendere...
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </div>
+    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
     <!-- PRINT DIALOG  
     <div v-if="printDialog" >
       conMateriale tipoStampa="1"
@@ -158,6 +149,7 @@
 import axios from "axios"
 const qs = require('querystring')
 import PrintRappDialogVue from '../Movimento/PrintRappDialog.vue'
+import WaitDialog from '../WaitDialog.vue'
 
 export default {
   created() {
@@ -225,7 +217,8 @@ export default {
     }
   },
   components: {
-    'print-rapp-dialog': PrintRappDialogVue
+    'print-rapp-dialog': PrintRappDialogVue,
+    WaitDialog
   },
   computed: {
     tabItems() {

@@ -16,21 +16,13 @@
     <v-btn v-else dark flat icon small class="green" style="left:-3px">
       <v-icon>check</v-icon>
     </v-btn>
-    <div class="text-xs-center">
-      <v-dialog v-model="dialog" persistent width="300" >
-        <v-card color="primary" dark>
-          <v-card-text>
-            Attendere...
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </div>
+    <!-- ATTENDERE DIALOG -->
+    <wait-dialog :visibile="this.dialog"></wait-dialog>
   </div>
 </template>
 
 <script>
-
+import WaitDialog from '../WaitDialog.vue'
 import GiornoMovimenti from './GiornoMovimenti.vue'
 
 export default {
@@ -62,7 +54,8 @@ export default {
     }
   },
   components: {
-    'giorno-movimenti': GiornoMovimenti
+    GiornoMovimenti,
+    WaitDialog
   },
   methods: {
     compare(a,b) {

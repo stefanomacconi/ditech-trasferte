@@ -291,16 +291,7 @@
         title="CdL" @onClose="closeDialogCdL" @onItemSelected="chooseCdL"></filtered-dialog>
     </v-layout>
     <!-- ATTENDERE DIALOG -->
-    <div class="text-xs-center">
-      <v-dialog v-model="attendereDialog" persistent width="300">
-        <v-card color="primary" dark>
-          <v-card-text>
-            Attendere...
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </div>
+    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
   </div> 
 </template>
 
@@ -311,6 +302,7 @@ import utilities from "../../utilitiesMixin.js"
 // import DurataInOre from "../../utils/DurataInOre.js"
 
 import FilteredDialog from "../FilteredDialog"
+import WaitDialog from '../WaitDialog.vue'
 
 const campoObbligatorio = "Campo obbligatorio"
 
@@ -333,7 +325,8 @@ export default {
     }
   },
   components: {
-    FilteredDialog
+    FilteredDialog,
+    WaitDialog
   }, 
   data: () => ({
     commessaRules: [
