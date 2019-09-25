@@ -13,8 +13,8 @@ import moment from 'moment' /* Date/Calendar */
 // axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
 // MELESI
 // axios.defaults.baseURL = 'https://apps.melesi.it:8443/spweb/rest'
-// axios.defaults.baseURL = 'http://192.168.0.105:8080/spweb/rest'
-axios.defaults.baseURL = 'http://192.168.0.109:8080/spweb/rest'
+axios.defaults.baseURL = 'http://192.168.0.105:8080/spweb/rest'
+// axios.defaults.baseURL = 'http://192.168.0.109:8080/spweb/rest'
 
 Vue.prototype.moment = moment
 
