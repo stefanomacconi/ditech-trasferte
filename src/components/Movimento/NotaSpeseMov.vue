@@ -1,16 +1,16 @@
 <template>
   <v-form>
-    <v-container grid-list-md>
-      <v-layout row wrap>
+    <v-container>
+      <v-row  >
         <!-- <v-flex xs12>
           <v-subheader class="subtitle">Nota Spese</v-subheader>
         </v-flex> -->
-        <v-flex v-for="nota in notaSpese" :key="nota.codice" xs12 md6 lg6>
+        <v-col v-for="nota in notaSpese" :key="nota.codice" cols="12" md="6" lg="6">
           <v-text-field :rules="notaSpeseRules" :value="getNotaValue(nota.codice)" 
             @blur="updateNotaSpese($event, nota)" :label="nota.descrizione">
           </v-text-field>
-        </v-flex> 
-      </v-layout>  
+        </v-col> 
+      </v-row>  
     </v-container>
   </v-form>
 </template>

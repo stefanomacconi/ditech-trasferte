@@ -36,7 +36,7 @@
       <v-btn color="secondary" @click.prevent="clear">Cancella</v-btn>
     </v-form>
     <br>
-    <div class="text-xs-center">
+    <div class="text-center">
       <v-dialog v-model="attendereDialog" persistent width="300" >
         <v-card color="primary" dark>
           <v-card-text>

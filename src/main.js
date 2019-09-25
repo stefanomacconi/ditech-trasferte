@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import './plugins/vuetify'
+import vuetify from './plugins/vuetify'
 import App from './App.vue'
 import './registerServiceWorker'
 
@@ -7,6 +7,8 @@ import store from './store/store'
 import router from './router'
 import axios from 'axios' /* REST */
 import moment from 'moment' /* Date/Calendar */
+
+Vue.config.productionTip = false
 
 // FARM
 // axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' 
@@ -28,6 +30,7 @@ Vue.filter('truncate', function (value) {
 )
 
 new Vue({
+  vuetify,
   render: h => h(App),
   router,
   store

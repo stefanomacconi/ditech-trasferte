@@ -1,22 +1,22 @@
 <template>
   <div>
     <v-form ref="form">
-      <v-container grid-list-md>
-        <v-layout row wrap>
-          <v-flex xs12 sm4>
+      <v-container>
+        <v-row  >
+          <v-col cols="12" sm="4">
             <v-text-field v-model="codice" label="Articolo" readonly></v-text-field>          
-          </v-flex>
-          <v-flex xs12 sm8>
+          </v-col>
+          <v-col cols="12" sm="8">
             <v-textarea rows="3" v-model="descrizione" label="Descrizione" readonly/>          
-          </v-flex>
-          <v-flex xs12>
+          </v-col>
+          <v-col cols="12">
             <v-text-field v-model="qta" label="Quantità" required :rules="this.qtaRules">
             </v-text-field>          
-          </v-flex>
-          <v-flex xs12>
+          </v-col>
+          <v-col cols="12">
             <v-textarea rows="3" v-model="note" label="Note"></v-textarea>          
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-container>
       <v-spacer></v-spacer>
       <v-btn color="secondary" flat @click="clearFilterSearchMov()">Pulisci</v-btn>

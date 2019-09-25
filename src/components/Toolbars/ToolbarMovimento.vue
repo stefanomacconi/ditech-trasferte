@@ -59,7 +59,7 @@
           </v-tab>
         </v-tabs>
     </v-toolbar>
-    <v-layout row justify-center>
+    <v-row  justify="center">
       <v-dialog v-model="dialogConfirm" persistent max-width="290">
         <v-card>
           <v-card-title class="headline">Confermi l'eliminazione?</v-card-title>
@@ -71,9 +71,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-row>
     <!-- ATTENDERE DIALOG -->
-    <div class="text-xs-center">
+    <div class="text-center">
       <v-dialog v-model="attendereDialog" persistent width="300" >
         <v-card color="primary" dark>
           <v-card-text>
@@ -117,7 +117,7 @@
     </div>
     -->
     <!-- Link Nr. Rapportino Dialog -->
-    <v-layout row justify-center>
+    <v-row  justify="center">
       <v-dialog v-model="linkNrRapportinoDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
           <v-toolbar dark color="primary">
@@ -133,14 +133,14 @@
             <br>
             Inserire il numero rapportino a cui associare il movimento {{ id }} e confermare
             <v-form ref="formLinkNrRapportinoDialog">
-              <v-container grid-list-md>
-                <v-layout wrap>
-                  <v-flex xs12 md12 lg6>
+              <v-container>
+                <v-row >
+                  <v-col cols="12" md="12" lg="6">
                     <v-text-field v-model="nuovoNrRapportino" label="Nr. Rapportino" 
                       hint="Numero Rapportino" :rules="nrRapportinoRules">
                     </v-text-field>
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
               </v-container>
             </v-form>
           </v-card-text>
@@ -150,7 +150,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-row>
   </div>
 </template>
 

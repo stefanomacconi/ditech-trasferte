@@ -14,11 +14,11 @@
       </v-toolbar>
       <v-divider></v-divider>
       <v-card-text>
-      <v-layout row wrap>
-        <v-flex xs12>
+      <v-row  >
+        <v-col cols="12">
           <v-text-field v-model="filterText" :label="getFilterName()"></v-text-field>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
         <v-list two-line>
           <template v-for="(item, index) in filteredItems">
             <v-list-tile :key="item.codice" avatar ripple @click="$emit('onItemSelected', item)">

@@ -4,8 +4,8 @@
       <v-timeline-item class="day" :color="getDayColor(dataMov)">
         <v-img class="rounded" max-height="120px" max-width="500px" :src="getSeasonImage(dataMov.data)"
           gradient="to top, rgba(255,255,255,0.7), rgba(255,255,255,0.7)"> <!-- class="rounded" -->
-            <v-container fill-height>
-              <v-layout>
+            <v-container class="fill-height" >
+              <v-row>
                 <div>
                   <strong style="font-size: 15px;"> <!-- color="white" -->
                     <!-- <font color="white"> -->
@@ -24,7 +24,7 @@
                   <!-- </font> -->
                   </div>
                 </div>
-              </v-layout>
+              </v-row>
             </v-container>
         </v-img>
       </v-timeline-item>

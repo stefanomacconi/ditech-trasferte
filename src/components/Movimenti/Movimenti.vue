@@ -5,18 +5,18 @@
         <giorno-movimenti :dataMov="dataMov"/>
       </div>
     </v-timeline>
-    <v-layout column class="fab-container">
+    <v-row class="fab-container">
       <v-btn dark fab class="primary" to="/movimento">
         <v-icon>add</v-icon>
       </v-btn>
-    </v-layout>
-    <v-btn v-if="moreMovs" flat icon @click="more()" small color="white" class="primary" style="left:-3px"> <!-- @click="more" class="red" -->
+    </v-row>
+    <v-btn v-if="moreMovs" flat icon @click="more()" small color="white" class="primary"> <!-- @click="more" class="red" -->
       <v-icon>arrow_drop_down</v-icon>
     </v-btn>
-    <v-btn v-else dark flat icon small class="green" style="left:-3px">
+    <v-btn v-else dark flat icon small class="green">
       <v-icon>check</v-icon>
     </v-btn>
-    <div class="text-xs-center">
+    <div class="text-center">
       <v-dialog v-model="dialog" persistent width="300" >
         <v-card color="primary" dark>
           <v-card-text>

@@ -2,8 +2,8 @@
 <div> <!-- @click="selected(movimento)" TODO Manca la funzione di unione dei movimenti per rapportino -->
   <v-timeline-item small :color="getMovColor(movimento)">
     <router-link :to="toMovimento(movimento)" tag="div">
-      <v-layout pt-2>
-        <v-flex xs3 md2 :class="{'v-timeline-left-part': $vuetify.breakpoint.xs}">
+      <v-row class="pt-2" >
+        <v-col cols="3" md="2" :class="{'v-timeline-left-part': $vuetify.breakpoint.xs}">
           <div v-if="movimento.orari.oraInizioAttMattino" :class="{'caption-small': $vuetify.breakpoint.xs}">
             <strong>{{ getOrariMovimentoMattina(movimento) }}</strong>
             <br>
@@ -18,8 +18,8 @@
             -->
             {{ moment(movimento.tempo.toFixed(2), "HH.mm").format("HH:mm") }} 
           </div>
-        </v-flex>
-        <v-flex xs9 md10 :class="{'v-timeline-right-part': $vuetify.breakpoint.xs}"> <!--offset-xs1 -->
+        </v-col>
+        <v-col cols="9" md="10" :class="{'v-timeline-right-part': $vuetify.breakpoint.xs}"> <!--offset-xs1 -->
           <strong>{{ movimento.commessa }}</strong>
           <div class="caption hidden-sm-and-up">
             {{ movimento.descrizioneCommessa | truncate }}
@@ -43,8 +43,8 @@
               {{ movimento.nota }}
             </div>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </router-link>
   </v-timeline-item>
   <v-divider v-if="!ultimo" inset></v-divider>

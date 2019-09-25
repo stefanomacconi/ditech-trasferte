@@ -9,7 +9,7 @@
       <v-btn color="secondary" flat @click="clearFilterSearchMov()">Pulisci</v-btn>
       <v-btn color="primary" flat @click="refreshMateriali()">Cerca</v-btn>          
     </v-form>   
-    <v-flex xs12 sm6 offset-sm3>
+    <v-col cols="12" sm="6" offset-sm="3">
       <v-subheader v-if="this.noErr && materiali.length > 0" class="subtitle">
         Selezionare l'articolo desiderato dalla lista
       </v-subheader>
@@ -27,7 +27,7 @@
           <v-divider v-if="index + 1 < materiali.length" :key="index"/>
         </template>
       </v-list>
-    </v-flex>  
+    </v-col>  
     <!-- wait -->
     <wait-dialog :visibile=this.wait></wait-dialog>
   </div>

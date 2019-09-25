@@ -2,7 +2,7 @@
   <div>
     <toolbar></toolbar>
     <v-alert type="error" :value="true">ERROR {{ code }} : {{ status }}</v-alert>
-    <v-container fluid grid-list-md>
+    <v-container fluid>
       <v-card color="red lighten-5">
         <v-card-title><span class="grey--text">Messaggio di Errore</span></v-card-title>
         <v-card-text>{{ developerMessage }}</v-card-text>

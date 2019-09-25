@@ -1,6 +1,6 @@
 <template>
-  <v-layout row>
-    <v-flex xs12>
+  <v-row >
+    <v-col cols="12">
       <v-card>
         <v-img :src="getSmeUPLogo()" max-width="200px"></v-img>
         <v-card-title primary-title>
@@ -35,8 +35,8 @@
           </v-card-text>
         </v-slide-y-transition>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar color='primary' dark app clipped-right>
+    <v-toolbar color='primary' dark>
       <v-icon dark>work_outline</v-icon>
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title>
@@ -8,15 +8,17 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn :to="menuLogin.to" flat>
+        <v-btn :to="menuLogin.to" text>
           <v-icon left>{{ menuLogin.icon }}</v-icon>
           {{ menuLogin.title }}
         </v-btn>
       </v-toolbar-items>
       <v-menu bottom left class="hidden-md-and-up">
-        <v-btn slot="activator" dark icon>
-          <v-icon>more_vert</v-icon>
-        </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on">
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+        </template>
         <v-list dense class="pt-0 bg-white">
           <v-list-tile :to="menuLogin.to">
             <v-list-tile-action>

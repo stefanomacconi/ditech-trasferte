@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-form ref="form">
-      <v-container grid-list-md>
-        <v-layout row wrap>
-          <v-flex xs6 md6 lg6>
+      <v-container>
+        <v-row  >
+          <v-col cols="6" md="6" lg="6">
             <!-- *** DATA, COMMESSA e NOTA *** -->
             <v-menu ref="menuDate" :close-on-content-click="true" v-model="menuDate" :nudge-right="40" 
               lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
@@ -14,24 +14,24 @@
                 :readonly="this.$store.getters.isNewMov ? false : true">
               </v-date-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs6 md6 lg6>
+          </v-col>
+          <v-col cols="6" md="6" lg="6">
             <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
               label="Commessa" append-icon="search" @click:append="showDialogCommessa()" required 
               @click="showDialogCommessa()" readonly> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
-          </v-flex>
-          <v-flex xs12>
+          </v-col>
+          <v-col cols="12">
             <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" 
               :rules="this.notaRules" required>
             </v-textarea>
-          </v-flex>
+          </v-col>
           <!-- *** ATTIVITA' *** -->
-          <v-flex xs12 v-if="this.gestioneOrariMovimento">
+          <v-col cols="12" v-if="this.gestioneOrariMovimento">
             <v-subheader class="subtitle">Attività</v-subheader>
-          </v-flex>  
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariMovimento">
+          </v-col>  
+          <v-col cols="6" sm="3" lg="3" v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA1" :close-on-content-click="false" v-model="menuTimeA1" :nudge-right="40"
               :return-value.sync="timeA1" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -42,8 +42,8 @@
                 full-width @change="$refs.menuTimeA1.save(timeA1)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariMovimento">
+          </v-col>
+          <v-col cols="6" sm="2" lg="2" v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA2" :close-on-content-click="false" v-model="menuTimeA2" :nudge-right="40"
               :return-value.sync="timeA2" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -54,8 +54,8 @@
                 full-width @change="$refs.menuTimeA2.save(timeA2)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariMovimento">
+          </v-col>
+          <v-col cols="6" sm="3" lg="3" v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA3" :close-on-content-click="false" v-model="menuTimeA3" :nudge-right="40"
               :return-value.sync="timeA3" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -66,8 +66,8 @@
                 full-width @change="$refs.menuTimeA3.save(timeA3)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariMovimento">
+          </v-col>
+          <v-col cols="6" sm="2" lg="2" v-if="this.gestioneOrariMovimento">
             <v-menu ref="menuTimeA4" :close-on-content-click="false" v-model="menuTimeA4" :nudge-right="40"
               :return-value.sync="timeA4" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -78,8 +78,8 @@
                 full-width @change="$refs.menuTimeA4.save(timeA4)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs12 sm2 lg2 v-if="this.gestioneOrariMovimento">
+          </v-col>
+          <v-col cols="12" sm="2" lg="2" v-if="this.gestioneOrariMovimento">
             <!-- -->
             <v-menu ref="menuTimeTot" :close-on-content-click="false" v-model="menuTimeTot" :nudge-right="40"
               :return-value.sync="tempo" lazy transition="scale-transition" offset-y full-width
@@ -96,12 +96,12 @@
               persistent-hint single-line readonly required prepend-icon="work_outline">
             </v-text-field>
             -->
-          </v-flex>
+          </v-col>
           <!-- *** GIORNATA *** -->
-          <v-flex xs12 v-if="this.gestioneOrariGiornata">
+          <v-col cols="12" v-if="this.gestioneOrariGiornata">
             <v-subheader class="subtitle">Giornata</v-subheader>
-          </v-flex>  
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariGiornata">
+          </v-col>  
+          <v-col cols="6" sm="3" lg="3" v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG1" :close-on-content-click="false" v-model="menuTimeG1" :nudge-right="40"
               :return-value.sync="timeG1" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -112,8 +112,8 @@
                 full-width @change="$refs.menuTimeG1.save(timeG1)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariGiornata">
+          </v-col>
+          <v-col cols="6" sm="2" lg="2" v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG2" :close-on-content-click="false" v-model="menuTimeG2" :nudge-right="40"
               :return-value.sync="timeG2" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -124,8 +124,8 @@
                 full-width @change="$refs.menuTimeG2.save(timeG2)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariGiornata">
+          </v-col>
+          <v-col cols="6" sm="3" lg="3" v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG3" :close-on-content-click="false" v-model="menuTimeG3" :nudge-right="40"
               :return-value.sync="timeG3" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -136,8 +136,8 @@
                 full-width @change="$refs.menuTimeG3.save(timeG3)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariGiornata">
+          </v-col>
+          <v-col cols="6" sm="2" lg="2" v-if="this.gestioneOrariGiornata">
             <v-menu ref="menuTimeG4" :close-on-content-click="false" v-model="menuTimeG4" :nudge-right="40"
               :return-value.sync="timeG4" lazy transition="scale-transition" offset-y full-width
               max-width="290px" min-width="290px">
@@ -148,52 +148,52 @@
                 full-width @change="$refs.menuTimeG4.save(timeG4)">
               </v-time-picker>
             </v-menu>
-          </v-flex>
-          <v-flex xs12 sm2 lg2 v-if="this.gestioneOrariGiornata">
+          </v-col>
+          <v-col cols="12" sm="2" lg="2" v-if="this.gestioneOrariGiornata">
             <v-text-field :value="totTimeG" label="Totale" hint="Tempo" single-line readonly 
               prepend-icon="trip_origin"/>
-          </v-flex>
+          </v-col>
           <!-- *** DETTAGLIO *** -->
-          <v-flex xs12>
+          <v-col cols="12">
             <v-subheader class="subtitle">Dettaglio</v-subheader>
-          </v-flex>  
-          <v-flex xs12 md6 lg3>
+          </v-col>  
+          <v-col cols="12" md="6" lg="3">
             <v-text-field :value="this.nrRapportino" v-if="this.nrRapportino" 
               label="Nr. Rapportino" readonly>
             </v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 lg3 v-if="this.mostrareBuono">
+          </v-col>
+          <v-col cols="12" md="6" lg="3" v-if="this.mostrareBuono">
             <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
               @blur="checkBuono"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 lg3 v-if="this.mostrareBuono"> <!-- TODO farlo staccato dal buono e con ricerca a parte -->
+          </v-col>
+          <v-col cols="12" md="6" lg="3" v-if="this.mostrareBuono"> <!-- TODO farlo staccato dal buono e con ricerca a parte -->
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
               readonly></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
-          </v-flex>
-          <v-flex xs12 md6 lg3 v-if="this.mostrareCausali">
+          </v-col>
+          <v-col cols="12" md="6" lg="3" v-if="this.mostrareCausali">
             <v-select :items="causali" v-model="causale" label="Causale" 
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
-          </v-flex>
-          <v-flex xs12 sm6 md6 lg3 v-if="this.mostrareCdL">
+          </v-col>
+          <v-col cols="12" sm="6" md="6" lg="3" v-if="this.mostrareCdL">
             <!-- <v-select :items="filteredElencoCdL" item-value="codice" :item-text="(cdl) => cdl.codice + ' - ' + cdl.descrizione" v-model="cdl" label="CdL"
               append-icon="search" @click:append="showDialogCdL()"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select> -->
             <v-text-field v-model="cdl" label="CdL" append-icon="search" @click:append="showDialogCdL()" @click="showDialogCdL()" readonly> 
               <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
-          </v-flex>
+          </v-col>
           <!--
           <v-flex xs12 sm6  md6 lg3>
             <v-select :items="elencoCdc" v-model="cdc" label="CdC"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
           -->
-        </v-layout>  
+        </v-row>  
       </v-container>
     </v-form>
     <!-- COMMESSA FILTER DIALOG --> 
-      <v-layout row justify-center>
+      <v-row  justify="center">
       <v-dialog v-model="commessaFilterDialog" fullscreen hide-overlay 
         transition="dialog-bottom-transition">
         <v-card>
@@ -204,27 +204,27 @@
             <v-toolbar-title>Ricerca Commessa</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md4>
+            <v-container>
+              <v-row >
+                <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="codicePerCommessa" label="Codice" hint="Codice Commessa">
                   </v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="descrizionePerCommessa" label="Descrizione" 
                     hint="Descrizione Commessa">
                   </v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="RagioneSocialePerCommessa" label="Ragione Sociale" 
                     hint="Ragione Sociale del Cliente">
                   </v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6>
+                </v-col>
+                <v-col cols="12" sm="6">
                   <v-select v-model="statoPerCommessa" :items="['Aperte', 'Bloccate', 'Chiuse']" label="Stato">
                   </v-select>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
           <v-card-actions>
@@ -234,9 +234,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-row>
     <!-- LISTA RICERCA COMMESSE DIALOG -->
-    <v-layout row justify-center>
+    <v-row  justify="center">
       <v-dialog v-model="listaCommesseDialog" fullscreen hide-overlay 
         transition="dialog-bottom-transition">
         <v-card>
@@ -286,14 +286,14 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-row>
     <!-- LISTA CDL DIALOG -->
-    <v-layout row justify-center>
+    <v-row  justify="center">
       <filtered-dialog :visible="this.listaCdLDialog" :items="this.elencoCdL" 
         title="CdL" @onClose="closeDialogCdL" @onItemSelected="chooseCdL"></filtered-dialog>
-    </v-layout>
+    </v-row>
     <!-- ATTENDERE DIALOG -->
-    <div class="text-xs-center">
+    <div class="text-center">
       <v-dialog v-model="attendereDialog" persistent width="300">
         <v-card color="primary" dark>
           <v-card-text>

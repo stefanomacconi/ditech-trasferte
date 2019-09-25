@@ -116,7 +116,7 @@
       </v-date-picker>
     </v-menu>
     <!-- ATTENDERE DIALOG -->
-    <div class="text-xs-center">
+    <div class="text-center">
       <v-dialog v-model="attendereDialog" persistent width="300" >
         <v-card color="primary" dark>
           <v-card-text>
@@ -127,7 +127,7 @@
       </v-dialog>
     </div>
     <!-- MOV FILTER DIALOG --> 
-    <v-layout row justify-center>
+    <v-row  justify="center">
       <v-dialog v-model="movFilterDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
           <v-toolbar dark color="primary">
@@ -137,9 +137,9 @@
             <v-toolbar-title>Ricerca Movimento</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs6 md6 lg6>
+            <v-container>
+              <v-row >
+                <v-col cols="6" md="6" lg="6">
                   <v-menu ref="menuDataDaPerMov" :close-on-content-click="true" v-model="menuDataDaPerMov" :nudge-right="40" 
                     lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
                     <v-text-field slot="activator" v-model="dataDaPerMovFormatted" label="Da (Data)" 
@@ -148,8 +148,8 @@
                     <v-date-picker v-model="dataDaPerMov" :allowed-dates="allowedDates" no-title locale="it-IT">
                     </v-date-picker>
                   </v-menu>
-                </v-flex>
-                <v-flex xs6 md6 lg6>
+                </v-col>
+                <v-col cols="6" md="6" lg="6">
                   <v-menu ref="menuDataAPerMov" :close-on-content-click="true" v-model="menuDataAPerMov" :nudge-right="40" 
                     lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
                     <v-text-field slot="activator" v-model="dataAPerMovFormatted" label="A (Data)" 
@@ -158,20 +158,20 @@
                     <v-date-picker v-model="dataAPerMov" :allowed-dates="allowedDatesA" no-title locale="it-IT">
                     </v-date-picker>
                   </v-menu>
-                </v-flex>
-                <v-flex xs6 md6 lg6>
+                </v-col>
+                <v-col cols="6" md="6" lg="6">
                   <v-text-field v-model="commessaPerMov" label="Commessa" hint="Codice Commessa">
                   </v-text-field>
-                </v-flex>
-                <v-flex xs6 md6 lg6>
+                </v-col>
+                <v-col cols="6" md="6" lg="6">
                   <v-text-field v-model="posizionePerMov" label="Posizione" type="number" hint="Posizione">
                   </v-text-field>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                   <v-textarea rows="3" v-model="notaPerMov" prepend-icon="notes" label="Nota">
                   </v-textarea>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
           <v-card-actions>
@@ -181,9 +181,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-row>
     <!-- MOV LIST DIALOG -->
-    <v-layout row justify-center>
+    <v-row  justify="center">
       <v-dialog v-model="listaMovsDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
           <v-toolbar dark color="primary">
@@ -229,7 +229,7 @@
           </v-list>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-row>
   </div>
 </template>
 

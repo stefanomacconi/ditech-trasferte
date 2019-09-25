@@ -17,7 +17,7 @@
     <br>
     <!-- @click="changepwd" -->
     <v-btn to="/ChangePwd">Cambia password</v-btn>
-    <div class="text-xs-center">
+    <div class="text-center">
       <v-dialog v-model="dialog" persistent width="300" >
         <v-card color="primary" dark>
           <v-card-text>

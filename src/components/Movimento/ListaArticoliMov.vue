@@ -1,10 +1,10 @@
 <template>
-  <v-layout row wrap>
+  <v-row  >
     <!-- Show this only if there's a material list, so i'm sure that RdA key exists  -->
-    <v-flex xs12 sm12 v-if="materiali.length > 0"> 
+    <v-col cols="12" sm="12" v-if="materiali.length > 0"> 
       <v-textarea rows="2" v-model="notaLista" label="Materiale" :readonly="this.$store.getters.isDefinitivo"/>
-    </v-flex>
-    <v-flex xs12 sm10 md8 lg6>
+    </v-col>
+    <v-col cols="12" sm="10" md="8" lg="6">
       <v-list two-line v-if="materiali.length > 0">
         <template v-for="(materiale, index) in materiali">
           <v-list-tile :key="materiale.articolo + index">
@@ -21,15 +21,15 @@
           <v-divider v-if="index + 1 < materiali.length" :key="index"/>
         </template>
       </v-list>
-    </v-flex>
-    <v-layout column class="fab-container" v-if="!this.$store.getters.isDefinitivo">
+    </v-col>
+    <v-row class="fab-container" v-if="!this.$store.getters.isDefinitivo">
       <v-btn dark fab class="primary" @click="addMateriale()">
         <v-icon>add</v-icon>
       </v-btn>
-    </v-layout>
+    </v-row>
     <!-- wait -->
     <wait-dialog :visibile=this.waitDialog></wait-dialog>  
-  </v-layout>
+  </v-row>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="text-xs-center">
+    <div class="text-center">
       <v-dialog persistent width="300" v-model="visibile">
         <v-card color="primary" dark>
           <v-card-text>

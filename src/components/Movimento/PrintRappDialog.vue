@@ -1,7 +1,7 @@
 <template>
   <!-- PRINT RAPPORTINO DIALOG --> 
-  <div class="text-xs-center">
-    <v-layout row justify-center>
+  <div class="text-center">
+    <v-row  justify="center">
       <v-dialog persistent fullscreen hide-overlay transition="dialog-bottom-transition" v-model="visibile">
         <v-card>
           <v-toolbar dark color="primary">
@@ -37,7 +37,7 @@
           </v-card-actions>          
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-row>
     <!-- wait -->
     <wait-dialog :visibile=this.printing></wait-dialog>
   </div>
