@@ -28,131 +28,129 @@
             </v-textarea>
           </v-flex>
           <!-- *** ATTIVITA' *** -->
-          <v-flex xs12 v-if="this.gestioneOrariMovimento">
-            <v-subheader class="subtitle">Attività</v-subheader>
-          </v-flex>  
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariMovimento">
-            <v-menu ref="menuTimeA1" :close-on-content-click="false" v-model="menuTimeA1" :nudge-right="40"
-              :return-value.sync="timeA1" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeA1" label="Inizio" prepend-icon="alarm_on" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeA1" v-model="timeA1" 
-                full-width @change="$refs.menuTimeA1.save(timeA1)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariMovimento">
-            <v-menu ref="menuTimeA2" :close-on-content-click="false" v-model="menuTimeA2" :nudge-right="40"
-              :return-value.sync="timeA2" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeA2" label="Fine" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeA2" v-model="timeA2" 
-                full-width @change="$refs.menuTimeA2.save(timeA2)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariMovimento">
-            <v-menu ref="menuTimeA3" :close-on-content-click="false" v-model="menuTimeA3" :nudge-right="40"
-              :return-value.sync="timeA3" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeA3" label="Inizio" prepend-icon="local_dining" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeA3" v-model="timeA3" 
-                full-width @change="$refs.menuTimeA3.save(timeA3)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariMovimento">
-            <v-menu ref="menuTimeA4" :close-on-content-click="false" v-model="menuTimeA4" :nudge-right="40"
-              :return-value.sync="timeA4" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeA4" label="Fine" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeA4" v-model="timeA4" 
-                full-width @change="$refs.menuTimeA4.save(timeA4)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs12 sm2 lg2 v-if="this.gestioneOrariMovimento">
-            <!-- -->
-            <v-menu ref="menuTimeTot" :close-on-content-click="false" v-model="menuTimeTot" :nudge-right="40"
-              :return-value.sync="tempo" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="tempo" label="Totale" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeTot" v-model="tempo" 
-                full-width @change="$refs.menuTimeTot.save(tempo)">
-              </v-time-picker>
-            </v-menu>
-            <!--
-            <v-text-field :value="totTimeA" :rules="tempoRules" label="Totale" hint="Tempo" 
-              persistent-hint single-line readonly required prepend-icon="work_outline">
-            </v-text-field>
-            -->
-          </v-flex>
-          <!-- *** GIORNATA *** -->
-          <v-flex xs12 v-if="this.gestioneOrariGiornata">
-            <v-subheader class="subtitle">Giornata</v-subheader>
-          </v-flex>  
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariGiornata">
-            <v-menu ref="menuTimeG1" :close-on-content-click="false" v-model="menuTimeG1" :nudge-right="40"
-              :return-value.sync="timeG1" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeG1" label="Inizio" prepend-icon="wb_sunny" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeG1" v-model="timeG1" 
-                full-width @change="$refs.menuTimeG1.save(timeG1)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariGiornata">
-            <v-menu ref="menuTimeG2" :close-on-content-click="false" v-model="menuTimeG2" :nudge-right="40"
-              :return-value.sync="timeG2" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeG2" label="Fine" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeG2" v-model="timeG2" 
-                full-width @change="$refs.menuTimeG2.save(timeG2)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs6 sm3 lg3 v-if="this.gestioneOrariGiornata">
-            <v-menu ref="menuTimeG3" :close-on-content-click="false" v-model="menuTimeG3" :nudge-right="40"
-              :return-value.sync="timeG3" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeG3" label="Inizio" prepend-icon="wb_cloudy" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeG3" v-model="timeG3" 
-                full-width @change="$refs.menuTimeG3.save(timeG3)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs6 sm2 lg2 v-if="this.gestioneOrariGiornata">
-            <v-menu ref="menuTimeG4" :close-on-content-click="false" v-model="menuTimeG4" :nudge-right="40"
-              :return-value.sync="timeG4" lazy transition="scale-transition" offset-y full-width
-              max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="timeG4" label="Fine" readonly>
-              </v-text-field>
-              <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                v-if="menuTimeG4" v-model="timeG4" 
-                full-width @change="$refs.menuTimeG4.save(timeG4)">
-              </v-time-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs12 sm2 lg2 v-if="this.gestioneOrariGiornata">
-            <v-text-field :value="totTimeG" label="Totale" hint="Tempo" single-line readonly 
-              prepend-icon="trip_origin"/>
-          </v-flex>
+          <template v-if="this.gestioneOrariMovimento">
+            <v-flex xs12>
+              <v-subheader class="subtitle">Attività</v-subheader>
+            </v-flex>  
+            <v-flex xs6 sm3 lg3>
+              <v-dialog ref="menuTimeA1" v-model="menuTimeA1" :return-value.sync="timeA1" persistent lazy full-width width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field v-model="timeA1" label="Inizio" prepend-icon="alarm_on" readonly v-on="on"></v-text-field>
+                </template>
+                <v-time-picker format="24hr" v-if="menuTimeA1" v-model="timeA1" full-width>
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="menuTimeA1 = false">Annulla</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA1.save(timeA1)">OK</v-btn>
+                </v-time-picker>
+              </v-dialog>
+            </v-flex>
+            <v-flex xs6 sm2 lg2>
+              <v-dialog ref="menuTimeA2" v-model="menuTimeA2" :return-value.sync="timeA2" persistent lazy full-width width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field v-model="timeA2" label="Fine" readonly v-on="on"></v-text-field>
+                </template>
+                <v-time-picker format="24hr" v-if="menuTimeA2" v-model="timeA2" full-width>
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="menuTimeA2 = false">Annulla</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA2.save(timeA2)">OK</v-btn>
+                </v-time-picker>
+              </v-dialog>
+            </v-flex>
+            <v-flex xs6 sm3 lg3>
+              <v-dialog ref="menuTimeA3" v-model="menuTimeA3" :return-value.sync="timeA3" persistent lazy full-width width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field v-model="timeA3" label="Inizio" prepend-icon="local_dining" readonly v-on="on"></v-text-field>
+                </template>
+                <v-time-picker format="24hr" v-if="menuTimeA3" v-model="timeA3" full-width>
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="menuTimeA3 = false">Annulla</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA3.save(timeA3)">OK</v-btn>
+                </v-time-picker>
+              </v-dialog>
+            </v-flex>
+            <v-flex xs6 sm2 lg2>
+              <v-dialog ref="menuTimeA4" v-model="menuTimeA4" :return-value.sync="timeA4" persistent lazy full-width width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field v-model="timeA4" label="Fine" readonly v-on="on"></v-text-field>
+                </template>
+                <v-time-picker format="24hr" v-if="menuTimeA4" v-model="timeA4" full-width>
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="menuTimeA4 = false">Annulla</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA4.save(timeA4)">OK</v-btn>
+                </v-time-picker>
+              </v-dialog>
+            </v-flex>
+            <v-flex xs12 sm2 lg2>
+              <v-dialog ref="menuTimeTot" v-model="menuTimeTot" :return-value.sync="tempo" persistent lazy full-width width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field v-model="tempo" label="Totale" readonly v-on="on"></v-text-field>
+                </template>
+                <v-time-picker format="24hr" v-if="menuTimeTot" v-model="tempo" full-width>
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="menuTimeTot = false">Annulla</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeTot.save(tempo)">OK</v-btn>
+                </v-time-picker>
+              </v-dialog>
+            </v-flex>
+          </template>
+          <!-- *** GIORNATA *** 
+          <template v-if="this.gestioneOrariGiornata">
+            <v-flex xs12>
+              <v-subheader class="subtitle">Giornata</v-subheader>
+            </v-flex>  
+            <v-flex xs6 sm3 lg3>
+              <v-menu ref="menuTimeG1" :close-on-content-click="false" v-model="menuTimeG1" :nudge-right="40"
+                :return-value.sync="timeG1" lazy transition="scale-transition" offset-y full-width
+                max-width="290px" min-width="290px">
+                <v-text-field slot="activator" v-model="timeG1" label="Inizio" prepend-icon="wb_sunny" readonly>
+                </v-text-field>
+                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                  v-if="menuTimeG1" v-model="timeG1" 
+                  full-width @change="$refs.menuTimeG1.save(timeG1)">
+                </v-time-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs6 sm2 lg2>
+              <v-menu ref="menuTimeG2" :close-on-content-click="false" v-model="menuTimeG2" :nudge-right="40"
+                :return-value.sync="timeG2" lazy transition="scale-transition" offset-y full-width
+                max-width="290px" min-width="290px">
+                <v-text-field slot="activator" v-model="timeG2" label="Fine" readonly>
+                </v-text-field>
+                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                  v-if="menuTimeG2" v-model="timeG2" 
+                  full-width @change="$refs.menuTimeG2.save(timeG2)">
+                </v-time-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs6 sm3 lg3>
+              <v-menu ref="menuTimeG3" :close-on-content-click="false" v-model="menuTimeG3" :nudge-right="40"
+                :return-value.sync="timeG3" lazy transition="scale-transition" offset-y full-width
+                max-width="290px" min-width="290px">
+                <v-text-field slot="activator" v-model="timeG3" label="Inizio" prepend-icon="wb_cloudy" readonly>
+                </v-text-field>
+                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                  v-if="menuTimeG3" v-model="timeG3" 
+                  full-width @change="$refs.menuTimeG3.save(timeG3)">
+                </v-time-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs6 sm2 lg2>
+              <v-menu ref="menuTimeG4" :close-on-content-click="false" v-model="menuTimeG4" :nudge-right="40"
+                :return-value.sync="timeG4" lazy transition="scale-transition" offset-y full-width
+                max-width="290px" min-width="290px">
+                <v-text-field slot="activator" v-model="timeG4" label="Fine" readonly>
+                </v-text-field>
+                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
+                  v-if="menuTimeG4" v-model="timeG4" 
+                  full-width @change="$refs.menuTimeG4.save(timeG4)">
+                </v-time-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 sm2 lg2>
+              <v-text-field :value="totTimeG" label="Totale" hint="Tempo" single-line readonly 
+                prepend-icon="trip_origin"/>
+            </v-flex>
+          </template> -->
           <!-- *** DETTAGLIO *** -->
           <v-flex xs12>
             <v-subheader class="subtitle">Dettaglio</v-subheader>

@@ -123,13 +123,22 @@ export default {
       return final
     },
     getDayColor(dataMov) {
-      const totaleOreGiorno = moment.duration(this.getTotalHourDay(dataMov)).asMilliseconds()
+      // const totaleOreGiorno = moment.duration(this.getTotalHourDay(dataMov)).asMilliseconds()
       const totaleOreMovs = moment.duration(this.getTotalHourMovs(dataMov)).asMilliseconds()
       if (dataMov.movimenti && dataMov.movimenti.length > 0) {
         const movimento = dataMov.movimenti[0]
         if (movimento.definitivo)
           return "success"
       }
+      const ms8h = 25200000 // manca 1h
+      // TODO MOMENTANEO
+      if (totaleOreMovs === ms8h) {
+        return "primary"
+      } else {
+        return "warning"
+      }
+
+      /*
       if (totaleOreGiorno == totaleOreMovs) {
         this.removeToGiorniError(dataMov.data)
         this.removeToGiorniWarning(dataMov.data)
@@ -140,11 +149,12 @@ export default {
         this.addToGiorniWarning(dataMov.data)
         return "warning"
       }
+      
       if (totaleOreGiorno < totaleOreMovs) {
         this.removeToGiorniWarning(dataMov.data)
         this.addToGiorniError(dataMov.data)
         return "error"
-      }
+      } */
     },
     addToGiorniWarning(data) {
       this.$store.dispatch("addToGiorniWarning", data)
