@@ -106,7 +106,7 @@ export default {
         ]))
         const link = document.createElement('a')
         link.href = url
-        var pdfName = "Rapportino" + this.$store.getters.getNumeroMovCorrente + ".pdf" 
+        const pdfName = "Rapportino" + this.$store.getters.getNumeroMovCorrente + ".pdf" 
         link.setAttribute('download', pdfName)
         document.body.appendChild(link)
         link.click()

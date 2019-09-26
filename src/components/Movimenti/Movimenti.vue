@@ -35,15 +35,15 @@ export default {
   }),
   computed: {
     dateMovFiltered() {
-      var tzoffset = (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
+      const tzoffset = (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
       const msPicked = this.$store.getters.getPickedData
-      var result = {}
+      const result = {}
       const values = Object.values(this.$store.getters.getDate)
       values.sort(this.compare)
       for (let index = 0; index < values.length; index++) {
         if (msPicked >= values[index].data) {
-          // var data = new Date(values[index].data).toISOString().substr(0, 10)
-          var data = new Date(values[index].data - tzoffset).toISOString().substr(0, 10)
+          // const data = new Date(values[index].data).toISOString().substr(0, 10)
+          const data = new Date(values[index].data - tzoffset).toISOString().substr(0, 10)
           if (this.$store.getters.getDate[data])
             result[data] = this.$store.getters.getDate[data]
           else

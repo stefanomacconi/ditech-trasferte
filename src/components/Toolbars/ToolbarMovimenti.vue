@@ -317,7 +317,7 @@ export default {
       this.attendereDialog = true
       const da = moment(this.dataDaPerMovFormatted, "DD/MM/YYYY").valueOf()
       const a = moment(this.dataAPerMovFormatted, "DD/MM/YYYY").valueOf()
-      var posizione = null
+      let posizione = null
       if (this.posizionePerMov)
         posizione = this.posizionePerMov
       axios.get('/movimento/lavorazione/ricerca/' + this.dipendente, {

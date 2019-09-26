@@ -52,10 +52,10 @@ export default {
   mixins: [utilities],
   methods: {
     selected(movimenti){
-      var movimentiSelezionati = this.$store.getters.getMovimentiSelezionati
+      const movimentiSelezionati = this.$store.getters.getMovimentiSelezionati
       movimenti.forEach(movimento => {
         if (!movimento.definitivo) {
-          var index = movimentiSelezionati.indexOf(movimento.numeroMovimento)
+          const index = movimentiSelezionati.indexOf(movimento.numeroMovimento)
           if (index === -1) 
             this.$store.dispatch("addToMovimentiSelezionati", movimento.numeroMovimento)
           else 
@@ -64,28 +64,28 @@ export default {
       })
     },
     getTotalHourDay(data) {
-      var t1 = moment(this.getTimeFromInteger(data.oraInizioMattino), "HH:mm")
-      var t2 = moment(this.getTimeFromInteger(data.oraFineMattino), "HH:mm")
-      var mattino = t2.diff(t1)
-      var t3 = moment(this.getTimeFromInteger(data.oraInizioPomeriggio), "HH:mm")
-      var t4 = moment(this.getTimeFromInteger(data.oraFinePomeriggio), "HH:mm")
-      var pomeriggio = t4.diff(t3)
-      var totale = moment(mattino).add(pomeriggio)
+      const t1 = moment(this.getTimeFromInteger(data.oraInizioMattino), "HH:mm")
+      const t2 = moment(this.getTimeFromInteger(data.oraFineMattino), "HH:mm")
+      const mattino = t2.diff(t1)
+      const t3 = moment(this.getTimeFromInteger(data.oraInizioPomeriggio), "HH:mm")
+      const t4 = moment(this.getTimeFromInteger(data.oraFinePomeriggio), "HH:mm")
+      const pomeriggio = t4.diff(t3)
+      let totale = moment(mattino).add(pomeriggio)
       totale = totale - 3600000 // Non so perché moment calcola un'ora in più. Comunque la tolgo.
       return totale 
     },
     getTotalHourMovs(dataBean) {
       const movs = dataBean.movimenti
-      var totale = 0
+      let totale = 0
       movs.forEach(mov => {
-        totale = totale + moment.duration(mov.tempo,"h").asMilliseconds()
+        totale = totale + moment.duration(mov.tempoMinuti,"m").asMilliseconds()
       })
       totale = totale - 3600000 // Non so perché moment calcola un'ora in più. Comunque la tolgo.
       return totale
     },
     getSeasonImage(data) {
-      var date = new Date(data)
-      var month = date.getMonth() + 1
+      const date = new Date(data)
+      const month = date.getMonth() + 1
       if (month == 1)
         return require('../../assets/img/1-January.jpg')
       if (month == 2)
@@ -112,9 +112,9 @@ export default {
         return require('../../assets/img/12-December.jpg')
     },
     getOrariGiornata(data) {
-      var orarioInizioMattino = this.getTimeFromInteger(data.oraInizioMattino)
-      var orarioInizioPomeriggio = this.getTimeFromInteger(data.oraInizioPomeriggio)
-      var final = ""
+      const orarioInizioMattino = this.getTimeFromInteger(data.oraInizioMattino)
+      const orarioInizioPomeriggio = this.getTimeFromInteger(data.oraInizioPomeriggio)
+      let final = ""
       if (orarioInizioMattino) {
       final = final + orarioInizioMattino + " - " + this.getTimeFromInteger(data.oraFineMattino)
         if (orarioInizioPomeriggio)

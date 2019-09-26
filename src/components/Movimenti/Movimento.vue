@@ -72,22 +72,22 @@ export default {
       if (movimento.definitivo)
         return
       const numeroMovimento = movimento.numeroMovimento
-      var movimenti = this.$store.getters.getMovimentiSelezionati
-      var index = movimenti.indexOf(numeroMovimento)
+      const movimenti = this.$store.getters.getMovimentiSelezionati
+      const index = movimenti.indexOf(numeroMovimento)
       if (index === -1) 
         this.$store.dispatch("addToMovimentiSelezionati", numeroMovimento)
       else 
         this.$store.dispatch("removeToMovimentiSelezionati", index)
     },
     getOrariMovimentoMattina(movimento) {
-      var orariMovimentoMattina = this.getTimeFromInteger(movimento.orari.oraInizioAttMattino)
+      const orariMovimentoMattina = this.getTimeFromInteger(movimento.orari.oraInizioAttMattino)
       if (orariMovimentoMattina) {
         return orariMovimentoMattina + " - " +
           this.getTimeFromInteger(movimento.orari.oraFineAttMattino)
       }
     },
     getOrariMovimentoPomeriggio(movimento) {
-      var orariMovimentoPomeriggio = this.getTimeFromInteger(movimento.orari.oraInizioAttPomeriggio)
+      const orariMovimentoPomeriggio = this.getTimeFromInteger(movimento.orari.oraInizioAttPomeriggio)
       if (orariMovimentoPomeriggio) {
         return orariMovimentoPomeriggio + " - " +
           this.getTimeFromInteger(movimento.orari.oraFineAttPomeriggio)
@@ -103,7 +103,7 @@ export default {
       }
     },
     getMovColor(movimento) {
-      var movimenti = this.$store.getters.getMovimentiSelezionati
+      const movimenti = this.$store.getters.getMovimentiSelezionati
       if (movimenti.indexOf(movimento.numeroMovimento) != -1)
         // selected
         return "yellow"

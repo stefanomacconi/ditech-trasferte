@@ -222,7 +222,7 @@ export default {
   },
   computed: {
     tabItems() {
-      var items = []
+      const items = []
       const opzioni = this.$store.getters.getOpzioni
       items.push({
         index: 0,

@@ -18,8 +18,8 @@
           <v-flex xs6 md6 lg6>
             <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
-              label="Commessa" append-icon="search" @click:append="showDialogCommessa()" required 
-              @click="showDialogCommessa()" readonly> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+              label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required 
+              @click="showDialogSearchCommessa()" readonly> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
           </v-flex>
           <v-flex xs12>
@@ -93,64 +93,6 @@
               </v-dialog>
             </v-flex>
           </template>
-          <!-- *** GIORNATA *** 
-          <template v-if="this.gestioneOrariGiornata">
-            <v-flex xs12>
-              <v-subheader class="subtitle">Giornata</v-subheader>
-            </v-flex>  
-            <v-flex xs6 sm3 lg3>
-              <v-menu ref="menuTimeG1" :close-on-content-click="false" v-model="menuTimeG1" :nudge-right="40"
-                :return-value.sync="timeG1" lazy transition="scale-transition" offset-y full-width
-                max-width="290px" min-width="290px">
-                <v-text-field slot="activator" v-model="timeG1" label="Inizio" prepend-icon="wb_sunny" readonly>
-                </v-text-field>
-                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                  v-if="menuTimeG1" v-model="timeG1" 
-                  full-width @change="$refs.menuTimeG1.save(timeG1)">
-                </v-time-picker>
-              </v-menu>
-            </v-flex>
-            <v-flex xs6 sm2 lg2>
-              <v-menu ref="menuTimeG2" :close-on-content-click="false" v-model="menuTimeG2" :nudge-right="40"
-                :return-value.sync="timeG2" lazy transition="scale-transition" offset-y full-width
-                max-width="290px" min-width="290px">
-                <v-text-field slot="activator" v-model="timeG2" label="Fine" readonly>
-                </v-text-field>
-                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                  v-if="menuTimeG2" v-model="timeG2" 
-                  full-width @change="$refs.menuTimeG2.save(timeG2)">
-                </v-time-picker>
-              </v-menu>
-            </v-flex>
-            <v-flex xs6 sm3 lg3>
-              <v-menu ref="menuTimeG3" :close-on-content-click="false" v-model="menuTimeG3" :nudge-right="40"
-                :return-value.sync="timeG3" lazy transition="scale-transition" offset-y full-width
-                max-width="290px" min-width="290px">
-                <v-text-field slot="activator" v-model="timeG3" label="Inizio" prepend-icon="wb_cloudy" readonly>
-                </v-text-field>
-                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                  v-if="menuTimeG3" v-model="timeG3" 
-                  full-width @change="$refs.menuTimeG3.save(timeG3)">
-                </v-time-picker>
-              </v-menu>
-            </v-flex>
-            <v-flex xs6 sm2 lg2>
-              <v-menu ref="menuTimeG4" :close-on-content-click="false" v-model="menuTimeG4" :nudge-right="40"
-                :return-value.sync="timeG4" lazy transition="scale-transition" offset-y full-width
-                max-width="290px" min-width="290px">
-                <v-text-field slot="activator" v-model="timeG4" label="Fine" readonly>
-                </v-text-field>
-                <v-time-picker no-title format="24hr" :allowed-minutes="allowedStep" 
-                  v-if="menuTimeG4" v-model="timeG4" 
-                  full-width @change="$refs.menuTimeG4.save(timeG4)">
-                </v-time-picker>
-              </v-menu>
-            </v-flex>
-            <v-flex xs12 sm2 lg2>
-              <v-text-field :value="totTimeG" label="Totale" hint="Tempo" single-line readonly 
-                prepend-icon="trip_origin"/>
-            </v-flex>
-          </template> -->
           <!-- *** DETTAGLIO *** -->
           <v-flex xs12>
             <v-subheader class="subtitle">Dettaglio</v-subheader>
@@ -190,107 +132,15 @@
         </v-layout>  
       </v-container>
     </v-form>
-    <!-- COMMESSA FILTER DIALOG --> 
-      <v-layout row justify-center>
-      <v-dialog v-model="commessaFilterDialog" fullscreen hide-overlay 
-        transition="dialog-bottom-transition">
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-btn icon dark @click="commessaFilterDialog = false">
-              <v-icon>close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Ricerca Commessa</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="codicePerCommessa" label="Codice" hint="Codice Commessa">
-                  </v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="descrizionePerCommessa" label="Descrizione" 
-                    hint="Descrizione Commessa">
-                  </v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="RagioneSocialePerCommessa" label="Ragione Sociale" 
-                    hint="Ragione Sociale del Cliente">
-                  </v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6>
-                  <v-select v-model="statoPerCommessa" :items="['Aperte', 'Bloccate', 'Chiuse']" label="Stato">
-                  </v-select>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="secondary" flat @click="clearFilterSearchCommessa">Pulisci</v-btn>
-            <v-btn color="primary" flat @click="searchCommessa">Cerca</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-layout>
     <!-- LISTA RICERCA COMMESSE DIALOG -->
+    <v-layout row justify-center>
+      <ricerca-commessa :visible="this.commessaSearchDialog" @onClose="closeDialogSearchCommesse" @onItemsFound="commesseFound"></ricerca-commessa>
+    </v-layout>
+    <!-- COMMESSA FILTER DIALOG -->
     <v-layout row justify-center>
       <filtered-dialog :visible="this.listaCommesseDialog" :items="this.listaCommesseCercate" 
         title="Commessa" @onClose="closeDialogCommesse" @onItemSelected="chooseCommessa"></filtered-dialog>
     </v-layout>
-    <!--
-    <v-layout row justify-center>
-      <v-dialog v-model="listaCommesseDialog" fullscreen hide-overlay 
-        transition="dialog-bottom-transition">
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-btn icon dark @click="listaCommesseDialog = false">
-              <v-icon>close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Scelta Commessa</v-toolbar-title>
-            <v-toolbar-title v-if="listaCommesseCercate.length > 29" slot="extension" 
-                class="red--text text--lighten-3">
-              <small>* Risultato Incompleto</small>
-            </v-toolbar-title>
-            <v-toolbar-title v-if="listaCommesseCercate.length == 0" slot="extension" 
-              class="red--text text--lighten-3">
-              <small>* Nessuna Commessa Trovata</small>
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-list two-line>
-              <template v-for="(commessa, index) in listaCommesseCercate">
-                <v-list-tile :key="commessa.codice" avatar ripple @click="chooseCommessa(commessa.codice)">
-                  <v-list-tile-content>
-                    <v-list-tile-title>
-                      <b>{{ commessa.codice }}</b>
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title class="text--primary">
-                      {{ commessa.ragioneSociale }}
-                    </v-list-tile-sub-title>
-                    <v-list-tile-sub-title>
-                      {{ commessa.descrizione }}
-                    </v-list-tile-sub-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-list-tile-action-text>
-                      &nbsp;&nbsp;
-                      {{ moment(commessa.data).locale('it').format('DD/MM/YYYY').toUpperCase() }}
-                    </v-list-tile-action-text>
-                    <v-icon>
-                      keyboard_return
-                    </v-icon>
-                  </v-list-tile-action>
-                </v-list-tile>
-                <v-divider v-if="index + 1 < listaCommesseCercate.length" :key="index"></v-divider>
-              </template>
-            </v-list>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </v-layout>
-    -->
     <!-- LISTA CDL DIALOG -->
     <v-layout row justify-center>
       <filtered-dialog :visible="this.listaCdLDialog" :items="this.elencoCdL" 
@@ -305,9 +155,9 @@
 import moment from 'moment'
 import axios from 'axios'
 import utilities from "../../utilitiesMixin.js"
-// import DurataInOre from "../../utils/DurataInOre.js"
 
 import FilteredDialog from "../FilteredDialog"
+import RicercaCommessa from "./RicercaCommessa"
 import WaitDialog from '../WaitDialog.vue'
 
 const campoObbligatorio = "Campo obbligatorio"
@@ -332,7 +182,8 @@ export default {
   },
   components: {
     FilteredDialog,
-    WaitDialog
+    WaitDialog,
+    RicercaCommessa
   }, 
   data: () => ({
     commessaRules: [
@@ -351,21 +202,13 @@ export default {
     buonoRules: [
       v => !isNaN(v) || 'buono non valido'
     ],
-    commessaFilterDialog: false,
-    codicePerCommessa: "",
-    descrizionePerCommessa: "",
-    RagioneSocialePerCommessa: "",
-    statoPerCommessa: "Aperte",
+    commessaSearchDialog: false,
     attendereDialog: false,
-    listaCommesseCercate: [],
     listaCommesseDialog: false,
+    listaCommesseCercate: [],
     listaCdLDialog: false,
     filterCdLText: "",
     menuDate: false,
-    menuTimeG1: false,
-    menuTimeG2: false,
-    menuTimeG3: false,
-    menuTimeG4: false,
     menuTimeA1: false,
     menuTimeA2: false,
     menuTimeA3: false,
@@ -376,13 +219,10 @@ export default {
     computedDateFormatted() {
       return this.formatDate(this.date)
     },
-    totTimeG() {
-      return this.calcTotTime(true)
-    },
     totTimeA() {
       // if (!this.$store.getters.getTimeA1 && this.$store.getters.getTempo)
       //  return this.$store.getters.getTempo
-      const value = this.calcTotTime(false)
+      const value = this.calcTotTime()
       this.$store.commit('setTempo', Number(value))
       return value 
     },
@@ -392,7 +232,7 @@ export default {
       },
       set(value) {
         //console.log(this.calcTotTime(false))
-        const tot = this.calcTotTime(false)
+        const tot = this.calcTotTime()
         if (tot) {
           this.tempo = tot
         }
@@ -404,7 +244,7 @@ export default {
         return this.$store.getters.getTimeA2
       },
       set(value) {
-        const tot = this.calcTotTime(false)
+        const tot = this.calcTotTime()
         if (tot) {
           this.tempo = tot
         }
@@ -416,7 +256,7 @@ export default {
         return this.$store.getters.getTimeA3
       },
       set(value) {
-        const tot = this.calcTotTime(false)
+        const tot = this.calcTotTime()
         if (tot) {
           this.tempo = tot
         }        
@@ -428,7 +268,7 @@ export default {
         return this.$store.getters.getTimeA4
       },
       set(value) {
-        const tot = this.calcTotTime(false)
+        const tot = this.calcTotTime()
         if (tot) {
           this.tempo = tot
         }        
@@ -437,54 +277,22 @@ export default {
     },
     tempo: {
       get() {
-        var oremin = this.$store.getters.getTempo
+        const oremin = this.$store.getters.getTempo
         if (oremin) {
-          var t = moment(oremin, "HH.mm")
+          const t = moment(oremin, "HH.mm")
           return t.format("HH:mm")
         } else {
           return ""
         }
       },
       set(value) {
-        var t = moment(value, "HH:mm").format("HH.mm");
+        const t = moment(value, "HH:mm").format("HH.mm");
         this.$store.commit('setTempo', Number(t));
       }
     },    
-    timeG1: {
-      get() {
-        return this.$store.getters.getTimeG1
-      },
-      set(value) {
-        this.$store.commit('setTimeG1', value)
-      }
-    },
-    timeG2: {
-      get() {
-        return this.$store.getters.getTimeG2
-      },
-      set(value) {
-        this.$store.commit('setTimeG2', value)
-      }
-    },
-    timeG3: {
-      get() {
-        return this.$store.getters.getTimeG3
-      },
-      set(value) {
-        this.$store.commit('setTimeG3', value)
-      }
-    },
-    timeG4: {
-      get() {
-        return this.$store.getters.getTimeG4
-      },
-      set(value) {
-        this.$store.commit('setTimeG4', value)
-      }
-    },
     commessa: {
       get() {
-        var commessa = this.$store.getters.getCommessa
+        let commessa = this.$store.getters.getCommessa
         if (commessa)
           commessa = commessa.toUpperCase()
         return commessa
@@ -545,7 +353,7 @@ export default {
     },
     causali() {
       const causali = this.$store.getters.getCausali
-      var elencoCausali = [""]
+      let elencoCausali = [""]
       causali.forEach(causale => {
         elencoCausali.push(causale.codice + " - " + causale.descrizione)
       })
@@ -556,7 +364,7 @@ export default {
     },
     elencoCdc() {
       const cdc = this.$store.getters.getElencoCdc
-      var elencoCdc = [""]
+      let elencoCdc = [""]
       cdc.forEach(centro => {
         elencoCdc.push(centro.codice + " - " + centro.descrizione)
       })
@@ -574,7 +382,8 @@ export default {
       return this.$store.getters.getOpzioni
     },
     gestioneOrariGiornata() {
-      return this.opzioni.gestioneOrariGiornata ? this.opzioni.gestioneOrariGiornata : false           
+      return false
+      // return this.opzioni.gestioneOrariGiornata ? this.opzioni.gestioneOrariGiornata : false           
     },
     gestioneOrariMovimento() {
       return this.opzioni.gestioneOrariMovimento ? this.opzioni.gestioneOrariMovimento : false           
@@ -598,7 +407,7 @@ export default {
   methods: {
     fetchMovimento() {
       this.attendereDialog = true
-      var pre = '/movimento/lavorazione/singolo/'
+      let pre = '/movimento/lavorazione/singolo/'
       if (!this.definitivo)
         pre = pre + 'parcheggio/'
       const path = pre + this.$store.getters.getDipendente + "/"
@@ -639,10 +448,15 @@ export default {
     },
     allowedDates: val => val <= new Date().toISOString().substr(0, 10),
     allowedStep: m => m % 5 === 0,
-    showDialogCommessa() {
+    showDialogSearchCommessa() {
       if (!this.$store.getters.isNewMov)
         return
-      this.commessaFilterDialog = true
+      this.commessaSearchDialog = true
+    },
+    showListaCommesseDialog() {
+      if (!this.$store.getters.isNewMov)
+        return
+      this.listaCommesseDialog = true
     },
     showDialogCdL() {
       if (!this.$store.getters.isNewMov)
@@ -655,72 +469,39 @@ export default {
     closeDialogCommesse() {
       this.listaCommesseDialog = false
     },
+    closeDialogSearchCommesse() {
+      this.commessaSearchDialog = false
+    },
     chooseCdL(cdl) {
       this.cdl = cdl.codice + " - " + cdl.descrizione
       this.closeDialogCdL()
-    },
-    searchCommessa() {
-      this.commessaFilterDialog = false
-      this.attendereDialog = true
-      axios.get('/commessa/', {
-        params: {
-          codice: this.codicePerCommessa,
-          descrizione: this.descrizionePerCommessa,
-          ragioneSociale: this.RagioneSocialePerCommessa,
-          stato: this.statoPerCommessa
-        }
-      }).then(res => {
-        // eslint-disable-next-line
-        console.log(res)
-        this.attendereDialog = false
-        this.listaCommesseCercate = res.data
-        this.listaCommesseDialog = true
-      }).catch(error => {
-        // eslint-disable-next-line
-        console.log(error)
-        this.$store.dispatch('handleError', error.response.data)
-      })
     },
     chooseCommessa(commessa) {
       this.$store.commit('setCommessa', commessa.codice)
       this.listaCommesseDialog = false
     },
-    calcTotTime(giornata) {
-      var times
-      if (giornata) {
-        times = [
-          this.$store.getters.getTimeG1,
-          this.$store.getters.getTimeG2,
-          this.$store.getters.getTimeG3,
-          this.$store.getters.getTimeG4
-        ]
-      } else {
-        times = [
-          this.$store.getters.getTimeA1,
-          this.$store.getters.getTimeA2,
-          this.$store.getters.getTimeA3,
-          this.$store.getters.getTimeA4
-        ]
-      }
-      var t1 = moment(this.getTimeFromInteger(times[0]), "HH:mm")
-      var t2 = moment(this.getTimeFromInteger(times[1]), "HH:mm")
-      var mattino = t2.diff(t1)
-      var t3 = moment(this.getTimeFromInteger(times[2]), "HH:mm")
-      var t4 = moment(this.getTimeFromInteger(times[3]), "HH:mm")
-      var pomeriggio = t4.diff(t3)
-      var totale = moment(mattino).add(pomeriggio)
+    commesseFound(listaCommesse) {
+      this.listaCommesseCercate = listaCommesse
+      this.showListaCommesseDialog()
+    },
+    calcTotTime() {
+      const times = [
+        this.$store.getters.getTimeA1,
+        this.$store.getters.getTimeA2,
+        this.$store.getters.getTimeA3,
+        this.$store.getters.getTimeA4
+      ]
+      const t1 = moment(this.getTimeFromInteger(times[0]), "HH:mm")
+      const t2 = moment(this.getTimeFromInteger(times[1]), "HH:mm")
+      const mattino = t2.diff(t1)
+      const t3 = moment(this.getTimeFromInteger(times[2]), "HH:mm")
+      const t4 = moment(this.getTimeFromInteger(times[3]), "HH:mm")
+      const pomeriggio = t4.diff(t3)
+      let totale = moment(mattino).add(pomeriggio)
       totale = totale - 3600000 // Non so perché moment calcola un'ora in più. Comunque la tolgo.
       // console.log("calcTotTime => ", totale);
       if (!isNaN(totale))
-        var x = moment(totale).format("HH:mm")
-        // console.log("calcTotTime - formatted => ", x);
-        return x
-    },
-    clearFilterSearchCommessa() {
-      this.codicePerCommessa = ""
-      this.descrizionePerCommessa = ""
-      this.RagioneSocialePerCommessa = ""
-      this.statoPerCommessa = "Aperte"
+        return moment(totale).format("HH:mm")
     },
     saveMovimento(numeroMovimento) {
       if (!this.$refs.form)
@@ -729,10 +510,6 @@ export default {
         this.attendereDialog = true
         // save movement
         const data = moment(this.$store.getters.getData, "YYYY-MM-DD").valueOf()
-        const oraInizioMattino = this.$store.getters.getTimeG1 ? this.$store.getters.getTimeG1.replace(":", "") : this.$store.getters.getTimeG1
-        const oraFineMattino = this.$store.getters.getTimeG2 ? this.$store.getters.getTimeG2.replace(":", "") : this.$store.getters.getTimeG2
-        const oraInizioPomeriggio = this.$store.getters.getTimeG3 ? this.$store.getters.getTimeG3.replace(":", "") : this.$store.getters.getTimeG3
-        const oraFinePomeriggio = this.$store.getters.getTimeG4 ? this.$store.getters.getTimeG4.replace(":", "") : this.$store.getters.getTimeG4
         const oraInizioAttMattino = this.$store.getters.getTimeA1 ? this.$store.getters.getTimeA1.replace(":", "") : this.$store.getters.getTimeA1
         const oraFineAttMattino = this.$store.getters.getTimeA2 ? this.$store.getters.getTimeA2.replace(":", "") : this.$store.getters.getTimeA2
         const oraInizioAttPomeriggio = this.$store.getters.getTimeA3 ? this.$store.getters.getTimeA3.replace(":", "") : this.$store.getters.getTimeA3
@@ -744,10 +521,6 @@ export default {
         const cc = this.$store.getters.getCdc
         const cdc = cc ? (cc.substr(0, cc.indexOf('-'))).trim() : cc
         const orari = {
-          oraInizioMattino,
-          oraFineMattino,
-          oraInizioPomeriggio,
-          oraFinePomeriggio,
           oraInizioAttMattino,
           oraFineAttMattino,
           oraInizioAttPomeriggio,
