@@ -235,6 +235,11 @@
     </v-layout>
     <!-- LISTA RICERCA COMMESSE DIALOG -->
     <v-layout row justify-center>
+      <filtered-dialog :visible="this.listaCommesseDialog" :items="this.listaCommesseCercate" 
+        title="Commessa" @onClose="closeDialogCommesse" @onItemSelected="chooseCommessa"></filtered-dialog>
+    </v-layout>
+    <!--
+    <v-layout row justify-center>
       <v-dialog v-model="listaCommesseDialog" fullscreen hide-overlay 
         transition="dialog-bottom-transition">
         <v-card>
@@ -285,6 +290,7 @@
         </v-card>
       </v-dialog>
     </v-layout>
+    -->
     <!-- LISTA CDL DIALOG -->
     <v-layout row justify-center>
       <filtered-dialog :visible="this.listaCdLDialog" :items="this.elencoCdL" 
@@ -646,6 +652,9 @@ export default {
     closeDialogCdL() {
       this.listaCdLDialog = false
     },
+    closeDialogCommesse() {
+      this.listaCommesseDialog = false
+    },
     chooseCdL(cdl) {
       this.cdl = cdl.codice + " - " + cdl.descrizione
       this.closeDialogCdL()
@@ -672,8 +681,8 @@ export default {
         this.$store.dispatch('handleError', error.response.data)
       })
     },
-    chooseCommessa(codice) {
-      this.$store.commit('setCommessa', codice)
+    chooseCommessa(commessa) {
+      this.$store.commit('setCommessa', commessa.codice)
       this.listaCommesseDialog = false
     },
     calcTotTime(giornata) {

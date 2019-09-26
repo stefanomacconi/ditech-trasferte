@@ -33,7 +33,7 @@
                 </v-icon>-->
               </v-list-tile-action>
             </v-list-tile>
-            <v-divider v-if="index && index + 1 < items.length" :key="item.codice + 'div'"></v-divider>
+            <v-divider v-if="index + 1 < items.length" :key="item.codice + 'divider'"></v-divider>
           </template>
         </v-list>
       </v-card-text>
