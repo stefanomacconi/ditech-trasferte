@@ -11,6 +11,8 @@
   "dependencies": {
     "@vaadin/vaadin-upload": "^4.2.1",
     "axios": "^0.18.1",
+    "lodash": "^4.17.15",
+    "lodash.template": "^4.5.0",
     "moment": "^2.24.0",
     "register-service-worker": "^1.5.2",
     "vue": "^2.5.22",
