@@ -7,8 +7,8 @@
           <div>
             <span>08/04/2019</span>
             <br>
-            <div class="headline">DiTech Trasferte 1.0</div>
-            <span>Versione: 1.0</span>
+            <div class="headline">DiTech Trasferte 1.0.0</div>
+            <span>Versione: 1.0.0</span>
             <br>
             <span>SmeUP SPA https://www.smeup.com/</span>
             <br>

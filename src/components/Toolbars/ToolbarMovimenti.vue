@@ -89,7 +89,7 @@
             <v-icon>star</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Riguardo TRASFERTE</v-list-tile-title>
+            <v-list-tile-title>Informazioni</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider dark></v-divider>

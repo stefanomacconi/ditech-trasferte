@@ -335,6 +335,7 @@ export default {
         this.$store.commit('setCdl', value)
       }
     },
+    /*
     cdc: {
       get() {
         return this.$store.getters.getCdc
@@ -342,7 +343,7 @@ export default {
       set(value) {
         this.$store.commit('setCdc', value)
       }
-    },
+    }, */
     buono: {
       get() {
         return this.$store.getters.getBuono
@@ -361,7 +362,7 @@ export default {
     },
     elencoCdL() {
       return this.$store.getters.getElencoCdl
-    },
+    }, /*
     elencoCdc() {
       const cdc = this.$store.getters.getElencoCdc
       let elencoCdc = [""]
@@ -369,7 +370,7 @@ export default {
         elencoCdc.push(centro.codice + " - " + centro.descrizione)
       })
       return elencoCdc
-    },
+    }, */
     posizione: {
       get () {
         return this.$store.getters.getPosizione
@@ -518,8 +519,8 @@ export default {
         const causale = cau ? (cau.substr(0, cau.indexOf('-'))).trim() : cau
         const cl = this.$store.getters.getCdl
         const cdl = cl ? (cl.substr(0, cl.indexOf('-'))).trim() : cl
-        const cc = this.$store.getters.getCdc
-        const cdc = cc ? (cc.substr(0, cc.indexOf('-'))).trim() : cc
+        // const cc = this.$store.getters.getCdc
+        // const cdc = cc ? (cc.substr(0, cc.indexOf('-'))).trim() : cc
         const orari = {
           oraInizioAttMattino,
           oraFineAttMattino,
@@ -532,7 +533,7 @@ export default {
           nota: this.$store.getters.getNota,
           causale,
           cdl,
-          cdc,
+          // cdc,
           data,
           posizione: this.$store.getters.getPosizione,
           buono: this.$store.getters.getBuono,
