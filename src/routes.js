@@ -2,6 +2,7 @@ import Login from './components/Login'
 import Error from './components/Error'
 import About from './components/About'
 import ChangePwd from './components/ChangePwd'
+import Waiting from './components/Waiting'
 import Movimenti from './components/Movimenti/Movimenti'
 import DettaglioMov from './components/Movimento/DettaglioMov'
 import CercaMateriale from './components/Materiale/CercaMateriale'
@@ -12,8 +13,6 @@ import ToolbarMovimenti from './components/Toolbars/ToolbarMovimenti'
 import ToolbarMovimento from './components/Toolbars/ToolbarMovimento'
 import ToolbarPopUp from './components/Toolbars/ToolbarPopUp'
 import ToolbarAbout from './components/Toolbars/ToolbarAbout'
-
-import store from './store/store'
 
 export const routes = [{
     name: "login",
@@ -30,14 +29,6 @@ export const routes = [{
       toolbar: ToolbarLogin
     }
   },
-  /*{ path: '/', beforeEnter(to, from, next) {
-          if (store.getters.getToken) {
-              next('/movimenti')
-          } else {
-              next('/login')
-          }
-      }
-  },*/
   {
     name: "movimenti",
     path: '/movimenti',
@@ -45,12 +36,8 @@ export const routes = [{
       default: Movimenti,
       toolbar: ToolbarMovimenti
     },
-    beforeEnter(to, from, next) {
-      if (store.getters.getToken) {
-        next()
-      } else {
-        next('/login')
-      }
+    meta: { 
+      requiresAuth: true
     }
   },
   {
@@ -64,12 +51,8 @@ export const routes = [{
       default: true,
       toolbar: true
     },
-    beforeEnter(to, from, next) {
-      if (store.getters.getToken) {
-        next()
-      } else {
-        next('/login')
-      }
+    meta: { 
+      requiresAuth: true
     }
   },
   {
@@ -83,12 +66,8 @@ export const routes = [{
       default: false,
       toolbar: true
     },
-    beforeEnter(to, from, next) {
-      if (store.getters.getToken) {
-        next()
-      } else {
-        next('/login')
-      }
+    meta: { 
+      requiresAuth: true
     }
   },
   {
@@ -102,12 +81,8 @@ export const routes = [{
       default: true,
       toolbar: true
     },
-    beforeEnter(to, from, next) {
-      if (store.getters.getToken) {
-        next()
-      } else {
-        next('/login')
-      }
+    meta: { 
+      requiresAuth: true
     }
   },
   {
@@ -121,12 +96,8 @@ export const routes = [{
       default: true,
       toolbar: true
     },
-    beforeEnter(to, from, next) {
-      if (store.getters.getToken) {
-        next()
-      } else {
-        next('/login')
-      }
+    meta: { 
+      requiresAuth: true
     }
   },
   {
@@ -142,6 +113,9 @@ export const routes = [{
       default: About,
       toolbar: ToolbarAbout
     },
+    meta: { 
+      requiresAuth: true
+    },
     props: false
   },
   {
@@ -149,6 +123,14 @@ export const routes = [{
     name: "changepwd",
     components: {
       default: ChangePwd,
+      toolbar: ToolbarLogin
+    }
+  },  
+  {
+    path: "/waiting",
+    name: "waiting",
+    components: {
+      default: Waiting,
       toolbar: ToolbarLogin
     }
   }  

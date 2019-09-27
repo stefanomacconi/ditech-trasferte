@@ -8,6 +8,11 @@ import router from './router'
 import axios from 'axios' /* REST */
 import moment from 'moment' /* Date/Calendar */
 
+const token = localStorage.getItem('dt_token')
+if (token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+}
+
 // FARM
 axios.defaults.baseURL = 'http://localhost:8080/spweb/rest' 
 // axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
@@ -15,6 +20,21 @@ axios.defaults.baseURL = 'http://localhost:8080/spweb/rest'
 // axios.defaults.baseURL = 'https://apps.melesi.it:8443/spweb/rest'
 // axios.defaults.baseURL = 'http://192.168.0.105:8080/spweb/rest'
 // axios.defaults.baseURL = 'http://192.168.0.109:8080/spweb/rest'
+
+/* NON FUNZIONA PERCHE' GESTISCE PRIMA L'HANDLE ERROR
+axios.interceptors.response.use(response => {
+  console.log("the response is", response);
+  if (response.status === 401) {
+    console.log("Ho intercettato un 401")
+    // if you ever get an unauthorized, logout the user
+    this.$store.dispatch('logout')
+    // redirect to Login
+    this.$router.push('/login')
+  } else {
+    return response
+  }
+});
+*/
 
 Vue.prototype.moment = moment
 

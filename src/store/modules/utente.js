@@ -3,11 +3,12 @@ import axios from 'axios'
 const qs = require('querystring')
 
 const state = {
-  token: null,
-  utente: null,
+  status: '',
+  token: localStorage.getItem('dt_token') || '',
+  utente: '',
   siglaDitta: null,
   ditta: null,
-  dipendente: null,
+  dipendente: '',
   esterno: null,
   opzioni: {}
 }
@@ -15,17 +16,19 @@ const state = {
 const mutations = {
   authUser(state, userData) {
     state.token = userData.token
+    state.status = 'success'
     state.utente = userData.utente
     state.siglaDitta = userData.siglaDitta
     state.ditta = userData.ditta
     state.esterno = userData.esterno
   },
   clearAuthData(state) {
-    state.token = null
-    state.utente = null
+    state.token = ''
+    state.status = ''
+    state.utente = ''
     state.siglaDitta = null
     state.ditta = null
-    state.dipendente = null
+    state.dipendente = ''
     state.esterno = null
     state.opzioni = {}
   },
@@ -41,8 +44,6 @@ const actions = {
   login({
     commit,
     dispatch,
-    state,
-    rootState
   }, authData) {
     const config = {
       headers: {
@@ -59,48 +60,79 @@ const actions = {
       .then(res => {
         // eslint-disable-next-line
         console.log(res)
-        const data = res.data
-        commit('authUser', {
-          token: data.diTechToken.token,
-          utente: data.name,
-          ditta: data.ditta,
-          siglaDitta: data.siglaDitta,
-          esterno: data.esterno
-        })
-        // init environment
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + state
-          .token
-        return dispatch('fetchDipendente').then(() => {
-          dispatch('fetchMovimenti').then(() => {
-            router.push('/movimenti')
-            // altro fetch in background
-            dispatch('incrementOffset')
-            dispatch('fetchMovimenti', rootState.movimenti.offset)
-            // .then(() => {
-            // })
-          })
-          // fill options, def nota spese, elenco causali, cdl and cdc (no need to be synchronous)
-          dispatch('fetchOpzioni')
-          dispatch('fetchDefinizioneNotaSpese')
-          dispatch('fetchCausali')
-          dispatch('fetchElencoCdl')
-          // dispatch('fetchElencoCdc')
-        })
+        dispatch('_authUser', res.data)
+      }).catch(error => {
+        // eslint-disable-next-line
+        console.log(error)
+        localStorage.removeItem('dt_token')
+        commit('clearAuthData')
+        dispatch('handleError', error.response.data)
+      })
+    },
+    clearStoreData({ commit }) {
+      commit('clearAuthData')
+      commit('clearMov')
+      commit('clearMovimentiData')
+    },
+    setUserInfo({ dispatch }) {
+      axios.get('/utente')
+      .then(res => {
+        // eslint-disable-next-line
+        console.log(res)
+        dispatch('_authUser', res.data)
       }).catch(error => {
         // eslint-disable-next-line
         console.log(error)
         dispatch('handleError', error.response.data)
       })
-  },
-  logout({
-    commit
-  }) {
-    // TODO EFFETTUARE ANCHE IL LOGOUT CON I SERVIZI REST DITECH
-    commit('clearAuthData')
-    commit('clearMov')
-    commit('clearMovimentiData')
-    router.replace('/login')
-  },
+    },
+    _authUser({ commit, dispatch }, data) {
+      const token = data.diTechToken.token
+      localStorage.setItem('dt_token', token)
+      commit('authUser', {
+        token,
+        utente: data.name,
+        ditta: data.ditta,
+        siglaDitta: data.siglaDitta,
+        esterno: data.esterno
+      })
+      // init environment
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      return dispatch('initEnvironment')
+    },
+    initEnvironment({ dispatch, rootState }) {
+      console.log("*** INIT ***")
+      dispatch('fetchDipendente').then(() => {
+        dispatch('fetchMovimenti').then(() => {
+          router.push('/movimenti')
+          dispatch('incrementOffset')
+          dispatch('fetchMovimenti', rootState.movimenti.offset)
+        })
+        // fill options, def nota spese, elenco causali, cdl and cdc (no need to be asynchronous)
+        dispatch('fetchOpzioni')
+        dispatch('fetchDefinizioneNotaSpese')
+        dispatch('fetchCausali')
+        dispatch('fetchElencoCdl')
+        // dispatch('fetchElencoCdc')
+      })
+    },
+    logout({
+      dispatch
+    }) {
+      axios.get('/logout')
+      .then(res => {
+        // eslint-disable-next-line
+        console.log(res)
+        dispatch('clearStoreData')
+        localStorage.removeItem('dt_token')
+        delete axios.defaults.headers.common['Authorization']
+        router.replace('/login')
+      }).catch(error => {
+        // eslint-disable-next-line
+        console.log(error)
+        dispatch('handleError', error.response.data)
+      })
+    },
   // eslint-disable-next-line
   handleError({}, error) {
     const errorData = {
@@ -183,12 +215,11 @@ const getters = {
   getDitta(state) {
     return state.ditta
   },
-  isAuthenticated(state) {
-    return state.token !== null
-  },
   getOpzioni(state) {
     return state.opzioni
-  }
+  },
+  isLoggedIn: state => !!state.token,
+  authStatus: state => state.status
 }
 
 export default {
