@@ -1,5 +1,6 @@
 import router from '../../router'
 import axios from 'axios'
+import { Promise } from 'q'
 const qs = require('querystring')
 
 const state = {
@@ -41,7 +42,7 @@ const mutations = {
 }
 
 const actions = {
-  login({
+  async login({
     commit,
     dispatch,
   }, authData) {
@@ -54,39 +55,50 @@ const actions = {
         password: authData.password
       }
     }
-    axios.post('/autenticazione', qs.stringify({
-        esterni: true
-      }), config)
-      .then(res => {
-        // eslint-disable-next-line
-        console.log(res)
-        dispatch('_authUser', res.data)
-      }).catch(error => {
-        // eslint-disable-next-line
-        console.log(error)
-        localStorage.removeItem('dt_token')
-        commit('clearAuthData')
-        dispatch('handleError', error.response.data)
-      })
+    return new Promise((resolve, reject) => {
+      axios.post('/autenticazione', qs.stringify({
+          esterni: true
+        }), config)
+        .then(res => {
+          // eslint-disable-next-line
+          console.log(res)
+          dispatch('_authUser', res.data).then(() => {
+            resolve()
+          })
+        }).catch(error => {
+          // eslint-disable-next-line
+          console.log(error)
+          localStorage.removeItem('dt_token')
+          commit('clearAuthData')
+          dispatch('handleError', error.response.data)
+          reject()
+        })
+    })
     },
-    clearStoreData({ commit }) {
+    async clearStoreData({ commit }) {
+      commit('clearGeneralData')
       commit('clearAuthData')
       commit('clearMov')
       commit('clearMovimentiData')
     },
-    setUserInfo({ dispatch }) {
-      axios.get('/utente')
-      .then(res => {
-        // eslint-disable-next-line
-        console.log(res)
-        dispatch('_authUser', res.data)
-      }).catch(error => {
-        // eslint-disable-next-line
-        console.log(error)
-        dispatch('handleError', error.response.data)
+    async setUserInfo({ dispatch }) {
+      return new Promise((resolve, reject) => {
+        axios.get('/utente')
+        .then(res => {
+          // eslint-disable-next-line
+          console.log(res)
+          dispatch('_authUser', res.data).then(() => {
+            resolve()
+          })
+        }).catch(error => {
+          // eslint-disable-next-line
+          console.log(error)
+          dispatch('handleError', error.response.data)
+          reject()
+        })
       })
     },
-    _authUser({ commit, dispatch }, data) {
+    async _authUser({ commit, dispatch }, data) {
       const token = data.diTechToken.token
       localStorage.setItem('dt_token', token)
       commit('authUser', {
@@ -100,24 +112,29 @@ const actions = {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
       return dispatch('initEnvironment')
     },
-    initEnvironment({ dispatch, rootState }) {
+    async initEnvironment({ dispatch, rootState }) {
       // eslint-disable-next-line
       console.log("*** INIT ***")
-      dispatch('fetchDipendente').then(() => {
-        dispatch('fetchMovimenti').then(() => {
-          router.push('/movimenti')
-          dispatch('incrementOffset')
-          dispatch('fetchMovimenti', rootState.movimenti.offset)
+      return new Promise((resolve) => {
+        dispatch('fetchDipendente').then(() => {
+          dispatch('fetchMovimenti').then(() => {
+            router.push('/movimenti')
+            dispatch('incrementOffset')
+            dispatch('fetchMovimenti', rootState.movimenti.offset)
+            // eslint-disable-next-line
+            console.log("*** DONE WITH INIT ***")
+            resolve()
+          })
+          // fill options, def nota spese, elenco causali, cdl and cdc (no need to be asynchronous)
+          dispatch('fetchOpzioni')
+          dispatch('fetchDefinizioneNotaSpese')
+          dispatch('fetchCausali')
+          dispatch('fetchElencoCdl')
+          // dispatch('fetchElencoCdc')
         })
-        // fill options, def nota spese, elenco causali, cdl and cdc (no need to be asynchronous)
-        dispatch('fetchOpzioni')
-        dispatch('fetchDefinizioneNotaSpese')
-        dispatch('fetchCausali')
-        dispatch('fetchElencoCdl')
-        // dispatch('fetchElencoCdc')
       })
     },
-    logout({
+    async logout({
       dispatch
     }) {
       axios.get('/logout')
@@ -135,7 +152,8 @@ const actions = {
       })
     },
   // eslint-disable-next-line
-  handleError({}, error) {
+  handleError({ dispatch }, error) {
+    dispatch('hideWaitDialog')
     const errorData = {
       message: error.message,
       developerMessage: error.developerMessage,
@@ -154,7 +172,7 @@ const actions = {
       }
     })
   },
-  fetchDipendente({
+  async fetchDipendente({
     commit,
     dispatch,
     state
@@ -177,7 +195,7 @@ const actions = {
         })
     })
   },
-  fetchOpzioni({
+  async fetchOpzioni({
     commit,
     dispatch
   }) {

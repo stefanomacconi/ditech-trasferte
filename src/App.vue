@@ -7,11 +7,22 @@
          <router-view :key="$route.fullPath"></router-view>
         </v-container>
       </v-content>
+    <wait-dialog v-if="waitDialogVisible"></wait-dialog>
   </v-app>
 </template>
 
 <script>
+const WaitDialog = () => import ('./components/WaitDialogNew')
+
 export default {
   name: "App",
+  components: {
+    WaitDialog
+  },
+  computed: {
+    waitDialogVisible() {
+      return this.$store.getters.getWaitDialogVisible
+    }
+  }
 }
 </script>

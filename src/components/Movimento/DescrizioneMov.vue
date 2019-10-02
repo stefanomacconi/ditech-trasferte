@@ -549,7 +549,8 @@ export default {
           const newDatabean = res.data
           this.$store.dispatch("addNewDataBean", newDatabean)
           // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
-          history.replaceState({}, "movimenti", "movimenti")
+          // Non va bene così. Ho poi problemi di path nelle routes
+          // history.replaceState({}, "movimenti", "movimenti")
           if (!numeroMovimento)
             // se è un'aggiunta prendo l'ultimo numero movimento
             numeroMovimento = newDatabean.movimenti[newDatabean.movimenti.length - 1].numeroMovimento

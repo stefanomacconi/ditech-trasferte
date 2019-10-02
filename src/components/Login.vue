@@ -45,16 +45,11 @@ export default {
           utente: this.utente,
           password: this.password
         }
-        // eslint-disable-next-line
-        //console.log(formData)
         this.$store.dispatch('login', {
           utente: formData.utente,
           password: formData.password
         })
       }
-    },
-    changepwd() {
-      //this.$store.dispatch('logout')
     }
   }
 }

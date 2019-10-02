@@ -2,7 +2,6 @@ import Login from './components/Login'
 import Error from './components/Error'
 import About from './components/About'
 import ChangePwd from './components/ChangePwd'
-import Waiting from './components/Waiting'
 import Movimenti from './components/Movimenti/Movimenti'
 import DettaglioMov from './components/Movimento/DettaglioMov'
 import CercaMateriale from './components/Materiale/CercaMateriale'
@@ -125,13 +124,5 @@ export const routes = [{
       default: ChangePwd,
       toolbar: ToolbarLogin
     }
-  },  
-  {
-    path: "/waiting",
-    name: "waiting",
-    components: {
-      default: Waiting,
-      toolbar: ToolbarLogin
-    }
-  }  
+  } 
 ]

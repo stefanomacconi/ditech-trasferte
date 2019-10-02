@@ -146,7 +146,7 @@ const mutations = {
 }
 
 const actions = {
-  fetchMovimenti({
+  async fetchMovimenti({
     commit,
     dispatch,
     rootState
@@ -177,7 +177,7 @@ const actions = {
         })
     })
   },
-  fetchCausali({
+  async fetchCausali({
     commit,
     dispatch
   }) {
@@ -192,7 +192,7 @@ const actions = {
         dispatch('handleError', error.response.data)
       })
   },
-  fetchElencoCdl({
+  async fetchElencoCdl({
     commit,
     dispatch
   }) {
@@ -207,7 +207,7 @@ const actions = {
         dispatch('handleError', error.response.data)
       })
   },
-  fetchElencoCdc({
+  async fetchElencoCdc({
     commit,
     dispatch
   }) {
@@ -223,7 +223,7 @@ const actions = {
       })
 
   },
-  fetchDefinizioneNotaSpese({
+  async fetchDefinizioneNotaSpese({
     commit,
     dispatch
   }) {

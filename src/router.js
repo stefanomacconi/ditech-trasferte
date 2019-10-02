@@ -16,14 +16,11 @@ router.beforeEach((to, from, next) => {
     if (store.getters.isLoggedIn) {
       if (store.getters.authStatus != 'success') {
         // after F5 refresh
-        next('/waiting')
-        // TODO manipolare history
-        store.dispatch('clearStoreData').then(() => {
-          store.dispatch('setUserInfo').then(() => {
-            // manipolo l'history per evitare che il back faccia tornare su waiting
-            history.replaceState({}, "login", "/login")
-            next('/movimenti')
-          })
+        store.dispatch('showWaitDialog')
+        store.dispatch('clearStoreData')
+        store.dispatch('setUserInfo').then(() => {
+          next('/movimenti')
+          store.dispatch('hideWaitDialog')
         })
       } else {
         next()
