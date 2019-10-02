@@ -389,6 +389,7 @@ export default {
       this.notaPerMov = ""
     },
     linkMovs() {
+      // eslint-disable-next-line
       console.log("TODO linkMovs()")
       // const selectedMovs = this.$store.getters.getMovimentiSelezionati
       // TODO chiamata rest

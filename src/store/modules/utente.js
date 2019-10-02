@@ -101,6 +101,7 @@ const actions = {
       return dispatch('initEnvironment')
     },
     initEnvironment({ dispatch, rootState }) {
+      // eslint-disable-next-line
       console.log("*** INIT ***")
       dispatch('fetchDipendente').then(() => {
         dispatch('fetchMovimenti').then(() => {

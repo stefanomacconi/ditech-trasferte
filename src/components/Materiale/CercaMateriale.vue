@@ -67,6 +67,7 @@ export default {
             descrizione: this.descrizione
           })
         ).then(res => {
+          // eslint-disable-next-line
           console.log(res)
           this.wait = false
           if (res.data && res.data.length > 0) {
