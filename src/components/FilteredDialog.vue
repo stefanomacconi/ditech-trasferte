@@ -19,19 +19,13 @@
           <v-text-field v-model="filterText" :label="getFilterName()"></v-text-field>
         </v-flex>
       </v-layout>
-        <v-list two-line>
+        <v-list three-line>
           <template v-for="(item, index) in filteredItems">
             <v-list-tile :key="item.codice" avatar ripple @click="$emit('onItemSelected', item)">
               <v-list-tile-content>
-                <v-list-tile-title>
-                  <b>{{ item.codice }} - {{ item.descrizione }}</b>
-                </v-list-tile-title>
+                <v-list-tile-title v-html="item.codice"></v-list-tile-title>
+                <v-list-tile-sub-title v-html="item.descrizione"></v-list-tile-sub-title>
               </v-list-tile-content>
-              <v-list-tile-action>
-                <!--<v-icon>
-                  keyboard_return
-                </v-icon>-->
-              </v-list-tile-action>
             </v-list-tile>
             <v-divider v-if="index + 1 < items.length" :key="item.codice + 'divider'"></v-divider>
           </template>
@@ -74,7 +68,7 @@ export default {
   methods: {
     getFilterName() {
       return "Filtro " + this.title
-    }
+    },
   }    
 }
 </script>
