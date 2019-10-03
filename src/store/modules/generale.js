@@ -8,7 +8,7 @@ const mutations = {
   },
   // eslint-disable-next-line
   clearGeneralData(state) {
-    // state.waitDialogVisible = false
+    // TO NOT DO state.waitDialogVisible = false
   }
 }
 

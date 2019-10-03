@@ -22,13 +22,10 @@
       <v-btn color="secondary" flat @click="clearFilterSearchMov()">Pulisci</v-btn>
       <v-btn color="primary" flat @click="addMateriale()">Conferma</v-btn> 
     </v-form>   
-    <!-- wait -->
-    <wait-dialog :visibile=this.wait></wait-dialog>
   </div>
 </template>
 
 <script>
-import WaitDialogVue from '../WaitDialog.vue'
 import axios from "axios"
 const qs = require('querystring')
 
@@ -37,7 +34,6 @@ export default {
     return {
       qta: "",
       note: "",
-      wait: false,
       qtaRules: [
         v => {
           if (!v || isNaN(v))
@@ -55,13 +51,10 @@ export default {
       type: String
     }
   },
-  components: {
-    'wait-dialog': WaitDialogVue
-  },   
   methods: {
     addMateriale() {
       if (this.$refs.form.validate()) {
-        this.wait = true
+        this.$store.dispatch('showWaitDialog')
         axios.post('/movimento/addMateriale', 
           qs.stringify({
             parcheggio: true,
@@ -89,7 +82,7 @@ export default {
       }
     },
     goToMov() {
-      this.wait = false
+      this.$store.dispatch('hideWaitDialog')
       this.$router.push({
         name: 'movimento', 
         params: {

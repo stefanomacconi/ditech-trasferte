@@ -12,7 +12,7 @@
 </template>
 
 <script>
-const WaitDialog = () => import ('./components/WaitDialogNew')
+const WaitDialog = () => import ('./components/WaitDialog')
 
 export default {
   name: "App",

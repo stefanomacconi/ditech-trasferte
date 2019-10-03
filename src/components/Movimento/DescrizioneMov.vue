@@ -146,8 +146,6 @@
       <filtered-dialog :visible="this.listaCdLDialog" :items="this.elencoCdL" 
         title="CdL" @onClose="closeDialogCdL" @onItemSelected="chooseCdL"></filtered-dialog>
     </v-layout>
-    <!-- ATTENDERE DIALOG -->
-    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
   </div> 
 </template>
 
@@ -158,7 +156,6 @@ import utilities from "../../utilitiesMixin.js"
 
 import FilteredDialog from "../FilteredDialog"
 import RicercaCommessa from "./RicercaCommessa"
-import WaitDialog from '../WaitDialog.vue'
 
 const campoObbligatorio = "Campo obbligatorio"
 
@@ -182,7 +179,6 @@ export default {
   },
   components: {
     FilteredDialog,
-    WaitDialog,
     RicercaCommessa
   }, 
   data: () => ({
@@ -203,7 +199,6 @@ export default {
       v => !isNaN(v) || 'buono non valido'
     ],
     commessaSearchDialog: false,
-    attendereDialog: false,
     listaCommesseDialog: false,
     listaCommesseCercate: [],
     listaCdLDialog: false,
@@ -407,7 +402,7 @@ export default {
   mixins: [utilities],
   methods: {
     fetchMovimento() {
-      this.attendereDialog = true
+      this.$store.dispatch('showWaitDialog')
       let pre = '/movimento/lavorazione/singolo/'
       if (!this.definitivo)
         pre = pre + 'parcheggio/'
@@ -428,7 +423,7 @@ export default {
           //__ tempo h.cent -> h.min
           //state.movimento.tempo = movimento.tempo
           this.$store.commit('setMovimento', res.data)
-          this.attendereDialog = false
+          this.$store.dispatch('hideWaitDialog')
       }).catch(error => {
           // eslint-disable-next-line
           console.log(error)
@@ -508,7 +503,7 @@ export default {
       if (!this.$refs.form)
         return
       if (this.$refs.form.validate()) {
-        this.attendereDialog = true
+        this.$store.dispatch('showWaitDialog')
         // save movement
         const data = moment(this.$store.getters.getData, "YYYY-MM-DD").valueOf()
         const oraInizioAttMattino = this.$store.getters.getTimeA1 ? this.$store.getters.getTimeA1.replace(":", "") : this.$store.getters.getTimeA1
@@ -554,7 +549,7 @@ export default {
           if (!numeroMovimento)
             // se è un'aggiunta prendo l'ultimo numero movimento
             numeroMovimento = newDatabean.movimenti[newDatabean.movimenti.length - 1].numeroMovimento
-          this.attendereDialog = false
+          this.$store.dispatch('hideWaitDialog')
           this.$router.push({
             name: 'movimento',
             params: {
@@ -562,7 +557,6 @@ export default {
             }
           })
         }).catch(error => {
-          this.attendereDialog = false
           // eslint-disable-next-line
           console.log(error)
           this.$store.dispatch('handleError', error.response.data)
@@ -582,17 +576,17 @@ export default {
     checkBuono() {
       if (!this.$store.getters.isNewMov || !this.buono)
         return
-      this.attendereDialog = true
+      this.$store.dispatch('showWaitDialog')
       axios.get('/distinta/tecnica/nodo/buono/' + this.buono).then(res => {
         // eslint-disable-next-line
         console.log(res)
-        this.attendereDialog = false
+        this.$store.dispatch('hideWaitDialog')
         this.$store.commit('setCommessa', res.data.codiceCommessa)
         this.$store.commit('setPosizione', res.data.posizione)
       }).catch(error => {
         // eslint-disable-next-line
         console.log(error)
-        this.attendereDialog = false
+        this.$store.dispatch('hideWaitDialog')
         this.buono = this.buono + " !"
       })
     }

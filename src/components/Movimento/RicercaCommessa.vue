@@ -40,14 +40,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!-- ATTENDERE DIALOG -->
-    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import WaitDialog from '../WaitDialog.vue'
 
 export default {
   props: {
@@ -57,22 +54,18 @@ export default {
   },
   data() {
     return {
-      attendereDialog: false,
       codicePerCommessa: "",
       descrizionePerCommessa: "",
       RagioneSocialePerCommessa: "",
       statoPerCommessa: "Aperte",
     }
   },
-  components: {
-    WaitDialog
-  },
   computed: {
   },
   methods: {
     searchCommessa() {
       this.$emit('onClose')
-      this.attendereDialog = true
+      this.$store.dispatch('showWaitDialog')
       axios.get('/commessa/', {
         params: {
           codice: this.codicePerCommessa,
@@ -83,7 +76,7 @@ export default {
       }).then(res => {
         // eslint-disable-next-line
         console.log(res)
-        this.attendereDialog = false
+        this.$store.dispatch('hideWaitDialog')
         this.$emit('onItemsFound', res.data)
       }).catch(error => {
         // eslint-disable-next-line

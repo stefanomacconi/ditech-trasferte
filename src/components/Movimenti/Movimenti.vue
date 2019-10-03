@@ -16,13 +16,10 @@
     <v-btn v-else dark flat icon small class="green" style="left:-3px">
       <v-icon>check</v-icon>
     </v-btn>
-    <!-- ATTENDERE DIALOG -->
-    <wait-dialog :visibile="this.dialog"></wait-dialog>
   </div>
 </template>
 
 <script>
-import WaitDialog from '../WaitDialog.vue'
 import GiornoMovimenti from './GiornoMovimenti.vue'
 
 export default {
@@ -30,7 +27,6 @@ export default {
     this.$store.dispatch("clearMovimentiSelezionati")
   },
   data: () => ({
-    dialog: false,
     moreMovs: true
   }),
   computed: {
@@ -54,8 +50,7 @@ export default {
     }
   },
   components: {
-    GiornoMovimenti,
-    WaitDialog
+    GiornoMovimenti
   },
   methods: {
     compare(a,b) {
@@ -67,12 +62,12 @@ export default {
     },
     more() {
       // commento perché le computed non vengono rinfrescate per il sidemenu
-      /*this.dialog = true
+      /*this.$store.dispatch('showWaitDialog')
       this.$store.dispatch('incrementOffset')
       this.$store.dispatch('fetchMovimenti', this.$store.getters.getOffset).then(res => {
         if (Object.keys(res.data).length === 0) 
           this.moreMovs = false
-        this.dialog = false
+        this.$store.dispatch('hideWaitDialog')
       }) */
       // TODO refresh view altrimenti si hanno problemi con i movimenti a metà della prima GET
       // questo non funziona

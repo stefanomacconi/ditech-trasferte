@@ -28,13 +28,10 @@
         </template>
       </v-list>
     </v-flex>  
-    <!-- wait -->
-    <wait-dialog :visibile=this.wait></wait-dialog>
   </div>
 </template>
 
 <script>
-import WaitDialogVue from '../WaitDialog.vue'
 import axios from "axios"
 const qs = require('querystring')
 
@@ -44,7 +41,6 @@ export default {
       codice: "",
       descrizione: "",
       materiali: [],
-      wait: false,
       noErr: true,
       formRules: [
         () => {
@@ -55,13 +51,10 @@ export default {
       ]
     }
   },
-  components: {
-    'wait-dialog': WaitDialogVue
-  },   
   methods: {
     refreshMateriali() {
       if (this.$refs.form.validate()) {
-        this.wait = true
+        this.$store.dispatch('showWaitDialog')
         axios.post('/articoli', qs.stringify({
             codice: this.codice,
             descrizione: this.descrizione
@@ -69,7 +62,7 @@ export default {
         ).then(res => {
           // eslint-disable-next-line
           console.log(res)
-          this.wait = false
+          this.$store.dispatch('hideWaitDialog')
           if (res.data && res.data.length > 0) {
             this.noErr = true
             if (res.data.length > 1) {
@@ -84,7 +77,6 @@ export default {
         }).catch(error => {
           // eslint-disable-next-line
           console.log(error)
-          this.wait = false
           this.$store.dispatch('handleError', error.response.data)
         })
       }

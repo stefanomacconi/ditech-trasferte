@@ -1,6 +1,6 @@
 <template>
     <div class="text-xs-center">
-      <v-dialog persistent width="300" v-model="visibile">
+      <v-dialog persistent width="300" v-model="visible">
         <v-card color="primary" dark>
           <v-card-text>
             Attendere...
@@ -13,10 +13,10 @@
 
 <script>
 export default {
-  props: {
-    visibile: {
-      type: Boolean
+  computed: {
+    visible() {
+      return this.$store.getters.getWaitDialogVisible
     }
-  }    
+  }
 }
 </script>

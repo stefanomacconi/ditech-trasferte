@@ -36,16 +36,12 @@
       <v-btn color="secondary" @click.prevent="clear">Cancella</v-btn>
     </v-form>
     <br>
-    <!-- ATTENDERE DIALOG -->
-    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
   </div>
 </template>
 
 <script>
 import axios from "axios"
 import router from '../router'
-
-import WaitDialog from './WaitDialog.vue'
 
 const qs = require('querystring')
 
@@ -56,7 +52,6 @@ export default {
     newpassword: "",
     newpasswordretyped: "",
     dialog: false,
-    attendereDialog : false,
     pswRules: [
       (v) => {
         if (!v)
@@ -70,16 +65,13 @@ export default {
       }    
     ]
   }),
-  components: {
-    WaitDialog
-  },
   methods: {
     clear() {
       this.$refs.form.reset()
     },
     changePwd() {
       if (this.$refs.form.validate()) {
-        this.attendereDialog = true
+        this.$store.dispatch('showWaitDialog')
         const formData = {
           utente: this.utente,
           oldpassword: this.oldpassword,
@@ -91,14 +83,13 @@ export default {
         ).then(res => {
           // eslint-disable-next-line
           console.log(res)
-          this.attendereDialog = false
+          this.$store.dispatch('hideWaitDialog')
           router.replace('/login')
           //this.$store.dispatch('logout')
 
         }).catch(error => {
           // eslint-disable-next-line
           console.log(error)
-          this.attendereDialog = false
           this.$store.dispatch('handleError', error.response.data)
         })
       }

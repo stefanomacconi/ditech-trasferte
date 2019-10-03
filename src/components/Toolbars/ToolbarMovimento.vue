@@ -72,8 +72,6 @@
         </v-card>
       </v-dialog>
     </v-layout>
-    <!-- ATTENDERE DIALOG -->
-    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
     <!-- PRINT DIALOG  
     <div v-if="printDialog" >
       conMateriale tipoStampa="1"
@@ -149,7 +147,6 @@
 import axios from "axios"
 const qs = require('querystring')
 import PrintRappDialogVue from '../Movimento/PrintRappDialog.vue'
-import WaitDialog from '../WaitDialog.vue'
 
 export default {
   created() {
@@ -192,7 +189,6 @@ export default {
       tab : 0,
       isNewMov : false,
       dialogConfirm : false,
-      attendereDialog : false,
       printDialog : false,
       linkNrRapportinoDialog: false,
       nuovoNrRapportino: null,
@@ -218,7 +214,6 @@ export default {
   },
   components: {
     'print-rapp-dialog': PrintRappDialogVue,
-    WaitDialog
   },
   computed: {
     tabItems() {
@@ -269,7 +264,7 @@ export default {
     },
     deleteMov(numeroMovimento) {
       this.dialogConfirm = false
-      this.attendereDialog = true
+      this.$store.dispatch('showWaitDialog')
       axios.delete(
         '/movimento/lavorazione/' + numeroMovimento
       ).then(res => {
@@ -278,14 +273,13 @@ export default {
         // Update lista mov
         // TODO non conviene ritornare tutto ma usare la GET sul metodo che ritorna solo la data
         this.$store.dispatch('fetchMovimenti').then(() => {
-          this.attendereDialog = false
+          this.$store.dispatch('hideWaitDialog')
           this.$router.push({
             name: 'movimenti'
           })
           this.asyncClear()
         })
       }).catch(error => {
-        this.attendereDialog = false
         // eslint-disable-next-line
         console.log(error)
         this.$store.dispatch('handleError', error.response.data)
@@ -310,7 +304,7 @@ export default {
     linkNrRapportino() {
       if (this.$refs.formLinkNrRapportinoDialog.validate()) {
         this.linkNrRapportinoDialog = false
-        this.attendereDialog = true
+        this.$store.dispatch('showWaitDialog')
         axios.post('/movimento/agganciarapportino', qs.stringify({
             parcheggio: true,
             mov: this.id,
@@ -323,11 +317,10 @@ export default {
             numeroMovimento: this.id,
             numeroRapportino: this.nuovoNrRapportino
           })
-          this.attendereDialog = false
+          this.$store.dispatch('hideWaitDialog')
         }).catch(error => {
           // eslint-disable-next-line
           console.log(error)
-          this.attendereDialog = false
           this.$store.dispatch('handleError', error.response.data)
         })
       }

@@ -17,30 +17,23 @@
     <br>
     <!-- CAMBIA PSW -->
     <v-btn to="/ChangePwd">Cambia password</v-btn>
-    <!-- ATTENDERE DIALOG -->
-    <wait-dialog :visibile="this.dialog"></wait-dialog>
   </div>
 </template>
 
 <script>
-import WaitDialog from './WaitDialog.vue'
-
 export default {
   data: () => ({
     utente: "",
     password: "",
     dialog: false
   }),
-  components: {
-    WaitDialog
-  },
   methods: {
     clear() {
       this.$refs.form.reset()
     },
     login() {
       if (this.$refs.form.validate()) {
-        this.dialog = true
+        this.$store.dispatch('showWaitDialog')
         const formData = {
           utente: this.utente,
           password: this.password
@@ -48,6 +41,8 @@ export default {
         this.$store.dispatch('login', {
           utente: formData.utente,
           password: formData.password
+        }).then(() => {
+          this.$store.dispatch('hideWaitDialog')
         })
       }
     }

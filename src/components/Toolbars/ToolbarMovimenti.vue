@@ -115,8 +115,6 @@
         <v-btn flat color="primary" @click="$refs.dateMenu.save(date)">OK</v-btn> <!-- ; scrollTop() -->
       </v-date-picker>
     </v-menu>
-    <!-- ATTENDERE DIALOG -->
-    <wait-dialog :visibile="this.attendereDialog"></wait-dialog>
     <!-- MOV FILTER DIALOG --> 
     <v-layout row justify-center>
       <v-dialog v-model="movFilterDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -228,8 +226,6 @@
 import moment from 'moment'
 import axios from 'axios'
 
-import WaitDialog from '../WaitDialog.vue'
-
 export default {
   data: (vm) => ({
     dateMenu: false,
@@ -251,7 +247,6 @@ export default {
       title: "Logout",
       icon: "lock"
     },
-    attendereDialog : false,
     movFilterDialog : false,
     listaMovsDialog : false,
     commessaPerMov: "",
@@ -260,9 +255,6 @@ export default {
     listaMovs: [],
     tzoffset: (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
   }),
-  components: {
-    WaitDialog
-  },
   computed: {
     utente() {
       return this.$store.getters.getUtente
@@ -314,7 +306,7 @@ export default {
     },
     searchMov() {
       this.movFilterDialog = false
-      this.attendereDialog = true
+      this.$store.dispatch('showWaitDialog')
       const da = moment(this.dataDaPerMovFormatted, "DD/MM/YYYY").valueOf()
       const a = moment(this.dataAPerMovFormatted, "DD/MM/YYYY").valueOf()
       let posizione = null
@@ -331,7 +323,7 @@ export default {
       }).then(res => {
         // eslint-disable-next-line
         console.log(res)
-        this.attendereDialog = false
+        this.$store.dispatch('hideWaitDialog')
         this.listaMovs = res.data
         this.listaMovsDialog = true
       }).catch(error => {
@@ -349,10 +341,10 @@ export default {
     },
     more() {
       this.drawer = false
-      this.attendereDialog = true
+      this.$store.dispatch('showWaitDialog')
       this.$store.dispatch('incrementOffset')
       this.$store.dispatch('fetchMovimenti', this.$store.getters.getOffset).then(() => {
-        this.attendereDialog = false
+        this.$store.dispatch('hideWaitDialog')
       })
       // TODO refresh view altrimenti si hanno problemi con i movimenti a metà della prima GET
       // questo non funziona

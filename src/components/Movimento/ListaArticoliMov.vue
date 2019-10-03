@@ -27,24 +27,17 @@
         <v-icon>add</v-icon>
       </v-btn>
     </v-layout>
-    <!-- wait -->
-    <wait-dialog :visibile=this.waitDialog></wait-dialog>  
   </v-layout>
 </template>
 
 <script>
 import axios from "axios"
-import WaitDialog from '../WaitDialog.vue'
 
 export default {
   data() {
     return {
-      waitDialog: false
     }
   },
-  components: {
-    WaitDialog
-  }, 
   computed: {
     materiali() {
       return this.$store.getters.getMateriale
@@ -70,18 +63,17 @@ export default {
     deleteMateriale(materiale, index) {
       if (this.$store.getters.isDefinitivo) 
         return
-      this.waitDialog = true
+      this.$store.dispatch('showWaitDialog')
       axios.delete('/materiale', {
         data: materiale 
       }).then(res => {
         // eslint-disable-next-line
         console.log(res)
-        this.waitDialog = false
+        this.$store.dispatch('hideWaitDialog')
         this.$store.dispatch('removeMateriale', index)
       }).catch(error => {
         // eslint-disable-next-line
         console.log(error)
-        this.waitDialog = false
         this.$store.dispatch('handleError', error.response.data)
       })
     }

@@ -38,19 +38,15 @@
         </v-card>
       </v-dialog>
     </v-layout>
-    <!-- wait -->
-    <wait-dialog :visibile=this.printing></wait-dialog>
   </div>
 </template>
 
 <script>
-import WaitDialogVue from '../WaitDialog.vue'
 import axios from "axios"
 
 export default {
   data() {
     return {
-      printing: false,
       conMateriale: false,
       tipoStampa: 1
     }
@@ -66,9 +62,6 @@ export default {
       type: Boolean
     }
   },
-  components: {
-    'wait-dialog': WaitDialogVue
-  },
   computed: {
     gestioneNoteSpese() {
       const opzioni = this.$store.getters.getOpzioni
@@ -82,7 +75,7 @@ export default {
   methods: {
     printMov() {
       this.$emit('chiudi')
-      this.printing = true
+      this.$store.dispatch('showWaitDialog')
       //StampaRapportinoInterventoParamsBean
       axios('/stampe-movimenti/rapportoServizioMF', {
         method: 'POST',
@@ -110,7 +103,7 @@ export default {
         link.setAttribute('download', pdfName)
         document.body.appendChild(link)
         link.click()
-        this.printing = false */
+        this.$store.dispatch('hideWaitDialog') */
 
         // Method 2
         // Works but can't set the pdf name
@@ -140,9 +133,8 @@ export default {
           "'></iframe>"
           )
         */
-        this.printing = false
+        this.$store.dispatch('hideWaitDialog')
       }).catch(error => {
-        this.printing = false
         // eslint-disable-next-line
         console.log(error)
         this.$store.dispatch('handleError', error.response.data)
