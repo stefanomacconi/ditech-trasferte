@@ -24,7 +24,7 @@ import GiornoMovimenti from './GiornoMovimenti.vue'
 
 export default {
   mounted() {
-    this.$store.dispatch("clearMovimentiSelezionati")
+    // this.$store.dispatch("clearMovimentiSelezionati")
   },
   data: () => ({
     moreMovs: true

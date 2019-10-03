@@ -65,7 +65,9 @@ export default {
     }
   },
   beforeDestroy() {
-    this.$store.dispatch("clearMovimentiSelezionati")
+    // TODO questo non va assolutamente bene,
+    // Mi crea una mutation ad ogni distruzione dei componenti Movimento
+    // this.$store.dispatch("clearMovimentiSelezionati")
   },
   methods: {
     selected(movimento){
