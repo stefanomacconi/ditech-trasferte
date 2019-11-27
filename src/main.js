@@ -19,10 +19,11 @@ if (token) {
 // axios.defaults.baseURL = 'https://apps.molteniinformatica.com/spweb/rest'
 // axios.defaults.baseURL = 'https://ditech1.smeup.com/spweb/rest'
 // FARM2
-axios.defaults.baseURL = 'https://ditech2.smeup.com/spweb/rest'
+// axios.defaults.baseURL = 'https://ditech2.smeup.com/spweb/rest'
 // MELESI
 // axios.defaults.baseURL = 'https://apps.melesi.it:8443/spweb/rest'
-// axios.defaults.baseURL = 'http://192.168.0.105:8080/spweb/rest'
+axios.defaults.baseURL = 'http://192.168.0.105:8080/spweb/rest'
+// axios.defaults.baseURL = 'http://192.168.0.108:8080/spweb/rest'
 // axios.defaults.baseURL = 'http://192.168.0.109:8080/spweb/rest'
 
 /* NON FUNZIONA PERCHE' GESTISCE PRIMA L'HANDLE ERROR

@@ -3,7 +3,7 @@
     <v-form ref="form">
       <v-container grid-list-md>
         <v-layout row wrap>
-          <v-flex xs6 md6 lg6>
+          <v-flex xs6 md6 lg3>
             <!-- *** DATA, COMMESSA e NOTA *** -->
             <v-menu ref="menuDate" :close-on-content-click="true" v-model="menuDate" :nudge-right="40" 
               lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
@@ -15,12 +15,21 @@
               </v-date-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs6 md6 lg6>
+          <v-flex xs6 md6 lg3>
             <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
               label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required 
               @click="showDialogSearchCommessa()" readonly> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
+          </v-flex>
+          <v-flex xs6 md6 lg3 v-if="this.mostrareBuono">
+            <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
+              @blur="checkBuono"
+              :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
+          </v-flex>
+          <v-flex xs6 md6 lg3 v-if="this.mostrareBuono"> <!-- TODO farlo staccato dal buono e con ricerca a parte -->
+            <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
+              readonly></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
           </v-flex>
           <v-flex xs12>
             <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" 
@@ -101,15 +110,6 @@
             <v-text-field :value="this.nrRapportino" v-if="this.nrRapportino" 
               label="Nr. Rapportino" readonly>
             </v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 lg3 v-if="this.mostrareBuono">
-            <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
-              @blur="checkBuono"
-              :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 lg3 v-if="this.mostrareBuono"> <!-- TODO farlo staccato dal buono e con ricerca a parte -->
-            <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
-              readonly></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
           </v-flex>
           <v-flex xs12 md6 lg3 v-if="this.mostrareCausali">
             <v-select :items="causali" v-model="causale" label="Causale" 
