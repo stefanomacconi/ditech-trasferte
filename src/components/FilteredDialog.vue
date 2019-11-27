@@ -9,7 +9,7 @@
         <v-toolbar-title>Scelta {{ this.title }}</v-toolbar-title>
         <v-toolbar-title v-if="this.filteredItems.length == 0" slot="extension" 
           class="red--text text--lighten-3">
-          <small>* Nessun {{ this.title }} Trovato</small>
+          <small>* 0 Elementi {{ this.title }} Trovati</small>
         </v-toolbar-title>
       </v-toolbar>
       <v-divider></v-divider>
