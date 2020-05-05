@@ -27,7 +27,7 @@
                 </v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
-                <v-select v-model="statoPerCommessa" :items="['Aperte', 'Bloccate', 'Chiuse']" label="Stato">
+                <v-select v-model="statoPerCommessa" :items="['Aperte', 'Bloccate', 'Chiuse', 'Tutte']" label="Stato">
                 </v-select>
               </v-flex>
             </v-layout>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   props: {
@@ -57,39 +57,41 @@ export default {
       codicePerCommessa: "",
       descrizionePerCommessa: "",
       RagioneSocialePerCommessa: "",
-      statoPerCommessa: "Aperte",
-    }
+      statoPerCommessa: "Aperte"
+    };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     searchCommessa() {
-      this.$emit('onClose')
-      this.$store.dispatch('showWaitDialog')
-      axios.get('/commessa/', {
-        params: {
-          codice: this.codicePerCommessa,
-          descrizione: this.descrizionePerCommessa,
-          ragioneSociale: this.RagioneSocialePerCommessa,
-          stato: this.statoPerCommessa
-        }
-      }).then(res => {
-        // eslint-disable-next-line
-        console.log(res)
-        this.$store.dispatch('hideWaitDialog')
-        this.$emit('onItemsFound', res.data)
-      }).catch(error => {
-        // eslint-disable-next-line
-        console.log(error)
-        this.$store.dispatch('handleError', error.response.data)
-      })
+      this.$emit("onClose");
+      this.$store.dispatch("showWaitDialog");
+      axios
+        .get("/commessa/", {
+          params: {
+            codice: this.codicePerCommessa,
+            descrizione: this.descrizionePerCommessa,
+            ragioneSociale: this.RagioneSocialePerCommessa,
+            stato: this.statoPerCommessa
+          }
+        })
+        .then(res => {
+          // eslint-disable-next-line
+          console.log(res);
+          this.$store.dispatch("hideWaitDialog");
+          this.$emit("onItemsFound", res.data);
+        })
+        .catch(error => {
+          // eslint-disable-next-line
+          console.log(error);
+          this.$store.dispatch("handleError", error.response.data);
+        });
     },
     clearFilterSearchCommessa() {
-      this.codicePerCommessa = ""
-      this.descrizionePerCommessa = ""
-      this.RagioneSocialePerCommessa = ""
-      this.statoPerCommessa = "Aperte"
+      this.codicePerCommessa = "";
+      this.descrizionePerCommessa = "";
+      this.RagioneSocialePerCommessa = "";
+      this.statoPerCommessa = "Aperte";
     }
-  }    
-}
+  }
+};
 </script>

@@ -32,8 +32,7 @@
               readonly></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
           </v-flex>
           <v-flex xs12>
-            <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" 
-              :rules="this.notaRules" required>
+            <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota"> <!-- required :rules="this.notaRules" -->
             </v-textarea>
           </v-flex>
           <!-- *** ATTIVITA' *** -->
@@ -150,27 +149,26 @@
 </template>
 
 <script>
-import moment from 'moment'
-import axios from 'axios'
-import utilities from "../../utilitiesMixin.js"
+import moment from "moment";
+import axios from "axios";
+import utilities from "../../utilitiesMixin.js";
 
-import FilteredDialog from "../FilteredDialog"
-import RicercaCommessa from "./RicercaCommessa"
+import FilteredDialog from "../FilteredDialog";
+import RicercaCommessa from "./RicercaCommessa";
 
-const campoObbligatorio = "Campo obbligatorio"
+const campoObbligatorio = "Campo obbligatorio";
 
 export default {
   mounted() {
     // Register siblings events
-    this.$root.$on('saveMovimento', data => {
-      this.saveMovimento(data)
-    })
-    this.$root.$on('setNrRapportino', data => {
-      this.setNrRapportino(data)
-    })
-    if (this.$store.getters.isNewMov)
-      return
-    this.fetchMovimento()
+    this.$root.$on("saveMovimento", data => {
+      this.saveMovimento(data);
+    });
+    this.$root.$on("setNrRapportino", data => {
+      this.setNrRapportino(data);
+    });
+    if (this.$store.getters.isNewMov) return;
+    this.fetchMovimento();
   },
   props: {
     definitivo: {
@@ -180,24 +178,16 @@ export default {
   components: {
     FilteredDialog,
     RicercaCommessa
-  }, 
+  },
   data: () => ({
     commessaRules: [
       v => !!v || campoObbligatorio,
       v => v.length <= 8 || "commessa dev'essere < 8 caratteri"
     ],
-    tempoRules: [
-      v => !!v || "Tempo"
-    ],
-    notaRules: [
-      v => !!v || campoObbligatorio
-    ],
-    posizioneRules: [
-      v => !isNaN(v) || 'posizione deve contenere numeri'
-    ],
-    buonoRules: [
-      v => !isNaN(v) || 'buono non valido'
-    ],
+    tempoRules: [v => !!v || "Tempo"],
+    // notaRules: [v => !!v || campoObbligatorio], NO MORE REQUIRED
+    posizioneRules: [v => !isNaN(v) || "posizione deve contenere numeri"],
+    buonoRules: [v => !isNaN(v) || "buono non valido"],
     commessaSearchDialog: false,
     listaCommesseDialog: false,
     listaCommesseCercate: [],
@@ -212,122 +202,120 @@ export default {
   }),
   computed: {
     computedDateFormatted() {
-      return this.formatDate(this.date)
+      return this.formatDate(this.date);
     },
     totTimeA() {
       // if (!this.$store.getters.getTimeA1 && this.$store.getters.getTempo)
       //  return this.$store.getters.getTempo
-      const value = this.calcTotTime()
-      this.$store.commit('setTempo', Number(value))
-      return value 
+      const value = this.calcTotTime();
+      this.$store.commit("setTempo", Number(value));
+      return value;
     },
     timeA1: {
       get() {
-        return this.$store.getters.getTimeA1
+        return this.$store.getters.getTimeA1;
       },
       set(value) {
         //console.log(this.calcTotTime(false))
-        const tot = this.calcTotTime()
+        const tot = this.calcTotTime();
         if (tot) {
-          this.tempo = tot
+          this.tempo = tot;
         }
-        this.$store.commit('setTimeA1', value)
+        this.$store.commit("setTimeA1", value);
       }
     },
     timeA2: {
       get() {
-        return this.$store.getters.getTimeA2
+        return this.$store.getters.getTimeA2;
       },
       set(value) {
-        const tot = this.calcTotTime()
+        const tot = this.calcTotTime();
         if (tot) {
-          this.tempo = tot
+          this.tempo = tot;
         }
-        this.$store.commit('setTimeA2', value)
+        this.$store.commit("setTimeA2", value);
       }
     },
     timeA3: {
       get() {
-        return this.$store.getters.getTimeA3
+        return this.$store.getters.getTimeA3;
       },
       set(value) {
-        const tot = this.calcTotTime()
+        const tot = this.calcTotTime();
         if (tot) {
-          this.tempo = tot
-        }        
-        this.$store.commit('setTimeA3', value)
+          this.tempo = tot;
+        }
+        this.$store.commit("setTimeA3", value);
       }
     },
     timeA4: {
       get() {
-        return this.$store.getters.getTimeA4
+        return this.$store.getters.getTimeA4;
       },
       set(value) {
-        const tot = this.calcTotTime()
+        const tot = this.calcTotTime();
         if (tot) {
-          this.tempo = tot
-        }        
-        this.$store.commit('setTimeA4', value)
+          this.tempo = tot;
+        }
+        this.$store.commit("setTimeA4", value);
       }
     },
     tempo: {
       get() {
-        const oremin = this.$store.getters.getTempo
+        const oremin = this.$store.getters.getTempo;
         if (oremin) {
-          const t = moment(oremin, "HH.mm")
-          return t.format("HH:mm")
+          const t = moment(oremin, "HH.mm");
+          return t.format("HH:mm");
         } else {
-          return ""
+          return "";
         }
       },
       set(value) {
         const t = moment(value, "HH:mm").format("HH.mm");
-        this.$store.commit('setTempo', Number(t));
+        this.$store.commit("setTempo", Number(t));
       }
-    },    
+    },
     commessa: {
       get() {
-        let commessa = this.$store.getters.getCommessa
-        if (commessa)
-          commessa = commessa.toUpperCase()
-        return commessa
+        let commessa = this.$store.getters.getCommessa;
+        if (commessa) commessa = commessa.toUpperCase();
+        return commessa;
       },
       set(value) {
-        if (value)
-          value = value.toUpperCase()
-        this.$store.commit('setCommessa', value)
+        if (value) value = value.toUpperCase();
+        this.$store.commit("setCommessa", value);
       }
     },
     date: {
       get() {
-        return this.$store.getters.getData
+        return this.$store.getters.getData;
       },
       set(value) {
-        this.$store.commit('setData', value)
+        this.$store.commit("setData", value);
       }
     },
     nota: {
       get() {
-        return this.$store.getters.getNota
+        return this.$store.getters.getNota;
       },
       set(value) {
-        this.$store.commit('setNota', value)
+        this.$store.commit("setNota", value);
       }
     },
     causale: {
       get() {
-        return this.$store.getters.getCausale
+        return this.$store.getters.getCausale;
       },
       set(value) {
-        this.$store.commit('setCausale', value)
+        this.$store.commit("setCausale", value);
       }
     },
     cdl: {
       get() {
-        return this.$store.getters.getCdl
+        return this.$store.getters.getCdl;
       },
       set(value) {
-        this.$store.commit('setCdl', value)
+        this.$store.commit("setCdl", value);
       }
     },
     /*
@@ -341,23 +329,23 @@ export default {
     }, */
     buono: {
       get() {
-        return this.$store.getters.getBuono
+        return this.$store.getters.getBuono;
       },
       set(value) {
-        this.$store.commit('setBuono', value)
+        this.$store.commit("setBuono", value);
       }
     },
     causali() {
-      const causali = this.$store.getters.getCausali
-      let elencoCausali = [""]
+      const causali = this.$store.getters.getCausali;
+      let elencoCausali = [""];
       causali.forEach(causale => {
-        elencoCausali.push(causale.codice + " - " + causale.descrizione)
-      })
-      return elencoCausali
+        elencoCausali.push(causale.codice + " - " + causale.descrizione);
+      });
+      return elencoCausali;
     },
     elencoCdL() {
-      return this.$store.getters.getElencoCdl
-    }, /*
+      return this.$store.getters.getElencoCdl;
+    } /*
     elencoCdc() {
       const cdc = this.$store.getters.getElencoCdc
       let elencoCdc = [""]
@@ -365,120 +353,119 @@ export default {
         elencoCdc.push(centro.codice + " - " + centro.descrizione)
       })
       return elencoCdc
-    }, */
+    }, */,
     posizione: {
-      get () {
-        return this.$store.getters.getPosizione
+      get() {
+        return this.$store.getters.getPosizione;
       },
-      set (value) {
-        this.$store.commit('setPosizione', value)
+      set(value) {
+        this.$store.commit("setPosizione", value);
       }
     },
     opzioni() {
-      return this.$store.getters.getOpzioni
+      return this.$store.getters.getOpzioni;
     },
     gestioneOrariGiornata() {
-      return false
-      // return this.opzioni.gestioneOrariGiornata ? this.opzioni.gestioneOrariGiornata : false           
+      return false;
+      // return this.opzioni.gestioneOrariGiornata ? this.opzioni.gestioneOrariGiornata : false
     },
     gestioneOrariMovimento() {
-      return this.opzioni.gestioneOrariMovimento ? this.opzioni.gestioneOrariMovimento : false           
+      return this.opzioni.gestioneOrariMovimento
+        ? this.opzioni.gestioneOrariMovimento
+        : false;
     },
     mostrareCausali() {
-      return this.opzioni.causali ? this.opzioni.causali : false           
+      return this.opzioni.causali ? this.opzioni.causali : false;
     },
     mostrareCdL() {
-      return this.opzioni.cdL ? this.opzioni.cdL : false           
+      return this.opzioni.cdL ? this.opzioni.cdL : false;
     },
     mostrareBuono() {
-      if (this.$store.getters.getSiglaDitta === 'MF')
-        return true
-      return this.opzioni.callbackPosizione ? this.opzioni.callbackPosizione : false           
+      if (this.$store.getters.getSiglaDitta === "MF") return true;
+      else return false;
+      // return this.opzioni.callbackPosizione ? this.opzioni.callbackPosizione : false
     },
     nrRapportino() {
-      return this.$store.getters.getNrRapportino
+      return this.$store.getters.getNrRapportino;
     }
   },
   mixins: [utilities],
   methods: {
     fetchMovimento() {
-      this.$store.dispatch('showWaitDialog')
-      let pre = '/movimento/lavorazione/singolo/'
-      if (!this.definitivo)
-        pre = pre + 'parcheggio/'
-      const path = pre + this.$store.getters.getDipendente + "/"
-        + this.$route.params.id
-      axios.get(path)
-      .then(res => {
+      this.$store.dispatch("showWaitDialog");
+      let pre = "/movimento/lavorazione/singolo/";
+      if (!this.definitivo) pre = pre + "parcheggio/";
+      const path =
+        pre + this.$store.getters.getDipendente + "/" + this.$route.params.id;
+      axios
+        .get(path)
+        .then(res => {
           // eslint-disable-next-line
-          console.log(res)
+          console.log(res);
           // fix causale description
           if (res.data && res.data.causale) {
-            const causali = this.$store.getters.getCausali
+            const causali = this.$store.getters.getCausali;
             causali.forEach(causale => {
               if (res.data.causale == causale.codice)
-                res.data.causale = res.data.causale + " - " + causale.descrizione
-            })
-          } 
+                res.data.causale =
+                  res.data.causale + " - " + causale.descrizione;
+            });
+          }
           //__ tempo h.cent -> h.min
           //state.movimento.tempo = movimento.tempo
-          this.$store.commit('setMovimento', res.data)
-          this.$store.dispatch('hideWaitDialog')
-      }).catch(error => {
+          this.$store.commit("setMovimento", res.data);
+          this.$store.dispatch("hideWaitDialog");
+        })
+        .catch(error => {
           // eslint-disable-next-line
-          console.log(error)
-          this.$store.dispatch('handleError', error.response.data)
-      })
+          console.log(error);
+          this.$store.dispatch("handleError", error.response.data);
+        });
     },
     formatDate(date) {
-      if (!date) 
-        return null
-      const [year, month, day] = date.split('-')
-      return `${day}/${month}/${year}`
+      if (!date) return null;
+      const [year, month, day] = date.split("-");
+      return `${day}/${month}/${year}`;
     },
     parseDate(date) {
-      if (!date) 
-        return null
-      const [month, day, year] = date.split('/')
-      return `${year}-${day.padStart(2, '0')}-${month.padStart(2, '0')}`
+      if (!date) return null;
+      const [month, day, year] = date.split("/");
+      return `${year}-${day.padStart(2, "0")}-${month.padStart(2, "0")}`;
     },
     allowedDates: val => val <= new Date().toISOString().substr(0, 10),
     allowedStep: m => m % 5 === 0,
     showDialogSearchCommessa() {
-      if (!this.$store.getters.isNewMov)
-        return
-      this.commessaSearchDialog = true
+      if (!this.$store.getters.isNewMov) return;
+      this.commessaSearchDialog = true;
     },
     showListaCommesseDialog() {
-      if (!this.$store.getters.isNewMov)
-        return
-      this.listaCommesseDialog = true
+      if (!this.$store.getters.isNewMov) return;
+      this.listaCommesseDialog = true;
     },
     showDialogCdL() {
-      if (!this.$store.getters.isNewMov)
-        return
-      this.listaCdLDialog = true
+      if (!this.$store.getters.isNewMov) return;
+      this.listaCdLDialog = true;
     },
     closeDialogCdL() {
-      this.listaCdLDialog = false
+      this.listaCdLDialog = false;
     },
     closeDialogCommesse() {
-      this.listaCommesseDialog = false
+      this.listaCommesseDialog = false;
     },
     closeDialogSearchCommesse() {
-      this.commessaSearchDialog = false
+      this.commessaSearchDialog = false;
     },
     chooseCdL(cdl) {
-      this.cdl = cdl.codice + " - " + cdl.descrizione
-      this.closeDialogCdL()
+      this.cdl = cdl.codice + " - " + cdl.descrizione;
+      this.closeDialogCdL();
     },
     chooseCommessa(commessa) {
-      this.$store.commit('setCommessa', commessa.codice)
-      this.listaCommesseDialog = false
+      this.$store.commit("setCommessa", commessa.codice);
+      this.listaCommesseDialog = false;
     },
     commesseFound(listaCommesse) {
-      this.listaCommesseCercate = listaCommesse
-      this.showListaCommesseDialog()
+      this.listaCommesseCercate = listaCommesse;
+      this.showListaCommesseDialog();
     },
     calcTotTime() {
       const times = [
@@ -486,34 +473,43 @@ export default {
         this.$store.getters.getTimeA2,
         this.$store.getters.getTimeA3,
         this.$store.getters.getTimeA4
-      ]
-      const t1 = moment(this.getTimeFromInteger(times[0]), "HH:mm")
-      const t2 = moment(this.getTimeFromInteger(times[1]), "HH:mm")
-      const mattino = t2.diff(t1)
-      const t3 = moment(this.getTimeFromInteger(times[2]), "HH:mm")
-      const t4 = moment(this.getTimeFromInteger(times[3]), "HH:mm")
-      const pomeriggio = t4.diff(t3)
-      let totale = moment(mattino).add(pomeriggio)
-      totale = totale - 3600000 // Non so perché moment calcola un'ora in più. Comunque la tolgo.
+      ];
+      const t1 = moment(this.getTimeFromInteger(times[0]), "HH:mm");
+      const t2 = moment(this.getTimeFromInteger(times[1]), "HH:mm");
+      const mattino = t2.diff(t1);
+      const t3 = moment(this.getTimeFromInteger(times[2]), "HH:mm");
+      const t4 = moment(this.getTimeFromInteger(times[3]), "HH:mm");
+      const pomeriggio = t4.diff(t3);
+      let totale = moment(mattino).add(pomeriggio);
+      totale = totale - 3600000; // Non so perché moment calcola un'ora in più. Comunque la tolgo.
       // console.log("calcTotTime => ", totale);
-      if (!isNaN(totale))
-        return moment(totale).format("HH:mm")
+      if (!isNaN(totale)) return moment(totale).format("HH:mm");
     },
     saveMovimento(numeroMovimento) {
-      if (!this.$refs.form)
-        return
+      if (!this.$refs.form) return;
       if (this.$refs.form.validate()) {
-        this.$store.dispatch('showWaitDialog')
+        this.$store.dispatch("showWaitDialog");
         // save movement
-        const data = moment(this.$store.getters.getData, "YYYY-MM-DD").valueOf()
-        const oraInizioAttMattino = this.$store.getters.getTimeA1 ? this.$store.getters.getTimeA1.replace(":", "") : this.$store.getters.getTimeA1
-        const oraFineAttMattino = this.$store.getters.getTimeA2 ? this.$store.getters.getTimeA2.replace(":", "") : this.$store.getters.getTimeA2
-        const oraInizioAttPomeriggio = this.$store.getters.getTimeA3 ? this.$store.getters.getTimeA3.replace(":", "") : this.$store.getters.getTimeA3
-        const oraFineAttPomeriggio = this.$store.getters.getTimeA4 ? this.$store.getters.getTimeA4.replace(":", "") : this.$store.getters.getTimeA4
-        const cau = this.$store.getters.getCausale
-        const causale = cau ? (cau.substr(0, cau.indexOf('-'))).trim() : cau
-        const cl = this.$store.getters.getCdl
-        const cdl = cl ? (cl.substr(0, cl.indexOf('-'))).trim() : cl
+        const data = moment(
+          this.$store.getters.getData,
+          "YYYY-MM-DD"
+        ).valueOf();
+        const oraInizioAttMattino = this.$store.getters.getTimeA1
+          ? this.$store.getters.getTimeA1.replace(":", "")
+          : this.$store.getters.getTimeA1;
+        const oraFineAttMattino = this.$store.getters.getTimeA2
+          ? this.$store.getters.getTimeA2.replace(":", "")
+          : this.$store.getters.getTimeA2;
+        const oraInizioAttPomeriggio = this.$store.getters.getTimeA3
+          ? this.$store.getters.getTimeA3.replace(":", "")
+          : this.$store.getters.getTimeA3;
+        const oraFineAttPomeriggio = this.$store.getters.getTimeA4
+          ? this.$store.getters.getTimeA4.replace(":", "")
+          : this.$store.getters.getTimeA4;
+        const cau = this.$store.getters.getCausale;
+        const causale = cau ? cau.substr(0, cau.indexOf("-")).trim() : cau;
+        const cl = this.$store.getters.getCdl;
+        const cdl = cl ? cl.substr(0, cl.indexOf("-")).trim() : cl;
         // const cc = this.$store.getters.getCdc
         // const cdc = cc ? (cc.substr(0, cc.indexOf('-'))).trim() : cc
         const orari = {
@@ -521,46 +517,51 @@ export default {
           oraFineAttMattino,
           oraInizioAttPomeriggio,
           oraFineAttPomeriggio
-        }
-        axios.post('/movimento/lavorazione/'  + this.$store.getters.getDipendente, {
-          numeroMovimento,
-          commessa: this.$store.getters.getCommessa,
-          nota: this.$store.getters.getNota,
-          causale,
-          cdl,
-          // cdc,
-          data,
-          posizione: this.$store.getters.getPosizione,
-          buono: this.$store.getters.getBuono,
-          tempo: this.$store.getters.getTempo,
-          orari,
-          notaSpese: this.$store.getters.getNotaSpese,
-          notaLista: this.$store.getters.getNotaLista,
-          keyRdARapportino: this.$store.getters.getNrRapportino
-        }).then(res => {
-          // eslint-disable-next-line
-          console.log(res)
-          // Update lista mov
-          const newDatabean = res.data
-          this.$store.dispatch("addNewDataBean", newDatabean)
-          // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
-          // Non va bene così. Ho poi problemi di path nelle routes
-          // history.replaceState({}, "movimenti", "movimenti")
-          if (!numeroMovimento)
-            // se è un'aggiunta prendo l'ultimo numero movimento
-            numeroMovimento = newDatabean.movimenti[newDatabean.movimenti.length - 1].numeroMovimento
-          this.$store.dispatch('hideWaitDialog')
-          this.$router.push({
-            name: 'movimento',
-            params: {
-              id: numeroMovimento 
-            }
+        };
+        axios
+          .post("/movimento/lavorazione/" + this.$store.getters.getDipendente, {
+            numeroMovimento,
+            commessa: this.$store.getters.getCommessa,
+            nota: this.$store.getters.getNota,
+            causale,
+            cdl,
+            // cdc,
+            data,
+            posizione: this.$store.getters.getPosizione,
+            buono: this.$store.getters.getBuono,
+            tempo: this.$store.getters.getTempo,
+            orari,
+            notaSpese: this.$store.getters.getNotaSpese,
+            notaLista: this.$store.getters.getNotaLista,
+            keyRdARapportino: this.$store.getters.getNrRapportino
           })
-        }).catch(error => {
-          // eslint-disable-next-line
-          console.log(error)
-          this.$store.dispatch('handleError', error.response.data)
-        })
+          .then(res => {
+            // eslint-disable-next-line
+            console.log(res);
+            // Update lista mov
+            const newDatabean = res.data;
+            this.$store.dispatch("addNewDataBean", newDatabean);
+            // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
+            // Non va bene così. Ho poi problemi di path nelle routes
+            // history.replaceState({}, "movimenti", "movimenti")
+            if (!numeroMovimento)
+              // se è un'aggiunta prendo l'ultimo numero movimento
+              numeroMovimento =
+                newDatabean.movimenti[newDatabean.movimenti.length - 1]
+                  .numeroMovimento;
+            this.$store.dispatch("hideWaitDialog");
+            this.$router.push({
+              name: "movimento",
+              params: {
+                id: numeroMovimento
+              }
+            });
+          })
+          .catch(error => {
+            // eslint-disable-next-line
+            console.log(error);
+            this.$store.dispatch("handleError", error.response.data);
+          });
       }
     },
     setNrRapportino(payload) {
@@ -568,34 +569,36 @@ export default {
         dataMovimento: this.$store.getters.getData,
         numeroMovimento: payload.numeroMovimento,
         nrRapportino: payload.numeroRapportino
-      })
+      });
       // TODO understand how to avoid this
       // I was forced to reload the data otherwise the nrRapportino input field does not update
-      this.fetchMovimento()
+      this.fetchMovimento();
     },
     checkBuono() {
-      if (!this.$store.getters.isNewMov || !this.buono)
-        return
-      this.$store.dispatch('showWaitDialog')
-      axios.get('/distinta/tecnica/nodo/buono/' + this.buono).then(res => {
-        // eslint-disable-next-line
-        console.log(res)
-        this.$store.dispatch('hideWaitDialog')
-        this.$store.commit('setCommessa', res.data.codiceCommessa)
-        this.$store.commit('setPosizione', res.data.posizione)
-      }).catch(error => {
-        // eslint-disable-next-line
-        console.log(error)
-        this.$store.dispatch('hideWaitDialog')
-        this.buono = this.buono + " !"
-      })
+      if (!this.$store.getters.isNewMov || !this.buono) return;
+      this.$store.dispatch("showWaitDialog");
+      axios
+        .get("/distinta/tecnica/nodo/buono/" + this.buono)
+        .then(res => {
+          // eslint-disable-next-line
+          console.log(res);
+          this.$store.dispatch("hideWaitDialog");
+          this.$store.commit("setCommessa", res.data.codiceCommessa);
+          this.$store.commit("setPosizione", res.data.posizione);
+        })
+        .catch(error => {
+          // eslint-disable-next-line
+          console.log(error);
+          this.$store.dispatch("hideWaitDialog");
+          this.buono = this.buono + " !";
+        });
     }
   }
-}
+};
 </script>
 
 <style>
 .subtitle {
-  height:10px;
+  height: 10px;
 }
 </style>
