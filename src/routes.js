@@ -7,6 +7,7 @@ import DettaglioMov from './components/Movimento/DettaglioMov'
 import CercaMateriale from './components/Materiale/CercaMateriale'
 import InsertQtaMateriale from './components/Materiale/InsertQtaMateriale'
 import AllegatiMov from './components/Allegati/AllegatiMov'
+import AllegatiComme from './components/Allegati/AllegatiComme'
 import ToolbarLogin from './components/Toolbars/ToolbarLogin'
 import ToolbarMovimenti from './components/Toolbars/ToolbarMovimenti'
 import ToolbarMovimento from './components/Toolbars/ToolbarMovimento'
@@ -99,6 +100,21 @@ export const routes = [{
       requiresAuth: true
     }
   },
+  {
+    name: "listallegati",
+    path: '/listallegati',
+    components: {
+      default: AllegatiComme, 
+      toolbar: ToolbarPopUp
+    },
+    props: {
+      default: true,
+      toolbar: true
+    },
+    meta: { 
+      requiresAuth: true
+    }
+  },  
   {
     path: "/error",
     name: "error",
