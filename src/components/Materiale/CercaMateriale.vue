@@ -18,7 +18,11 @@
       </v-subheader>
       <v-list v-if="materiali.length > 0" light>
         <template v-for="(item, index) in materiali">
-          <v-list-tile :key="item.codice + index">
+          <!-- 
+            [item.sostituito ? articolo_obsoleto : ''] 
+            v-bind:class="{'articolo_obsoleto':item.sostituito}"
+          -->
+          <v-list-tile :key="item.codice + index" v-bind:class="{'articolo_obsoleto':item.sostituito}">
             <v-list-tile-content @click="sceltoArticolo(item.codice, item.descrizione)">
               <v-list-tile-title>{{ item.codice }}</v-list-tile-title>
               <v-list-tile-sub-title class="text--primary">{{ item.descrizione }}</v-list-tile-sub-title>
@@ -103,5 +107,8 @@ export default {
 <style>
 .theme--light.v-list {
   background-color: transparent;
+}
+.articolo_obsoleto {
+  background-color: pink;
 }
 </style>
