@@ -544,11 +544,18 @@ export default {
             // manipolo l'history per evitare che il back faccia tornare su "nuovo movimento"
             // Non va bene così. Ho poi problemi di path nelle routes
             // history.replaceState({}, "movimenti", "movimenti")
-            if (!numeroMovimento)
-              // se è un'aggiunta prendo l'ultimo numero movimento
-              numeroMovimento =
-                newDatabean.movimenti[newDatabean.movimenti.length - 1]
-                  .numeroMovimento;
+            if (!numeroMovimento) {
+              // se è un'aggiunta prendo l'ultimo numero movimento (non definitivo)
+              //numeroMovimento = newDatabean.movimenti[newDatabean.movimenti.length - 1].numeroMovimento;
+                  var j = newDatabean.movimenti.length - 1;
+                  while (j >= 0) {
+                    if (!newDatabean.movimenti[j].definitivo) {
+                      numeroMovimento = newDatabean.movimenti[j].numeroMovimento;
+                      break;
+                    }
+                    j--;
+                  }
+            }
             this.$store.dispatch("hideWaitDialog");
             this.$router.push({
               name: "movimento",
