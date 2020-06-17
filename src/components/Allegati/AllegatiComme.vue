@@ -19,14 +19,12 @@
               </v-list-tile-avatar>            
             <v-list-tile-content>
               <v-list-tile-title>{{ allegato.nome }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ allegato.note }}</v-list-tile-sub-title>
+              <v-list-tile-sub-title>{{ allegato.note }} {{ formatTimeStamp(allegato.dataOra) }} </v-list-tile-sub-title>
             </v-list-tile-content>
               <v-list-tile-action>
-                <v-list-tile-action-text>{{ allegato.size }}</v-list-tile-action-text>
-                <v-icon
-                  color="grey lighten-1"
-                  star_border
-                />
+                <v-list-tile-action-text>{{ allegato.size }} KB</v-list-tile-action-text>
+                <v-icon>delete</v-icon>
+                <a  @click="showFile(allegato)"><v-icon>visibility</v-icon></a>
              </v-list-tile-action>
           </v-list-tile>
           <v-divider v-if="index + 1 < allegati.length" :key="index"/>
@@ -39,6 +37,49 @@
 
 <script>
 import axios from "axios"
+const qs = require('querystring')
+
+const mime = require('mime-types'); //npm install mime-types
+/*
+function mimeFromExtension(fileName) {
+    var re = /(?:\.([^.]+))?$/;
+    var extension = re.exec(fileName)[1];
+    var type = 'application/octet-stream';
+    //https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+    switch(extension) {
+      case "pdf":
+        type = 'application/pdf';
+        break;
+      case "gif":
+        type = 'image/gif';
+        break;
+      case "png":
+        type = 'image/png';
+        break;
+      case "jpg":
+      case "jpeg":
+        type = 'image/jpeg';
+        break;
+      case "xls":
+        type = 'application/vnd.ms-excel';
+        break;
+      case "xlsx":
+        type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        break;
+      case "doc":
+        type = 'application/msword';
+        break;
+      case "docx":
+        type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        break;
+      case "zip":
+        type = 'application/zip';
+        break;
+      //default:
+    }        
+    return type;
+}
+*/
 
 export default {
   props: {
@@ -78,6 +119,85 @@ export default {
         this.$store.dispatch('handleError', error.response.data)
       })      
     },
+    formatTimeStamp(tempo) {
+      if (!tempo) {
+        return '';
+      }
+      var newDate = new Date(tempo);
+      //newDate.setTime(tempo*1000);
+      return newDate.toLocaleString();      
+    },
+    showFile(allegato) {
+      this.$store.dispatch('showWaitDialog')
+      //StampaRapportinoInterventoParamsBean
+      //axios('/allegatidt/bykey', {
+      //  method: 'POST',
+      //  responseType: 'blob',
+      axios.post('/allegatidt/bykey', 
+        qs.stringify({
+          tipo: allegato.tipoAllegato,
+          commessa: allegato.codiceCommessa,
+          posizione: allegato.posizione,
+          progressivo: allegato.progressivoAllegato
+        }),
+        {
+          responseType: 'blob'
+        }
+      //}
+      ).then(res => {
+        // eslint-disable-next-line
+        //console.log(res)
+
+        var fileName = res.headers['content-disposition'].split("filename=")[1];
+        //var type = mimeFromExtension(fileName);
+        var type = mime.lookup(fileName);
+        console.log('fileName', fileName);
+        console.log('mime type', type);
+
+        // Create a Blob from the PDF Stream
+        //https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
+        const blob = new Blob(
+          [
+            res.data
+          ], 
+          {
+            //type: 'application/pdf' //'application/octet-stream'
+            type: type
+          }
+        )
+        /**/
+        // Build a URL from the file
+        const fileURL = URL.createObjectURL(blob);
+        // eslint-disable-next-line
+        console.log(fileURL)
+        // Open the URL on new Window
+        // window.open(fileURL,"_self");
+        // Attenzione, con _blank gli adBlocker non permettono la visualizzazione
+        window.open(fileURL,"_blank")
+        /**/
+
+        /**
+        //xhr.getResponseHeader('Content-Disposition').split("filename=")[1];        
+        //let file = new File([res.data], fileName, {type: "application/octet-stream"});
+        var file = new File([blob], fileName, {lastModified: 1534584790000});        
+        let fileURL = URL.createObjectURL(file);
+        window.location.assign(fileURL);
+        URL.revokeObjectURL(fileURL);        
+        //window.open(fileURL,"_blank")
+        /**/
+
+        //
+        this.$store.dispatch('hideWaitDialog')
+      }).catch(error => {
+        //
+        this.$store.dispatch('hideWaitDialog')
+        // eslint-disable-next-line
+        console.log(error)
+        if (error && error.response && error.response.data) {
+          this.$store.dispatch('handleError', error.response.data);
+        }
+      })
+    }        
   }
 }
 </script>

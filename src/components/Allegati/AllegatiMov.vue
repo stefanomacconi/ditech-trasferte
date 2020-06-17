@@ -7,7 +7,6 @@
       <!-- TODO Prio1 Gestire gli errori (per es. se non è configurata la variabile WEB 10) -->
       <!-- TODO Prio2 Gestire il pulsante in base se ci sono o meno file da fare upload -->
       <vaadin-upload id="manualUpload" ref="manualUpload" no-auto
-        accept="image/*"
         i18n='{"dropFiles":{"one":"Trascina qui","many":"Trascina qui"},"addFiles":{"one":"Sfoglia...","many":"Sfoglia..."},"cancel":"Annulla","error":{"tooManyFiles":"Too Many Files.","fileIsTooBig":"File is Too Big.","incorrectFileType":"Incorrect File Type."},"uploading":{"status":{"connecting":"Connecting...","stalled":"Bloccato.","processing":"Processing File...","held":"In coda"},"remainingTime":{"prefix":"remaining time: ","unknown":"unknown remaining time"},"error":{"serverUnavailable":"Server non raggiungibile","unexpectedServerError":"Errore nel caricamento","forbidden":"Permesso negato"}},"units":{"size":["B","kB","MB","GB","TB","PB","EB","ZB","YB"]}}'
         :target=getBaseURL()
         :headers=getCustomHeaders()
