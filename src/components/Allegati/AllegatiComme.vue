@@ -23,7 +23,7 @@
             </v-list-tile-content>
               <v-list-tile-action>
                 <v-list-tile-action-text>{{ allegato.size }} KB</v-list-tile-action-text>
-                <v-icon>delete</v-icon>
+                <a   @click="confirmDeleteFile(allegato)"><v-icon>delete</v-icon></a>
                 <a  @click="showFile(allegato)"><v-icon>visibility</v-icon></a>
              </v-list-tile-action>
           </v-list-tile>
@@ -32,6 +32,21 @@
       </v-list>
               <!-- -->
     </div>
+
+    <v-layout row justify-center>
+      <v-dialog v-model="dialogConfirm" persistent max-width="290">
+        <v-card>
+          <v-card-title class="headline">Confermi l'eliminazione dell'allegato?</v-card-title>
+          <v-card-text>Il file verr&agrave; cancellato definitivamente</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="secondary" flat @click="dialogConfirm = false">Indietro</v-btn>
+            <v-btn class="error" flat @click="deleteFile()">Elimina</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+
   </div>
 </template>
 
@@ -97,7 +112,9 @@ export default {
   },
   data() {
     return {
-      allegati: []
+      allegati: [],
+      dialogConfirm : false,
+      candidateForDeletion: null
     }
   },
   mounted() {
@@ -114,9 +131,11 @@ export default {
       }).then(res => {
         console.log(res)
         this.allegati = res.data;
+        this.$store.dispatch('hideWaitDialog')
       }).catch(error => {
         console.log(error)
         this.$store.dispatch('handleError', error.response.data)
+        this.$store.dispatch('hideWaitDialog')
       })      
     },
     formatTimeStamp(tempo) {
@@ -127,6 +146,52 @@ export default {
       //newDate.setTime(tempo*1000);
       return newDate.toLocaleString();      
     },
+    confirmDeleteFile(allegato) {
+      if (allegato) {
+        this.candidateForDeletion = allegato;
+        this.dialogConfirm = true;
+      }
+    },
+    /**/
+    deleteFile() {
+      var allegato = this.candidateForDeletion;
+      if (!allegato) {
+        return;
+      }
+      console.log(allegato);
+      //
+      this.dialogConfirm = false;
+
+      //if (confirm("cancellare l'allegato")) {
+
+      this.$store.dispatch('showWaitDialog')
+      axios.post('/allegatidt/remove', 
+        qs.stringify({
+          tipo: allegato.tipoAllegato,
+          commessa: allegato.codiceCommessa,
+          posizione: allegato.posizione,
+          progressivo: allegato.progressivoAllegato
+        }),      
+      ).then(res => {
+        // eslint-disable-next-line
+        console.log(res)
+        this.candidateForDeletion = null;
+        // Update lista allegati
+        this.refreshAllegati();
+        this.$store.dispatch('hideWaitDialog')
+      }).catch(error => {
+        // eslint-disable-next-line
+        console.log(error)
+        this.candidateForDeletion = null;
+        this.$store.dispatch('hideWaitDialog')
+        this.$store.dispatch('handleError', error.response.data)
+      })
+      //
+
+      //}
+
+    },
+    /**/
     showFile(allegato) {
       this.$store.dispatch('showWaitDialog')
       //StampaRapportinoInterventoParamsBean
