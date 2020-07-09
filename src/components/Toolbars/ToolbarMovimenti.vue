@@ -8,6 +8,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
+        <!-- -->
         <v-btn icon 
           v-if="this.$store.getters.getMovimentiSelezionati.length > 1"
           @click="linkMovs()">
@@ -381,6 +382,7 @@ export default {
       this.notaPerMov = ""
     },
     linkMovs() {
+      //gestire selezione più movimenti da mettere in un rapportino
       // eslint-disable-next-line
       console.log("TODO linkMovs()")
       // const selectedMovs = this.$store.getters.getMovimentiSelezionati

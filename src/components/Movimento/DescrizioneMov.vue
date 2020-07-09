@@ -18,14 +18,18 @@
           <v-flex xs6 md6 lg3>
             <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
-              label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required 
-              @click="showDialogSearchCommessa()" readonly> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+              label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required
+              :readonly="!isNewMov" 
+              :class="{'myreadonly':!isNewMov}"
+              >
+              <!-- @click="showDialogSearchCommessa()" readonly> -->
+              <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrareBuono">
             <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
               @blur="checkBuono"
-              :readonly="this.$store.getters.isNewMov ? false : true"></v-text-field>
+              :readonly="!isNewMov"></v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrareBuono"> <!-- TODO farlo staccato dal buono e con ricerca a parte -->
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
@@ -201,6 +205,9 @@ export default {
     menuTimeTot: false
   }),
   computed: {
+    isNewMov() {
+      return this.$store.getters.isNewMov;
+    },
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
@@ -382,8 +389,7 @@ export default {
     },
     mostrareBuono() {
       if (this.$store.getters.getSiglaDitta === "MF") return true;
-      else return false;
-      // return this.opzioni.callbackPosizione ? this.opzioni.callbackPosizione : false
+      else return this.opzioni.callbackPosizione ? this.opzioni.callbackPosizione : false;
     },
     nrRapportino() {
       return this.$store.getters.getNrRapportino;
@@ -607,5 +613,11 @@ export default {
 <style>
 .subtitle {
   height: 10px;
+}
+/* .v-text-field input[readonly="readonly"] { */
+.myreadonly {
+    /*  brutto, va trovato qualcosa di meglio
+    background-color: lightgrey 
+    */
 }
 </style>

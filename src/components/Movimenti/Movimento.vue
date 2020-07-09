@@ -1,5 +1,7 @@
 <template>
-<div> <!-- @click="selected(movimento)" TODO Manca la funzione di unione dei movimenti per rapportino -->
+<div> 
+  <!-- gestire -->
+  <!-- @click="selected(movimento)" TODO Manca la funzione di unione dei movimenti per rapportino -->
   <v-timeline-item small :color="getMovColor(movimento)">
     <router-link :to="toMovimento(movimento)" tag="div">
       <v-layout pt-2>
@@ -17,6 +19,11 @@
             {{ moment.utc(moment.duration(movimento.tempo,"h").asMilliseconds()).format("HH[h] mm[min]") }} 
             -->
             {{ moment(movimento.tempo.toFixed(2), "HH.mm").format("HH:mm") }} 
+          </div>
+          <div>
+            <v-icon v-if="movimento.conMateriale" >shopping_cart</v-icon>
+            <v-icon v-if="movimento.conSpese">receipt</v-icon>
+            <!-- TODO icon allegati -->
           </div>
         </v-flex>
         <v-flex xs9 md10 :class="{'v-timeline-right-part': $vuetify.breakpoint.xs}"> <!--offset-xs1 -->
