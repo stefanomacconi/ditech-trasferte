@@ -168,6 +168,7 @@ export default {
     this.$store.dispatch('setDefinitivo', this.definitivo)
   },
   data() {
+    //https://material.io/resources/icons/?style=baseline
     return {
       menus: [
         {
@@ -179,6 +180,11 @@ export default {
           title: "Allega Files",
           click: this.attach2Mov,
           icon: "attach_file"
+        },
+        {
+          title: "Mostra allegati",
+          click: this.showAttachments,
+          icon: "collections"
         },
         {
           title: "Aggiungi a Nr. Rapportino",
@@ -291,6 +297,16 @@ export default {
         name: 'allegati',
         params: {
           title: "Carica allegati" 
+        } 
+      })      
+    },
+    showAttachments() {
+      //TODO
+      this.dialogConfirm = false
+      this.$router.push({
+        name: 'listallegati',
+        params: {
+          title: "Mostra allegati" 
         } 
       })      
     },
