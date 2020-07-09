@@ -23,7 +23,7 @@
           <div>
             <v-icon v-if="movimento.conMateriale" >shopping_cart</v-icon>
             <v-icon v-if="movimento.conSpese">receipt</v-icon>
-            TODO icon allegati
+            <!-- TODO icon allegati -->
           </div>
         </v-flex>
         <v-flex xs9 md10 :class="{'v-timeline-right-part': $vuetify.breakpoint.xs}"> <!--offset-xs1 -->

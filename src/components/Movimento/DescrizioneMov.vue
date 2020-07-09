@@ -609,6 +609,8 @@ export default {
 }
 /* .v-text-field input[readonly="readonly"] { */
 .myreadonly {
-    background-color: lightgrey
+    /*  brutto, va trovato qualcosa di meglio
+    background-color: lightgrey 
+    */
 }
 </style>

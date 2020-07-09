@@ -382,7 +382,7 @@ export default {
       this.notaPerMov = ""
     },
     linkMovs() {
-      //gestire
+      //gestire selezione più movimenti da mettere in un rapportino
       // eslint-disable-next-line
       console.log("TODO linkMovs()")
       // const selectedMovs = this.$store.getters.getMovimentiSelezionati
