@@ -6,7 +6,8 @@
           <v-subheader class="subtitle">Nota Spese</v-subheader>
         </v-flex> -->
         <v-flex v-for="nota in notaSpese" :key="nota.codice" xs12 md6 lg6>
-          <v-text-field :rules="notaSpeseRules" :value="getNotaValue(nota.codice)" 
+          <v-text-field clearable
+            :rules="notaSpeseRules" :value="getNotaValue(nota.codice)" 
             @blur="updateNotaSpese($event, nota)" :label="nota.descrizione">
           </v-text-field>
         </v-flex> 
