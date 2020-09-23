@@ -27,7 +27,7 @@
           </div>
         </v-flex>
         <v-flex xs9 md10 :class="{'v-timeline-right-part': $vuetify.breakpoint.xs}"> <!--offset-xs1 -->
-          <strong>{{ movimento.commessa }}</strong>
+          <strong>{{ movimento.commessa }}{{ (movimento.posizione && movimento.posizione>0 ? (' / ' + movimento.posizione) : '') }}</strong>
           <div class="caption hidden-sm-and-up">
             {{ movimento.descrizioneCommessa | truncate }}
           </div>
