@@ -25,6 +25,7 @@
               <v-list-tile-content>
                 <v-list-tile-title v-html="item.codice"></v-list-tile-title>
                 <v-list-tile-sub-title v-html="item.descrizione"></v-list-tile-sub-title>
+                <v-list-tile-sub-title v-html="item.descrizioneEstesa"></v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-divider v-if="index + 1 < items.length" :key="item.codice + 'divider'"></v-divider>

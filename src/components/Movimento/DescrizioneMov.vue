@@ -31,9 +31,10 @@
               @blur="checkBuono"
               :readonly="!isNewMov"></v-text-field>
           </v-flex>
-          <v-flex xs6 md6 lg3 v-if="this.mostrareBuono"> <!-- TODO farlo staccato dal buono e con ricerca a parte -->
+          <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
-              readonly></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+             append-icon="search" @click:append="showDialogSearchPosizione()" 
+              :readonly="!isNewMov" ></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
           </v-flex>
           <v-flex xs12>
             <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota"> <!-- required :rules="this.notaRules" -->
@@ -149,6 +150,15 @@
       <filtered-dialog :visible="this.listaCdLDialog" :items="this.elencoCdL" 
         title="CdL" @onClose="closeDialogCdL" @onItemSelected="chooseCdL"></filtered-dialog>
     </v-layout>
+    <!-- RICERCA POSIZIONI DIALOG -->
+    <v-layout row justify-center>
+      <ricerca-posizione :visible="this.posizioneSearchDialog" :commessa="commessa" @onClose="closeDialogSearchPosizione" @onItemsFound="posizioneFound"></ricerca-posizione>
+    </v-layout>
+    <!-- POSIZIONI FILTER DIALOG -->
+    <v-layout row justify-center>
+      <filtered-dialog :visible="this.listaPosizioniDialog" :items="this.listaPosizioniCercate" 
+        title="Posizioni" @onClose="closeDialogPosizioni" @onItemSelected="choosePosizione"></filtered-dialog>
+    </v-layout>
   </div> 
 </template>
 
@@ -159,6 +169,7 @@ import utilities from "../../utilitiesMixin.js";
 
 import FilteredDialog from "../FilteredDialog";
 import RicercaCommessa from "./RicercaCommessa";
+import RicercaPosizione from "./RicercaPosizione";
 
 const campoObbligatorio = "Campo obbligatorio";
 
@@ -181,7 +192,8 @@ export default {
   },
   components: {
     FilteredDialog,
-    RicercaCommessa
+    RicercaCommessa,
+    RicercaPosizione
   },
   data: () => ({
     commessaRules: [
@@ -193,8 +205,11 @@ export default {
     posizioneRules: [v => !isNaN(v) || "posizione deve contenere numeri"],
     buonoRules: [v => !isNaN(v) || "buono non valido"],
     commessaSearchDialog: false,
+    posizioneSearchDialog: false,
     listaCommesseDialog: false,
     listaCommesseCercate: [],
+    listaPosizioniDialog: false,
+    listaPosizioniCercate: [],
     listaCdLDialog: false,
     filterCdLText: "",
     menuDate: false,
@@ -391,6 +406,9 @@ export default {
       if (this.$store.getters.getSiglaDitta === "MF") return true;
       else return this.opzioni.callbackPosizione ? this.opzioni.callbackPosizione : false;
     },
+    mostrarePosizione() {
+      return this.opzioni.ricercaPosizione ? this.opzioni.ricercaPosizione : false;
+    },
     nrRapportino() {
       return this.$store.getters.getNrRapportino;
     }
@@ -444,9 +462,17 @@ export default {
       if (!this.$store.getters.isNewMov) return;
       this.commessaSearchDialog = true;
     },
+    showDialogSearchPosizione() {
+      if (!this.$store.getters.isNewMov) return;
+      this.posizioneSearchDialog = true;
+    },
     showListaCommesseDialog() {
       if (!this.$store.getters.isNewMov) return;
       this.listaCommesseDialog = true;
+    },
+    showListaPosizioniDialog() {
+      if (!this.$store.getters.isNewMov) return;
+      this.listaPosizioniDialog = true;
     },
     showDialogCdL() {
       if (!this.$store.getters.isNewMov) return;
@@ -461,6 +487,12 @@ export default {
     closeDialogSearchCommesse() {
       this.commessaSearchDialog = false;
     },
+    closeDialogSearchPosizione() {
+      this.posizioneSearchDialog = false;
+    },
+    closeDialogPosizioni() {
+      this.listaPosizioniDialog = false;
+    },
     chooseCdL(cdl) {
       this.cdl = cdl.codice + " - " + cdl.descrizione;
       this.closeDialogCdL();
@@ -472,6 +504,14 @@ export default {
     commesseFound(listaCommesse) {
       this.listaCommesseCercate = listaCommesse;
       this.showListaCommesseDialog();
+    },
+    choosePosizione(posizione) {
+      this.$store.commit("setPosizione", posizione.codice);
+      this.listaPosizioniDialog = false;
+    },
+    posizioneFound(listaPosizioni) {
+      this.listaPosizioniCercate = listaPosizioni;
+      this.showListaPosizioniDialog();
     },
     calcTotTime() {
       const times = [
