@@ -33,7 +33,7 @@
               </v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
-            <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posizione"
+            <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posiz. (Attività)"
              append-icon="search" @click:append="showDialogSearchPosizione()" 
               :readonly="!isNewMov" ></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
           </v-flex>
@@ -470,7 +470,8 @@ export default {
     },
     showDialogSearchPosizione() {
       if (!this.$store.getters.isNewMov) return;
-      this.posizioneSearchDialog = true;
+      //this.posizioneSearchDialog = true;
+      this.cercaPosizioneRPC(); //saltiamo i filtri
     },
     showListaCommesseDialog() {
       if (!this.$store.getters.isNewMov) return;
@@ -654,6 +655,30 @@ export default {
           this.buono = this.buono + " !";
         });
     },
+    cercaPosizioneRPC() {
+      this.$store.dispatch("showWaitDialog");
+      axios
+        .get("/commessa/posizioni", {
+          params: {
+            //codiceArticolo: this.codiceArticolo,
+            //descrizioneArticolo: this.descrizioneArticolo,
+            commessa: this.commessa,
+            soloPrimiLivelli: this.$store.getters.getOpzioni.soloPrimiLivelli
+          }
+        })
+        .then(res => {
+          // eslint-disable-next-line
+          console.log(res);
+          this.$store.dispatch("hideWaitDialog");
+          //this.$emit("onItemsFound", res.data);
+          this.posizioneFound(res.data);
+        })
+        .catch(error => {
+          // eslint-disable-next-line
+          console.log(error);
+          this.$store.dispatch("handleError", error.response.data);
+        });      
+    },
     clearTempi() {
       this.timeA1 = '';
       this.timeA2 = '';
@@ -662,7 +687,7 @@ export default {
       //this.calcTotTime();
       this.totTimeA;
       //this.$refs.menuTimeA1.save('');
-    },
+    }
   }
 };
 </script>
