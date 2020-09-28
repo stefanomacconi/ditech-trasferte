@@ -11,7 +11,7 @@
                 prepend-icon="event" @blur="date = parseDate(computedDateFormatted)" required>
               </v-text-field>
               <v-date-picker v-model="date" :allowed-dates="allowedDates" no-title locale="it-IT"
-                :readonly="this.$store.getters.isNewMov ? false : true">
+              :readonly="!isNewMov" >
               </v-date-picker>
             </v-menu>
           </v-flex>
@@ -19,9 +19,9 @@
             <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
               label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required
-              :readonly="!isNewMov" 
-              :class="{'myreadonly':!isNewMov}"
-              >
+              :readonly="!isNewMov" >
+              <!-- :box="!isNewMov"  -->
+              <!-- :class="{'myreadonly':!isNewMov}" -->
               <!-- @click="showDialogSearchCommessa()" readonly> -->
               <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
@@ -29,7 +29,8 @@
           <v-flex xs6 md6 lg3 v-if="this.mostrareBuono">
             <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
               @blur="checkBuono"
-              :readonly="!isNewMov"></v-text-field>
+              :readonly="!isNewMov" >
+              </v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posiz. (Attività)"
@@ -54,6 +55,7 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA1 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA1.save(timeA1)">OK</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA1.save('')">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -66,6 +68,7 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA2 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA2.save(timeA2)">OK</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA2.save('')">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -78,6 +81,7 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA3 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA3.save(timeA3)">OK</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA3.save('')">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -90,18 +94,20 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA4 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA4.save(timeA4)">OK</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeA4.save('')">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
             <v-flex xs12 sm2 lg2>
               <v-dialog ref="menuTimeTot" v-model="menuTimeTot" :return-value.sync="tempo" persistent lazy full-width width="290px">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="tempo" label="Totale" readonly v-on="on"></v-text-field>
+                  <v-text-field v-model="tempo" label="Totale" readonly v-on="on" append-icon="cancel" @click:append="clearTempi()"></v-text-field>
                 </template>
                 <v-time-picker format="24hr" v-if="menuTimeTot" v-model="tempo" full-width>
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeTot = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeTot.save(tempo)">OK</v-btn>
+                  <v-btn flat color="primary" @click="$refs.menuTimeTot.save('')">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -524,12 +530,14 @@ export default {
       const t1 = moment(this.getTimeFromInteger(times[0]), "HH:mm");
       const t2 = moment(this.getTimeFromInteger(times[1]), "HH:mm");
       const mattino = t2.diff(t1);
+      //console.log("calcTotTime:mattino => ", t1,t2, mattino);
       const t3 = moment(this.getTimeFromInteger(times[2]), "HH:mm");
       const t4 = moment(this.getTimeFromInteger(times[3]), "HH:mm");
       const pomeriggio = t4.diff(t3);
+      //console.log("calcTotTime:pomeriggio => ", t3, t4, pomeriggio);
       let totale = moment(mattino).add(pomeriggio);
       totale = totale - 3600000; // Non so perché moment calcola un'ora in più. Comunque la tolgo.
-      // console.log("calcTotTime => ", totale);
+      //console.log("calcTotTime => ", totale);
       if (!isNaN(totale)) return moment(totale).format("HH:mm");
     },
     saveMovimento(numeroMovimento) {
@@ -670,8 +678,16 @@ export default {
           console.log(error);
           this.$store.dispatch("handleError", error.response.data);
         });      
+    },
+    clearTempi() {
+      this.timeA1 = '';
+      this.timeA2 = '';
+      this.timeA3 = '';
+      this.timeA4 = '';
+      //this.calcTotTime();
+      this.totTimeA;
+      //this.$refs.menuTimeA1.save('');
     }
-
   }
 };
 </script>
