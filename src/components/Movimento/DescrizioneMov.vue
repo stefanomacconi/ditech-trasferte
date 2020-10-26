@@ -302,7 +302,7 @@ export default {
       set(value) {
         console.log("TEMPO TOT: " + value);
         const t = moment(value, "HH:mm").format("HH.mm");
-        this.$store.commit("setTempo", Nu+mber(t));
+        this.$store.commit("setTempo", Number(t));
       }
     },
     commessa: {
