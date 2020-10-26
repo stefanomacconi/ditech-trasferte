@@ -4,10 +4,10 @@
       <v-icon dark @click="goBack">arrow_back</v-icon>
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title v-if="this.isNewMov">
-        Nuovo Movimento
+        Nuovo
       </v-toolbar-title>
       <v-toolbar-title v-else>
-        Movimento {{ id }}
+        Aggiornamento {{ id }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
         <!-- TODO passarli con props -->
