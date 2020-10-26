@@ -5,7 +5,7 @@
         <descrizione-mov :definitivo="this.definitivo"></descrizione-mov>
       </v-tab-item>
       <v-tab-item :value="1" v-if="this.gestioneNoteSpese">
-          <nota-spese-mov></nota-spese-mov>
+          <nota-spese-mov :definitivo="this.definitivo"></nota-spese-mov>
       </v-tab-item>
       <v-tab-item v-if="!isNewMov && this.gestioneMateriali" :value="2">
           <lista-articoli-mov></lista-articoli-mov>
