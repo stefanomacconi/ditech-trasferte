@@ -10,16 +10,17 @@
               <v-text-field slot="activator" v-model="computedDateFormatted" label="Data Movimento" 
                 prepend-icon="event" @blur="date = parseDate(computedDateFormatted)" required>
               </v-text-field>
-              <v-date-picker v-model="date" :allowed-dates="allowedDates" no-title locale="it-IT"
-              :readonly="!isNewMov" >
+              <v-date-picker v-model="date" :allowed-dates="allowedDates" no-title locale="it-IT">
+              <!-- :readonly="!isNewMov" -->
               </v-date-picker>
             </v-menu>
           </v-flex>
           <v-flex xs6 md6 lg3>
             <!-- TODO Autocomplete -->
-            <v-text-field v-model="commessa" :rules="commessaRules" :counter="8" 
-              label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required
-              :readonly="!isNewMov" >
+            <v-text-field v-model="commessa" :rules="commessaRules" 
+              label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required>
+              <!-- :counter="8" -->
+              <!-- :readonly="!isNewMov" -->
               <!-- :box="!isNewMov"  -->
               <!-- :class="{'myreadonly':!isNewMov}" -->
               <!-- @click="showDialogSearchCommessa()" readonly> -->
@@ -28,14 +29,14 @@
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrareBuono">
             <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
-              @blur="checkBuono"
-              :readonly="!isNewMov" >
+              @blur="checkBuono">
+              <!-- :readonly="!isNewMov" -->
               </v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posiz. (Attività)"
              append-icon="search" @click:append="showDialogSearchPosizione()" 
-              :readonly="!isNewMov" ></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+              ></v-text-field> <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
           </v-flex>
           <v-flex xs12>
             <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota"> <!-- required :rules="this.notaRules" -->
@@ -101,7 +102,7 @@
             <v-flex xs12 sm2 lg2>
               <v-dialog ref="menuTimeTot" v-model="menuTimeTot" :return-value.sync="tempo" persistent lazy full-width width="290px">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="tempo" label="Totale" readonly v-on="on" append-icon="cancel" @click:append="clearTempi()"></v-text-field>
+                  <v-text-field v-model="tempo" label="Totale" v-on="on" append-icon="cancel" @click:append="clearTempi()"></v-text-field>
                 </template>
                 <v-time-picker format="24hr" v-if="menuTimeTot" v-model="tempo" full-width>
                   <v-spacer></v-spacer>
@@ -122,15 +123,15 @@
             </v-text-field>
           </v-flex>
           <v-flex xs12 md6 lg3 v-if="this.mostrareCausali">
-            <v-select :items="causali" v-model="causale" label="Causale" 
-              :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
+            <v-select :items="causali" v-model="causale" label="Causale" >
+              <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+              </v-select>
           </v-flex>
           <v-flex xs12 sm6 md6 lg3 v-if="this.mostrareCdL">
             <!-- <v-select :items="filteredElencoCdL" item-value="codice" :item-text="(cdl) => cdl.codice + ' - ' + cdl.descrizione" v-model="cdl" label="CdL"
               append-icon="search" @click:append="showDialogCdL()"
               :readonly="this.$store.getters.isNewMov ? false : true"></v-select> -->
-            <v-text-field v-model="cdl" label="CdL" append-icon="search" @click:append="showDialogCdL()" @click="showDialogCdL()" readonly> 
-              <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+            <v-text-field v-model="cdl" label="CdL" append-icon="search" @click:append="showDialogCdL()" @click="showDialogCdL()"> 
             </v-text-field>
           </v-flex>
           <!--
@@ -299,8 +300,9 @@ export default {
         }
       },
       set(value) {
+        console.log("TEMPO TOT: " + value);
         const t = moment(value, "HH:mm").format("HH.mm");
-        this.$store.commit("setTempo", Number(t));
+        this.$store.commit("setTempo", Nu+mber(t));
       }
     },
     commessa: {
@@ -465,24 +467,24 @@ export default {
     allowedDates: val => val <= new Date().toISOString().substr(0, 10),
     allowedStep: m => m % 5 === 0,
     showDialogSearchCommessa() {
-      if (!this.$store.getters.isNewMov) return;
+      //if (!this.$store.getters.isNewMov) return;
       this.commessaSearchDialog = true;
     },
     showDialogSearchPosizione() {
-      if (!this.$store.getters.isNewMov) return;
+      //if (!this.$store.getters.isNewMov) return;
       //this.posizioneSearchDialog = true;
       this.cercaPosizioneRPC(); //saltiamo i filtri
     },
     showListaCommesseDialog() {
-      if (!this.$store.getters.isNewMov) return;
+      //if (!this.$store.getters.isNewMov) return;
       this.listaCommesseDialog = true;
     },
     showListaPosizioniDialog() {
-      if (!this.$store.getters.isNewMov) return;
+      //if (!this.$store.getters.isNewMov) return;
       this.listaPosizioniDialog = true;
     },
     showDialogCdL() {
-      if (!this.$store.getters.isNewMov) return;
+      //if (!this.$store.getters.isNewMov) return;
       this.listaCdLDialog = true;
     },
     closeDialogCdL() {
