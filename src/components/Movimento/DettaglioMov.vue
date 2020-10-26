@@ -8,7 +8,7 @@
           <nota-spese-mov :definitivo="this.definitivo"></nota-spese-mov>
       </v-tab-item>
       <v-tab-item v-if="!isNewMov && this.gestioneMateriali" :value="2">
-          <lista-articoli-mov></lista-articoli-mov>
+          <lista-articoli-mov :definitivo="this.definitivo"></lista-articoli-mov>
       </v-tab-item>
     </v-tabs-items>
   </div>
