@@ -58,7 +58,7 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA1 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA1.save(timeA1)">OK</v-btn>
-                  <v-btn flat color="primary" @click="$refs.menuTimeA1.save('')">Azzera</v-btn>
+                  <v-btn flat color="primary" @click="clearTempo1($refs.menuTimeA1)">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -71,7 +71,7 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA2 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA2.save(timeA2)">OK</v-btn>
-                  <v-btn flat color="primary" @click="$refs.menuTimeA2.save('')">Azzera</v-btn>
+                  <v-btn flat color="primary" @click="clearTempo2($refs.menuTimeA2)">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -84,7 +84,7 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA3 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA3.save(timeA3)">OK</v-btn>
-                  <v-btn flat color="primary" @click="$refs.menuTimeA3.save('')">Azzera</v-btn>
+                  <v-btn flat color="primary" @click="clearTempo3($refs.menuTimeA3)">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -97,7 +97,7 @@
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA4 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA4.save(timeA4)">OK</v-btn>
-                  <v-btn flat color="primary" @click="$refs.menuTimeA4.save('')">Azzera</v-btn>
+                  <v-btn flat color="primary" @click="clearTempo4($refs.menuTimeA4)">Azzera</v-btn>
                 </v-time-picker>
               </v-dialog>
             </v-flex>
@@ -530,17 +530,36 @@ export default {
         this.$store.getters.getTimeA3,
         this.$store.getters.getTimeA4
       ];
+      //
       const t1 = moment(this.getTimeFromInteger(times[0]), "HH:mm");
       const t2 = moment(this.getTimeFromInteger(times[1]), "HH:mm");
-      const mattino = t2.diff(t1);
-      //console.log("calcTotTime:mattino => ", t1,t2, mattino);
+      let mattino = null;
+      if (t1 & t2) {
+        mattino = t2.diff(t1);
+      }
+      console.log("calcTotTime:mattino => ", t1,t2, mattino);
+      //
       const t3 = moment(this.getTimeFromInteger(times[2]), "HH:mm");
       const t4 = moment(this.getTimeFromInteger(times[3]), "HH:mm");
-      const pomeriggio = t4.diff(t3);
-      //console.log("calcTotTime:pomeriggio => ", t3, t4, pomeriggio);
-      let totale = moment(mattino).add(pomeriggio);
-      totale = totale - 3600000; // Non so perché moment calcola un'ora in più. Comunque la tolgo.
-      //console.log("calcTotTime => ", totale);
+      let pomeriggio = null;
+      if (t3 & t4) {
+        pomeriggio = t4.diff(t3);
+      }
+      console.log("calcTotTime:pomeriggio => ", t3, t4, pomeriggio);
+      //
+      let totale = null;
+      if (mattino && pomeriggio) {
+        totale = moment(mattino).add(pomeriggio);
+      } else if (mattino) {
+        totale = mattino;
+      } else if (pomeriggio) {
+        totale = pomeriggio;
+      }
+      //
+      if (totale > 0) {
+        totale = totale - 3600000; // Non so perché moment calcola un'ora in più. Comunque la tolgo.
+      }
+      console.log("calcTotTime => ", totale);
       if (!isNaN(totale)) return moment(totale).format("HH:mm");
     },
     //
@@ -682,6 +701,22 @@ export default {
           console.log(error);
           this.$store.dispatch("handleError", error.response.data);
         });      
+    },
+    clearTempo1(refT) {
+      this.timeA1 = '';
+      refT.save('');
+    },
+    clearTempo2(refT) {
+      this.timeA2 = '';
+      refT.save('');
+    },
+    clearTempo3(refT) {
+      this.timeA3 = '';
+      refT.save('');
+    },
+    clearTempo4(refT) {
+      this.timeA4 = '';
+      refT.save('');
     },
     clearTempi() {
       if (this.definitivo) return;
