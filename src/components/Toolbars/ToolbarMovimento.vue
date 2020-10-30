@@ -3,11 +3,8 @@
     <v-toolbar :color="this.definitivo ? 'secondary' : 'primary'" dark fixed app clipped-right>
       <v-icon dark @click="goBack">arrow_back</v-icon>
       &nbsp;&nbsp;&nbsp;
-      <v-toolbar-title v-if="this.isNewMov">
-        Nuovo
-      </v-toolbar-title>
-      <v-toolbar-title v-else>
-        Aggiornamento {{ id }}
+      <v-toolbar-title>
+        {{ titolo }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
         <!-- TODO passarli con props -->
@@ -246,7 +243,15 @@ export default {
     },
     nrRapportino() {
       return this.$store.getters.getNrRapportino
-    } 
+    },
+    titolo() {
+      if (this.isNewMov) {
+        return "Nuovo";
+      } else if (this.definitivo) {
+        return "Movimento " + this.id;
+      }
+      return "Aggiornamento " + this.id;
+    }
   },
   methods: {
     goBack() {
