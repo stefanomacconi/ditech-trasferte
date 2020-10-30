@@ -2,6 +2,8 @@
   <div>
     <v-toolbar :color="this.definitivo ? 'secondary' : 'primary'" dark fixed app clipped-right>
       <v-icon dark @click="goBack">arrow_back</v-icon>
+      &nbsp;
+      <v-icon dark @click="addNew">add</v-icon>
       &nbsp;&nbsp;&nbsp;
       <v-toolbar-title>
         {{ titolo }}
@@ -273,6 +275,16 @@ export default {
         name: "movimenti"
       })
       this.asyncClear()
+    },
+    addNew() {
+      const dataPrev = this.$store.getters.getData;
+      this.$store.dispatch('clearMov').then(() => {
+        this.$store.dispatch('setData', dataPrev).then(() => {
+          this.$router.push({
+            name: "movimento"
+          });
+      });
+      });
     },
     async asyncClear() {
       await this.sleep(500)
