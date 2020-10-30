@@ -22,9 +22,11 @@
             </template>
           </template>
           <template v-else>
-            <v-btn icon @click="this.printMov">
-              <v-icon>print</v-icon>
-            </v-btn>
+            <template v-for="menu in menusDefinitivo">
+              <v-btn icon :key="menu.title" @click="menu.click" class="hidden-xs-only">
+                <v-icon>{{ menu.icon }}</v-icon>
+              </v-btn>
+            </template>
           </template>
           <v-btn icon @click="saveMov(id)" v-if="!this.definitivo">
             <v-icon color="green lighten-2">check_circle</v-icon>
@@ -189,6 +191,18 @@ export default {
           icon: "library_add"
         }
       ],
+      menusDefinitivo: [
+        {
+          title: "Stampa Rapportino",
+          click: this.printMov,
+          icon: "print"
+        },
+        {
+          title: "Mostra allegati",
+          click: this.showAttachments,
+          icon: "collections"
+        }
+      ],      
       tab : 0,
       isNewMov : false,
       dialogConfirm : false,

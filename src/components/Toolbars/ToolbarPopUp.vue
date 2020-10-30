@@ -18,7 +18,8 @@ export default {
       this.$router.push({
         name: 'movimento', 
         params: {
-          id: this.$store.getters.getNumeroMovCorrente 
+          id: this.$store.getters.getNumeroMovCorrente,
+          definitivo: this.$store.getters.isDefinitivo
         } 
       })
     }
