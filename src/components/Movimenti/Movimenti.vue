@@ -21,6 +21,7 @@
 
 <script>
 import GiornoMovimenti from './GiornoMovimenti.vue'
+import moment from 'moment'
 
 export default {
   mounted() {
@@ -31,15 +32,13 @@ export default {
   }),
   computed: {
     dateMovFiltered() {
-      const tzoffset = (new Date()).getTimezoneOffset() * 60000 //offset in milliseconds
       const msPicked = this.$store.getters.getPickedData
       const result = {}
       const values = Object.values(this.$store.getters.getDate)
       values.sort(this.compare)
       for (let index = 0; index < values.length; index++) {
         if (msPicked >= values[index].data) {
-          // const data = new Date(values[index].data).toISOString().substr(0, 10)
-          const data = new Date(values[index].data - tzoffset).toISOString().substr(0, 10)
+          const data = moment(values[index].data).format("YYYY-MM-DD");
           if (this.$store.getters.getDate[data])
             result[data] = this.$store.getters.getDate[data]
           else
