@@ -14,9 +14,9 @@ if (token) {
 }
 
 // LOCAL
-axios.defaults.baseURL = "http://localhost:8080/spweb/rest";
+//axios.defaults.baseURL = "http://localhost:8080/spweb/rest";
 // FARM
-// axios.defaults.baseURL = 'https://ditech1.smeup.com/spweb/rest'
+axios.defaults.baseURL = 'https://ditech1.smeup.com/spweb/rest'
 // FARM2
 // axios.defaults.baseURL = 'https://ditech2.smeup.com/spweb/rest'
 // MELESI

@@ -23,8 +23,8 @@
             </v-list-tile-content>
               <v-list-tile-action>
                 <v-list-tile-action-text>{{ allegato.size }} KB</v-list-tile-action-text>
-                <a   @click="confirmDeleteFile(allegato)"><v-icon>delete</v-icon></a>
-                <a  @click="showFile(allegato)"><v-icon>visibility</v-icon></a>
+                <a v-if="!isDefinitivo" @click="confirmDeleteFile(allegato)"><v-icon>delete</v-icon></a>
+                <a @click="showFile(allegato)"><v-icon>visibility</v-icon></a>
              </v-list-tile-action>
           </v-list-tile>
           <v-divider v-if="index + 1 < allegati.length" :key="index"/>
@@ -119,7 +119,12 @@ export default {
   },
   mounted() {
     this.refreshAllegati();
-  },  
+  },
+  computed: {
+    isDefinitivo() {
+      return this.$store.getters.isDefinitivo;
+    }
+  }, 
   methods: {
     refreshAllegati() {
       console.log("REFRESH ALLEGATI");

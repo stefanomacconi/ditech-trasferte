@@ -6,9 +6,10 @@
           <v-subheader class="subtitle">Nota Spese</v-subheader>
         </v-flex> -->
         <v-flex v-for="nota in notaSpese" :key="nota.codice" xs12 md6 lg6>
-          <v-text-field clearable
+          <v-text-field :clearable="!definitivo"
             :rules="notaSpeseRules" :value="getNotaValue(nota.codice)" 
-            @blur="updateNotaSpese($event, nota)" :label="nota.descrizione">
+            @blur="updateNotaSpese($event, nota)" :label="nota.descrizione"
+            :readonly="definitivo">
           </v-text-field>
         </v-flex> 
       </v-layout>  
@@ -30,6 +31,11 @@ export default {
       ]
     }
   },
+  props: {
+    definitivo: {
+      default: false
+    }
+  },
   computed: {
     notaSpese() {
       return this.$store.getters.getDefinizioniNotaSpese
@@ -45,6 +51,7 @@ export default {
   },
   methods: {
     updateNotaSpese(event, nota) {
+      if (this.definitivo) return;
       let value = event.target.value
       if (!value || isNaN(value)) {
         this.$store.dispatch('removeInNotaSpese', nota)

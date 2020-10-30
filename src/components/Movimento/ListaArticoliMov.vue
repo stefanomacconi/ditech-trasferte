@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <!-- Show this only if there's a material list, so i'm sure that RdA key exists  -->
     <v-flex xs12 sm12 v-if="materiali.length > 0"> 
-      <v-textarea rows="2" v-model="notaLista" label="Materiale" :readonly="this.$store.getters.isDefinitivo"/>
+      <v-textarea rows="2" v-model="notaLista" label="Materiale" :readonly="definitivo"/>
     </v-flex>
     <v-flex xs12 sm10 md8 lg6>
       <v-list two-line v-if="materiali.length > 0">
@@ -15,14 +15,14 @@
             </v-list-tile-content>
             <v-list-tile-action>
               {{ materiale.qta }}
-              <v-icon @click="deleteMateriale(materiale, index)">delete_outline</v-icon>
+              <v-icon v-if="!definitivo" @click="deleteMateriale(materiale, index)">delete_outline</v-icon>
             </v-list-tile-action>
           </v-list-tile>
           <v-divider v-if="index + 1 < materiali.length" :key="index"/>
         </template>
       </v-list>
     </v-flex>
-    <v-layout column class="fab-container" v-if="!this.$store.getters.isDefinitivo">
+    <v-layout column class="fab-container" v-if="!definitivo">
       <v-btn dark fab class="primary" @click="addMateriale()">
         <v-icon>add</v-icon>
       </v-btn>
@@ -38,6 +38,11 @@ export default {
     return {
     }
   },
+  props: {
+    definitivo: {
+      default: false
+    }
+  },  
   computed: {
     materiali() {
       return this.$store.getters.getMateriale
@@ -61,8 +66,8 @@ export default {
       })
     },
     deleteMateriale(materiale, index) {
-      if (this.$store.getters.isDefinitivo) 
-        return
+      if (this.definitivo) return;
+      //
       this.$store.dispatch('showWaitDialog')
       axios.delete('/materiale', {
         data: materiale 

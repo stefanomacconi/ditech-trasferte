@@ -2,12 +2,11 @@
   <div>
     <v-toolbar :color="this.definitivo ? 'secondary' : 'primary'" dark fixed app clipped-right>
       <v-icon dark @click="goBack">arrow_back</v-icon>
+      &nbsp;
+      <v-icon dark @click="addNew">add</v-icon>
       &nbsp;&nbsp;&nbsp;
-      <v-toolbar-title v-if="this.isNewMov">
-        Nuovo Movimento
-      </v-toolbar-title>
-      <v-toolbar-title v-else>
-        Movimento {{ id }}
+      <v-toolbar-title>
+        {{ titolo }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
         <!-- TODO passarli con props -->
@@ -25,9 +24,11 @@
             </template>
           </template>
           <template v-else>
-            <v-btn icon @click="this.printMov">
-              <v-icon>print</v-icon>
-            </v-btn>
+            <template v-for="menu in menusDefinitivo">
+              <v-btn icon :key="menu.title" @click="menu.click" class="hidden-xs-only">
+                <v-icon>{{ menu.icon }}</v-icon>
+              </v-btn>
+            </template>
           </template>
           <v-btn icon @click="saveMov(id)" v-if="!this.definitivo">
             <v-icon color="green lighten-2">check_circle</v-icon>
@@ -192,6 +193,18 @@ export default {
           icon: "library_add"
         }
       ],
+      menusDefinitivo: [
+        {
+          title: "Stampa Rapportino",
+          click: this.printMov,
+          icon: "print"
+        },
+        {
+          title: "Mostra allegati",
+          click: this.showAttachments,
+          icon: "collections"
+        }
+      ],      
       tab : 0,
       isNewMov : false,
       dialogConfirm : false,
@@ -246,7 +259,15 @@ export default {
     },
     nrRapportino() {
       return this.$store.getters.getNrRapportino
-    } 
+    },
+    titolo() {
+      if (this.isNewMov) {
+        return "Nuovo";
+      } else if (this.definitivo) {
+        return "Movimento " + this.id;
+      }
+      return "Aggiornamento " + this.id;
+    }
   },
   methods: {
     goBack() {
@@ -254,6 +275,16 @@ export default {
         name: "movimenti"
       })
       this.asyncClear()
+    },
+    addNew() {
+      const dataPrev = this.$store.getters.getData;
+      this.$store.dispatch('clearMov').then(() => {
+        this.$store.dispatch('setData', dataPrev).then(() => {
+          this.$router.push({
+            name: "movimento"
+          });
+      });
+      });
     },
     async asyncClear() {
       await this.sleep(500)
