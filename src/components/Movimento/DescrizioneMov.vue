@@ -40,6 +40,22 @@
              :readonly="definitivo">
               ></v-text-field>
           </v-flex>
+          <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
+            <v-menu >
+              <v-text-field slot="activator" v-model="computedDataConsFormatted" label="Consegna" 
+                prepend-icon="event" @blur="date = parseDate(computedDataConsFormatted)" required>
+              </v-text-field>
+              <v-date-picker v-model="dataCons" :allowed-dates="allowedDates" no-title locale="it-IT"
+                :readonly="definitivo">
+              </v-date-picker>
+            </v-menu>
+          </v-flex>
+          <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
+              <v-text-field v-model="qtaTot" label="Ore stimate" readonly></v-text-field>
+          </v-flex>
+          <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
+              <v-text-field v-model="qtaTotCons" label="Ore consunt." readonly></v-text-field>
+          </v-flex>
           <v-flex xs12>
             <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" :readonly="definitivo"> <!-- required :rules="this.notaRules" -->
             </v-textarea>
@@ -235,6 +251,12 @@ export default {
     computedDateFormatted() {
       return this.formatDate(this.date);
     },
+    computedDataConsFormatted() {
+      if (!this.dataCons) {
+        return null;
+      }
+      return this.formatDate(this.dataCons);
+    },
     totTimeA() {
       // if (!this.$store.getters.getTimeA1 && this.$store.getters.getTempo)
       //  return this.$store.getters.getTempo
@@ -394,6 +416,33 @@ export default {
         this.$store.commit("setPosizione", value);
       }
     },
+    qtaTot: {
+      get() {
+        return this.$store.getters.getQtaTot;
+      },
+      set(value) {
+        this.$store.commit("setQtaTot", value);
+      }
+    },
+    qtaTotCons: {
+      get() {
+        return this.$store.getters.getQtaTotCons;
+      },
+      set(value) {
+        this.$store.commit("setQtaTotCons", value);
+      }
+    },
+    dataCons: {
+      get() {
+        if (!this.$store.getters.getDataCons || this.$store.getters.getDataCons<0) {
+          return null
+        }
+        return moment(this.$store.getters.getDataCons).format("YYYY-MM-DD");
+      },
+      set(value) {
+        this.$store.commit("setDataCons", value);
+      }
+    },
     opzioni() {
       return this.$store.getters.getOpzioni;
     },
@@ -516,7 +565,11 @@ export default {
       this.showListaCommesseDialog();
     },
     choosePosizione(posizione) {
+      console.log("choosePosizione", posizione);
       this.$store.commit("setPosizione", posizione.codice);
+      this.$store.commit("setQtaTot", posizione.qtaTot);
+      this.$store.commit("setQtaTotCons", posizione.qtaTotCons);
+      this.$store.commit("setDataCons", posizione.dataCons);
       this.listaPosizioniDialog = false;
     },
     posizioneFound(listaPosizioni) {
