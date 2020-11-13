@@ -8,20 +8,44 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <!-- -->
+        <!-- v-if="this.$store.getters.getMovimentiSelezionati.length >= 1" -->
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on"
+              @click="copyMovs">
+              <v-icon>content_copy</v-icon>
+            </v-btn>
+          </template>
+          <span>Copia movimenti</span>
+        </v-tooltip>        
+        <!-- TODO 
         <v-btn icon 
           v-if="this.$store.getters.getMovimentiSelezionati.length > 1"
           @click="linkMovs()">
           <v-icon>link</v-icon>
         </v-btn>
+        -->
         <!--<v-divider dark vertical></v-divider>-->
-        <v-btn icon @click="dateMenu = true">
-          <v-icon>event</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on"
+              @click="dateMenu = true">
+            <v-icon>event</v-icon>
+          </v-btn>
+          </template>
+          <span>Scegli data</span>
+        </v-tooltip>        
         <!--<v-divider dark vertical></v-divider>-->
-        <v-btn icon @click="showSearchMov">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on"
+             @click="showSearchMov">
           <v-icon>search</v-icon>
-        </v-btn>
+          </v-btn>
+          </template>
+          <span>Cerca movimenti</span>
+        </v-tooltip>        
+
       </v-toolbar-items>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-divider dark vertical></v-divider>
@@ -220,15 +244,26 @@
         </v-card>
       </v-dialog>
     </v-layout>
+    <!-- parametri copia movimenti -->
+    <!-- -->
+    <v-layout row justify-center>
+      <copia-mov-param :visible="this.copiaMovDialog" @onClose="closeDialogCopiaMov"></copia-mov-param>
+    </v-layout>
+    <!-- -->
   </div>
 </template>
 
 <script>
 import moment from 'moment'
 import axios from 'axios'
+import CopiaMovParam from "../Movimento/CopiaMovParam";
 
 export default {
+  components: {
+    CopiaMovParam
+  },  
   data: (vm) => ({
+    copiaMovDialog: false,
     dateMenu: false,
     menuDataDaPerMov: false,
     dataDaPerMov: new Date().toISOString().substr(0, 10),
@@ -388,6 +423,16 @@ export default {
       // const selectedMovs = this.$store.getters.getMovimentiSelezionati
       // TODO chiamata rest
       // this.$store.dispatch("clearMovimentiSelezionati")
+    },
+    closeDialogCopiaMov() {
+      this.copiaMovDialog = false;
+    },
+    copyMovs() {
+      if (!this.$store.getters.getMovimentiSelezionati || this.$store.getters.getMovimentiSelezionati.length < 1) {
+        alert("Selezionare dei movimenti con i pallini sulla sinistra");
+        return;
+      }
+      this.copiaMovDialog = true;
     }
   },
   watch: {

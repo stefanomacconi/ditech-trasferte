@@ -1,5 +1,5 @@
 <template>
-<div> 
+<div @click="selected(movimento)"> 
   <!-- gestire -->
   <!-- @click="selected(movimento)" TODO Manca la funzione di unione dei movimenti per rapportino -->
   <v-timeline-item small :color="getMovColor(movimento)">

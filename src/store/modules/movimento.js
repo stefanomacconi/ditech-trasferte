@@ -125,6 +125,15 @@ const mutations = {
     state.movimento.materiale = movimento.materiale
     state.movimento.notaLista = movimento.notaLista
     state.movimento.keyRdARapportino = movimento.keyRdARapportino
+    //
+    state.movimento.qtaTot = null
+    state.movimento.qtaTotCons = null
+    state.movimento.dataCons = null
+    if (movimento.dt) {
+      state.movimento.qtaTot = movimento.dt.qtaTot
+      state.movimento.qtaTotCons = movimento.dt.qtaTotCons
+      state.movimento.dataCons = movimento.dt.dataCons
+    }
   },
   setData(state, value) {
     state.movimento.data = value
