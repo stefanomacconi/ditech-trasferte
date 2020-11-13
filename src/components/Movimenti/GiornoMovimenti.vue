@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div> <!-- TODO @click="selected(dataMov.movimenti)" -->
+    <div @click="selected(dataMov.movimenti)">
       <v-timeline-item class="day" :color="getDayColor(dataMov)">
         <v-img class="rounded" max-height="120px" max-width="500px" :src="getSeasonImage(dataMov.data)"
           gradient="to top, rgba(255,255,255,0.7), rgba(255,255,255,0.7)"> <!-- class="rounded" -->

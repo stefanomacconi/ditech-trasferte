@@ -26,7 +26,10 @@ const state = {
     buono: 0,
     posizione: null,
     keyRdARapportino: null,
-    definitivo: false
+    definitivo: false,
+    qtaTot: null,
+    qtaTotCons: null,
+    dataCons: null
   }
 }
 
@@ -64,6 +67,9 @@ const mutations = {
     state.movimento.notaLista = null
     state.movimento.definitivo = false
     state.movimento.keyRdARapportino = null
+    state.movimento.qtaTot = null
+    state.movimento.qtaTotCons = null
+    state.movimento.dataCons = null
   },
   setMovimento(state, movimento) {
     state.movimento.numero = movimento.numeroMovimento
@@ -119,6 +125,15 @@ const mutations = {
     state.movimento.materiale = movimento.materiale
     state.movimento.notaLista = movimento.notaLista
     state.movimento.keyRdARapportino = movimento.keyRdARapportino
+    //
+    state.movimento.qtaTot = null
+    state.movimento.qtaTotCons = null
+    state.movimento.dataCons = null
+    if (movimento.dt) {
+      state.movimento.qtaTot = movimento.dt.qtaTot
+      state.movimento.qtaTotCons = movimento.dt.qtaTotCons
+      state.movimento.dataCons = movimento.dt.dataCons
+    }
   },
   setData(state, value) {
     state.movimento.data = value
@@ -171,6 +186,15 @@ const mutations = {
   },
   setCdc(state, value) {
     state.movimento.cdc = value
+  },
+  setQtaTot(state, value) {
+    state.movimento.qtaTot = value
+  },
+  setQtaTotCons(state, value) {
+    state.movimento.qtaTotCons = value
+  },
+  setDataCons(state, value) {
+    state.movimento.dataCons = value
   },
   addInNotaSpese(state, nota) {
     state.movimento.notaSpese.push(nota)
@@ -299,6 +323,21 @@ const actions = {
     commit
   }, value) {
     commit('setBuono', value)
+  },
+  setQtaTot({
+    commit
+  }, value) {
+    commit('setQtaTot', value)
+  },
+  setQtaTotCons({
+    commit
+  }, value) {
+    commit('setQtaTotCons', value)
+  },
+  setDataCons({
+    commit
+  }, value) {
+    commit('setDataCons', value)
   },
   updateNotaSpese({
     commit
@@ -431,6 +470,15 @@ const getters = {
   },
   getNrRapportino(state) {
     return state.movimento.keyRdARapportino
+  },
+  getQtaTot(state) {
+    return state.movimento.qtaTot
+  },
+  getQtaTotCons(state) {
+    return state.movimento.qtaTotCons
+  },
+  getDataCons(state) {
+    return state.movimento.dataCons
   }
 }
 
