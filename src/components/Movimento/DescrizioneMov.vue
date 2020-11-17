@@ -41,14 +41,9 @@
               ></v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
-            <v-menu >
               <v-text-field slot="activator" v-model="computedDataConsFormatted" label="Consegna" 
-                prepend-icon="event" @blur="date = parseDate(computedDataConsFormatted)" required>
+                prepend-icon="event" readonly>
               </v-text-field>
-              <v-date-picker v-model="dataCons" :allowed-dates="allowedDates" no-title locale="it-IT"
-                :readonly="definitivo">
-              </v-date-picker>
-            </v-menu>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
               <v-text-field v-model="qtaTot" label="Ore stimate" readonly></v-text-field>
