@@ -8,7 +8,7 @@
             <v-menu ref="menuDate" :close-on-content-click="true" v-model="menuDate" :nudge-right="40" 
               lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
               <v-text-field slot="activator" v-model="computedDateFormatted" label="Data Movimento" 
-                prepend-icon="event" @blur="date = parseDate(computedDateFormatted)" required>
+                prepend-icon="event" @blur="date = parseDate(computedDateFormatted)" required :disabled="definitivo">
               </v-text-field>
               <v-date-picker v-model="date" :allowed-dates="allowedDates" no-title locale="it-IT"
                 :disabled="definitivo">
