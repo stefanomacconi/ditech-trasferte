@@ -11,7 +11,7 @@
                 prepend-icon="event" @blur="date = parseDate(computedDateFormatted)" required>
               </v-text-field>
               <v-date-picker v-model="date" :allowed-dates="allowedDates" no-title locale="it-IT"
-                :readonly="definitivo">
+                :disabled="definitivo">
               </v-date-picker>
             </v-menu>
           </v-flex>
@@ -19,40 +19,40 @@
             <!-- TODO Autocomplete -->
             <v-text-field v-model="commessa" :rules="commessaRules" 
               label="Commessa" append-icon="search" @click:append="showDialogSearchCommessa()" required
-                :readonly="definitivo">
+                :disabled="definitivo">
               <!-- :counter="8" -->
-              <!-- :readonly="!isNewMov" -->
+              <!-- :disabled="!isNewMov" -->
               <!-- :box="!isNewMov"  -->
-              <!-- :class="{'myreadonly':!isNewMov}" -->
-              <!-- @click="showDialogSearchCommessa()" readonly> -->
-              <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+              <!-- :class="{'mydisabled':!isNewMov}" -->
+              <!-- @click="showDialogSearchCommessa()" disabled> -->
+              <!-- :disabled="this.$store.getters.isNewMov ? false : true" -->
             </v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrareBuono">
             <v-text-field v-model="buono" :rules="this.buonoRules" label="Buono"
               @blur="checkBuono"
-              :readonly="definitivo">
+              :disabled="definitivo">
               </v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
             <v-text-field v-model="posizione" :rules="this.posizioneRules" label="Posiz. (Attività)"
              append-icon="search" @click:append="showDialogSearchPosizione()" 
-             :readonly="definitivo">
+             :disabled="definitivo">
               ></v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
               <v-text-field slot="activator" v-model="computedDataConsFormatted" label="Consegna" 
-                prepend-icon="event" readonly>
+                prepend-icon="event" disabled>
               </v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
-              <v-text-field v-model="qtaTot" label="Ore stimate" readonly></v-text-field>
+              <v-text-field v-model="qtaTot" label="Ore stimate" disabled></v-text-field>
           </v-flex>
           <v-flex xs6 md6 lg3 v-if="this.mostrarePosizione">
-              <v-text-field v-model="qtaTotCons" label="Ore consunt." readonly></v-text-field>
+              <v-text-field v-model="qtaTotCons" label="Ore consunt." disabled></v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" :readonly="definitivo"> <!-- required :rules="this.notaRules" -->
+            <v-textarea rows="3" v-model="nota" prepend-icon="notes" label="Nota" :disabled="definitivo"> <!-- required :rules="this.notaRules" -->
             </v-textarea>
           </v-flex>
           <!-- *** ATTIVITA' *** -->
@@ -63,9 +63,9 @@
             <v-flex xs6 sm3 lg3>
               <v-dialog ref="menuTimeA1" v-model="menuTimeA1" :return-value.sync="timeA1" persistent lazy full-width width="290px">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="timeA1" label="Inizio" prepend-icon="alarm_on" readonly v-on="on"></v-text-field>
+                  <v-text-field v-model="timeA1" label="Inizio" prepend-icon="alarm_on" readonly v-on="on" :disabled="definitivo"></v-text-field>
                 </template>
-                <v-time-picker format="24hr" v-if="menuTimeA1" v-model="timeA1" full-width :readonly="definitivo">
+                <v-time-picker format="24hr" v-if="menuTimeA1" v-model="timeA1" full-width :disabled="definitivo">
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA1 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA1.save(timeA1)">OK</v-btn>
@@ -76,9 +76,9 @@
             <v-flex xs6 sm2 lg2>
               <v-dialog ref="menuTimeA2" v-model="menuTimeA2" :return-value.sync="timeA2" persistent lazy full-width width="290px">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="timeA2" label="Fine" readonly v-on="on"></v-text-field>
+                  <v-text-field v-model="timeA2" label="Fine" readonly :disabled="definitivo" v-on="on"></v-text-field>
                 </template>
-                <v-time-picker format="24hr" v-if="menuTimeA2" v-model="timeA2" full-width :readonly="definitivo">
+                <v-time-picker format="24hr" v-if="menuTimeA2" v-model="timeA2" full-width :disabled="definitivo">
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA2 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA2.save(timeA2)">OK</v-btn>
@@ -89,9 +89,9 @@
             <v-flex xs6 sm3 lg3>
               <v-dialog ref="menuTimeA3" v-model="menuTimeA3" :return-value.sync="timeA3" persistent lazy full-width width="290px">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="timeA3" label="Inizio" prepend-icon="local_dining" readonly v-on="on"></v-text-field>
+                  <v-text-field v-model="timeA3" label="Inizio" prepend-icon="local_dining" readonly :disabled="definitivo" v-on="on"></v-text-field>
                 </template>
-                <v-time-picker format="24hr" v-if="menuTimeA3" v-model="timeA3" full-width :readonly="definitivo">
+                <v-time-picker format="24hr" v-if="menuTimeA3" v-model="timeA3" full-width :disabled="definitivo">
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA3 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA3.save(timeA3)">OK</v-btn>
@@ -102,9 +102,9 @@
             <v-flex xs6 sm2 lg2>
               <v-dialog ref="menuTimeA4" v-model="menuTimeA4" :return-value.sync="timeA4" persistent lazy full-width width="290px">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="timeA4" label="Fine" readonly v-on="on"></v-text-field>
+                  <v-text-field v-model="timeA4" label="Fine" readonly :disabled="definitivo" v-on="on"></v-text-field>
                 </template>
-                <v-time-picker format="24hr" v-if="menuTimeA4" v-model="timeA4" full-width :readonly="definitivo">
+                <v-time-picker format="24hr" v-if="menuTimeA4" v-model="timeA4" full-width :disabled="definitivo">
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeA4 = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeA4.save(timeA4)">OK</v-btn>
@@ -115,9 +115,9 @@
             <v-flex xs12 sm2 lg2>
               <v-dialog ref="menuTimeTot" v-model="menuTimeTot" :return-value.sync="tempo" persistent lazy full-width width="290px">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="tempo" label="Totale" v-on="on" append-icon="cancel" @click:append="clearTempi()"></v-text-field>
+                  <v-text-field v-model="tempo" label="Totale" readonly :disabled="definitivo" v-on="on" append-icon="cancel" @click:append="clearTempi()"></v-text-field>
                 </template>
-                <v-time-picker format="24hr" v-if="menuTimeTot" v-model="tempo" full-width :readonly="definitivo">
+                <v-time-picker format="24hr" v-if="menuTimeTot" v-model="tempo" full-width :disabled="definitivo">
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menuTimeTot = false">Annulla</v-btn>
                   <v-btn flat color="primary" @click="$refs.menuTimeTot.save(tempo)">OK</v-btn>
@@ -132,25 +132,25 @@
           </v-flex>  
           <v-flex xs12 md6 lg3>
             <v-text-field :value="this.nrRapportino" v-if="this.nrRapportino" 
-              label="Nr. Rapportino" readonly>
+              label="Nr. Rapportino" disabled>
             </v-text-field>
           </v-flex>
           <v-flex xs12 md6 lg3 v-if="this.mostrareCausali">
-            <v-select :items="causali" v-model="causale" label="Causale"  :readonly="definitivo">
-              <!-- :readonly="this.$store.getters.isNewMov ? false : true" -->
+            <v-select :items="causali" v-model="causale" label="Causale"  :disabled="definitivo">
+              <!-- :disabled="this.$store.getters.isNewMov ? false : true" -->
               </v-select>
           </v-flex>
           <v-flex xs12 sm6 md6 lg3 v-if="this.mostrareCdL">
             <!-- <v-select :items="filteredElencoCdL" item-value="codice" :item-text="(cdl) => cdl.codice + ' - ' + cdl.descrizione" v-model="cdl" label="CdL"
               append-icon="search" @click:append="showDialogCdL()"
-              :readonly="this.$store.getters.isNewMov ? false : true"></v-select> -->
-            <v-text-field v-model="cdl" label="CdL" append-icon="search" @click:append="showDialogCdL()" @click="showDialogCdL()" :readonly="definitivo">  
+              :disabled="this.$store.getters.isNewMov ? false : true"></v-select> -->
+            <v-text-field v-model="cdl" label="CdL" append-icon="search" @click:append="showDialogCdL()" @click="showDialogCdL()" :disabled="definitivo">  
             </v-text-field>
           </v-flex>
           <!--
           <v-flex xs12 sm6  md6 lg3>
             <v-select :items="elencoCdc" v-model="cdc" label="CdC"
-              :readonly="this.$store.getters.isNewMov ? false : true"></v-select>
+              :disabled="this.$store.getters.isNewMov ? false : true"></v-select>
           </v-flex>
           -->
         </v-layout>  
@@ -785,8 +785,8 @@ export default {
 .subtitle {
   height: 10px;
 }
-/* .v-text-field input[readonly="readonly"] { */
-.myreadonly {
+/* .v-text-field input[disabled="disabled"] { */
+.mydisabled {
     /*  brutto, va trovato qualcosa di meglio
     background-color: lightgrey 
     */
