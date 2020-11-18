@@ -510,7 +510,7 @@ export default {
       const [month, day, year] = date.split("/");
       return `${year}-${day.padStart(2, "0")}-${month.padStart(2, "0")}`;
     },
-    allowedDates: val => val <= new Date().toISOString().substr(0, 10),
+    allowedDates() {return true}, //val => val <= new Date().toISOString().substr(0, 10), //TODO sarebbe da condizionare dal membro messaggio MFPROD 3010
     allowedStep: m => m % 5 === 0,
     showDialogSearchCommessa() {
       if (this.definitivo) return;

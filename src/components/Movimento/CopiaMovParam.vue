@@ -151,7 +151,7 @@ export default {
       const [year, month, day] = date.split("-");
       return `${day}/${month}/${year}`;
     },
-    allowedDates: val => val <= new Date().toISOString().substr(0, 10),
+    allowedDates() {return true}, //val => val <= new Date().toISOString().substr(0, 10), //TODO sarebbe da condizionare dal membro messaggio MFPROD 3010
   }
 };
 </script>
