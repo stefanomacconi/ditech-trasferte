@@ -1,6 +1,8 @@
 import axios from 'axios'
 import moment from 'moment'
 
+const limiteFetchMovimneti = 100;
+
 const state = {
   date: {},
   offset: 0,
@@ -154,7 +156,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       var path = '/movimento/lavorazione/' +
       rootState.utente.dipendente + "/" +
-      50 +
+      limiteFetchMovimneti +
       "/" //fixed limit //se viene toccato questo occorre toccare anche l'offset nell'increment
       if (offset) {
         path = path + offset
@@ -278,7 +280,7 @@ const actions = {
     dispatch,
     state
   }) {
-    var offset = state.offset + 50 // fixed offset 
+    var offset = state.offset + limiteFetchMovimneti // fixed offset 
     // se si tocca l'offset occorre modificare anche la chiamata login
     dispatch('setOffset', offset)
   },

@@ -502,13 +502,17 @@ export default {
     },
     formatDate(date) {
       if (!date) return null;
-      const [year, month, day] = date.split("-");
-      return `${day}/${month}/${year}`;
+      //const [year, month, day] = date.split("-");
+      //return `${day}/${month}/${year}`;
+      const dataMoment = moment(date, 'YYYY-MM-DD');
+      return dataMoment.locale('it').format('DD/MM/YYYY');
     },
     parseDate(date) {
       if (!date) return null;
-      const [month, day, year] = date.split("/");
-      return `${year}-${day.padStart(2, "0")}-${month.padStart(2, "0")}`;
+      //const [month, day, year] = date.split("/");
+      //return `${year}-${day.padStart(2, "0")}-${month.padStart(2, "0")}`;
+      const dataMoment = moment(date, 'DD/MM/YYYY');
+      return dataMoment.locale('it').format('YYYY-MM-DD');
     },
     allowedDates() {return true}, //val => val <= new Date().toISOString().substr(0, 10), //TODO sarebbe da condizionare dal membro messaggio MFPROD 3010
     allowedStep: m => m % 5 === 0,

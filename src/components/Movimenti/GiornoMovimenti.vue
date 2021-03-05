@@ -41,6 +41,9 @@ import moment from 'moment'
 import utilities from "../../utilitiesMixin.js"
 
 export default {
+  created() {
+    this.$store.dispatch("clearMovimentiSelezionati")
+  },
   props: {
     dataMov: {
       type: Object
